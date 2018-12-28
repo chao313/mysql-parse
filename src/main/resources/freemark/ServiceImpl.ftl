@@ -3,6 +3,7 @@ package ${javaTable.basePackage};
 
 import java.util.List;
 import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
 import ${javaTable.classVoPackage};
 import ${javaTable.classServicePackage};
 import ${javaTable.classDAOPackage};
@@ -21,7 +22,7 @@ import ${javaTable.classDAOPackage};
 @Service
 public class ${javaTable.classServiceImplName} implements ${javaTable.classServiceName}{
 
-
+     @Autowired
      private ${javaTable.classDAOName} dao;
 
     /**
@@ -83,7 +84,7 @@ public class ${javaTable.classServiceImplName} implements ${javaTable.classServi
      @Override
      public boolean deleteByPrimaryKey(<#list javaTable.primaryKeys as field> ${field.type} ${field.name}<#if field_has_next>,</#if></#list>){
 
-       return dao.deleteByPrimaryKey(<#list javaTable.primaryKeys as field>  ${field.name}<#if field_has_next>,</#if></#list>);
+       return dao.deleteByPrimaryKey(<#list javaTable.primaryKeys as field>  ${field.name}<#if field_has_next>,</#if></#list>) > 0 ? true : false;
 
      }
 
@@ -93,7 +94,7 @@ public class ${javaTable.classServiceImplName} implements ${javaTable.classServi
     @Override
     public boolean deleteBase(${javaTable.tableName}Vo vo){
 
-       return dao.deleteBase(vo);
+       return dao.deleteBase(vo) > 0 ? true : false;
 
     }
 

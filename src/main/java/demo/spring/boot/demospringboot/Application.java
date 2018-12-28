@@ -10,8 +10,7 @@ import org.springframework.http.converter.StringHttpMessageConverter;
 import java.nio.charset.Charset;
 
 @SpringBootApplication
-@MapperScan(value = "demo.spring.boot.demospringboot.data.mybatis.mapper")//mybatis
-@EnableCaching//表示redis开启缓存
+@MapperScan(value = "demo.spring.boot.demospringboot.mybatis.dao")//mybatis
 public class Application {
 
     public static void main(String[] args) {

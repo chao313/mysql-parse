@@ -35,6 +35,21 @@ spring:
        cache: false
        suffix: .html
 
+  ##数据sql
+     datasource:
+       driver-class-name: com.mysql.jdbc.Driver
+       url: jdbc:mysql://127.0.0.1:3306/information_schema
+       username: root
+       password: 123456
+
+#
+#  可以在application 上面加注解
+#  效果相同
+#  @MapperScan(value = "demo.spring.boot.demospringboot.mybatis.mapper")
+mybatis:
+  mapper-locations: classpath:mybatis/mapper/*Mapper.xml
+  config-location: classpath:mybatis/config/mybatis-config.xml
+
 
 
 

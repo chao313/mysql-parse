@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="demo.spring.boot.demospringboot.mybatis.dao.SchemataDao">
+
+    <insert id="insert"
+            parameterType="demo.spring.boot.demospringboot.mybatis.vo.SchemataVo">
+        INSERT INTO `SCHEMATA`(
+        `CATALOG_NAME` ,
+        `SCHEMA_NAME` ,
+        `DEFAULT_CHARACTER_SET_NAME` ,
+        `DEFAULT_COLLATION_NAME` ,
+        `SQL_PATH`
+        )VALUE(
+        #{catalogName}  ,
+        #{schemaName}  ,
+        #{defaultCharacterSetName}  ,
+        #{defaultCollationName}  ,
+        #{sqlPath}
+        )
+    </insert>
+
+    <update id="updateAllFieldByPrimaryKey"
+            parameterType="demo.spring.boot.demospringboot.mybatis.vo.SchemataVo">
+        UPDATE `SCHEMATA`
+        <set>
+            `CATALOG_NAME` = #{catalogName}
+            `SCHEMA_NAME` = #{schemaName}
+            `DEFAULT_CHARACTER_SET_NAME` = #{defaultCharacterSetName}
+            `DEFAULT_COLLATION_NAME` = #{defaultCollationName}
+            `SQL_PATH` = #{sqlPath}
+        </set>
+        <where>
+        </where>
+    </update>
+
+    <update id="updateBaseFieldByPrimaryKey"
+            parameterType="demo.spring.boot.demospringboot.mybatis.vo.SchemataVo">
+        UPDATE `SCHEMATA`
+        <set>
+            <if test="catalogName != null and catalogName != '' ">
+                `CATALOG_NAME` = #{catalogName}
+            </if>
+            <if test="schemaName != null and schemaName != '' ">
+                `SCHEMA_NAME` = #{schemaName}
+            </if>
+            <if test="defaultCharacterSetName != null and defaultCharacterSetName != '' ">
+                `DEFAULT_CHARACTER_SET_NAME` = #{defaultCharacterSetName}
+            </if>
+            <if test="defaultCollationName != null and defaultCollationName != '' ">
+                `DEFAULT_COLLATION_NAME` = #{defaultCollationName}
+            </if>
+            <if test="sqlPath != null and sqlPath != '' ">
+                `SQL_PATH` = #{sqlPath}
+            </if>
+        </set>
+        <where>
+        </where>
+    </update>
+
+    <select id="queryByPrimaryKey"
+            resultType="demo.spring.boot.demospringboot.mybatis.vo.SchemataVo">
+        SELECT
+        `CATALOG_NAME` ,
+        `SCHEMA_NAME` ,
+        `DEFAULT_CHARACTER_SET_NAME` ,
+        `DEFAULT_COLLATION_NAME` ,
+        `SQL_PATH`
+        FROM `SCHEMATA`
+        <where>
+        </where>
+    </select>
+
+    <select id="queryBase"
+            resultType="demo.spring.boot.demospringboot.mybatis.vo.SchemataVo"
+            parameterType="demo.spring.boot.demospringboot.mybatis.vo.SchemataVo">
+        SELECT
+        `CATALOG_NAME` ,
+        `SCHEMA_NAME` ,
+        `DEFAULT_CHARACTER_SET_NAME` ,
+        `DEFAULT_COLLATION_NAME` ,
+        `SQL_PATH`
+        FROM `SCHEMATA`
+        <where>
+            <if test="catalogName != null and catalogName != '' ">
+                `CATALOG_NAME` = #{catalogName}
+            </if>
+            <if test="schemaName != null and schemaName != '' ">
+                `SCHEMA_NAME` = #{schemaName}
+            </if>
+            <if test="defaultCharacterSetName != null and defaultCharacterSetName != '' ">
+                `DEFAULT_CHARACTER_SET_NAME` = #{defaultCharacterSetName}
+            </if>
+            <if test="defaultCollationName != null and defaultCollationName != '' ">
+                `DEFAULT_COLLATION_NAME` = #{defaultCollationName}
+            </if>
+            <if test="sqlPath != null and sqlPath != '' ">
+                `SQL_PATH` = #{sqlPath}
+            </if>
+        </where>
+    </select>
+
+    <delete id="deleteByPrimaryKey">
+        DELETE FROM `SCHEMATA`
+        <where>
+        </where>
+
+    </delete>
+    <delete id="deleteBase"
+            parameterType="demo.spring.boot.demospringboot.mybatis.vo.SchemataVo">
+        DELETE FROM `SCHEMATA`
+        <where>
+            <if test="catalogName != null and catalogName != '' ">
+                `CATALOG_NAME` = #{catalogName}
+            </if>
+            <if test="schemaName != null and schemaName != '' ">
+                `SCHEMA_NAME` = #{schemaName}
+            </if>
+            <if test="defaultCharacterSetName != null and defaultCharacterSetName != '' ">
+                `DEFAULT_CHARACTER_SET_NAME` = #{defaultCharacterSetName}
+            </if>
+            <if test="defaultCollationName != null and defaultCollationName != '' ">
+                `DEFAULT_COLLATION_NAME` = #{defaultCollationName}
+            </if>
+            <if test="sqlPath != null and sqlPath != '' ">
+                `SQL_PATH` = #{sqlPath}
+            </if>
+        </where>
+    </delete>
+
+</mapper>
