@@ -1,0 +1,43 @@
+## dev环境使用是配置
+server:
+  port: 8083
+  context-path: /juan
+
+
+
+
+spring:
+  ## thymeleaf的默认配置
+  #spring.thymeleaf.prefix=classpath:/templates/
+  #spring.thymeleaf.suffix=.html
+  #spring.thymeleaf.mode=HTML5
+  #spring.thymeleaf.encoding=UTF-8
+  #spring.thymeleaf.content-type=text/html
+     thymeleaf:
+       prefix: classpath:/templates/
+       suffix: .html
+       encoding: utf-8
+       content-type: text/html
+       mode: HTML5
+       cache: false
+   ## freemarker
+   #spring.freemarker.allow-request-override=false
+   #spring.freemarker.cache=true
+   #spring.freemarker.check-template-location=true
+   #spring.freemarker.charset=UTF-8
+   #spring.freemarker.content-type=text/html
+   #spring.freemarker.expose-request-attributes=false
+   #spring.freemarker.expose-session-attributes=false
+   #spring.freemarker.expose-spring-macro-helpers=false
+     freemarker:
+       charset: UTF-8
+       content-type: text/html
+       cache: false
+       suffix: .html
+
+
+
+
+
+
+

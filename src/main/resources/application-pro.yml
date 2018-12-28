@@ -1,0 +1,98 @@
+## dev环境使用是配置
+server:
+    port: 443
+    context-path: /juan
+    ssl:
+      key-store: classpath:mac666.cn.jks
+      key-store-password: 90dtjh0wc9o2
+      key-password: 90dtjh0wc9o2
+
+
+spring:
+  ## thymeleaf的默认配置
+  #spring.thymeleaf.prefix=classpath:/templates/
+  #spring.thymeleaf.suffix=.html
+  #spring.thymeleaf.mode=HTML5
+  #spring.thymeleaf.encoding=UTF-8
+  #spring.thymeleaf.content-type=text/html
+     thymeleaf:
+       prefix: classpath:/templates/
+       suffix: .html
+       encoding: utf-8
+       content-type: text/html
+       mode: HTML5
+       cache: false
+   ## freemarker
+   #spring.freemarker.allow-request-override=false
+   #spring.freemarker.cache=true
+   #spring.freemarker.check-template-location=true
+   #spring.freemarker.charset=UTF-8
+   #spring.freemarker.content-type=text/html
+   #spring.freemarker.expose-request-attributes=false
+   #spring.freemarker.expose-session-attributes=false
+   #spring.freemarker.expose-spring-macro-helpers=false
+     freemarker:
+       charset: UTF-8
+       content-type: text/html
+       cache: false
+       suffix: .html
+
+   ##数据sql
+     datasource:
+           driver-class-name: com.mysql.jdbc.Driver
+           url: jdbc:mysql://120.77.37.251:3306/film?autoReconnect=true&useSSL=false&characterEncoding=utf-8
+           username: root
+           password: 123456
+    ##jpa配置
+     jpa:
+        hibernate:
+        ##ddl-auto: create table if exists jpa_vo
+        ##ddl-auto: create-drop 应用停下来时候删除
+        ##ddl-auto: update 更新表结构
+          ddl-auto: update
+        show-sql: true
+    ##配置redis，可以没有密码
+     redis:
+       host: 192.168.1.38
+       password: 123456
+       port: 16379
+
+
+
+path:
+   videofile: /usr/local/tomcat/webapps
+
+task:
+ movieTask: 0 0 17 * * ?
+ makeUpMovieTask: 0 0 18,19,20,21 * * ?
+ movieDetailTask: 0 0 18,19,20,21 * * ?
+ movieDetailCommontTask: 0 0 18,19,20,21 * * ?
+ loadInCinemasWithMovieTask: 0 0 18,19,20,21 * * ?
+
+
+
+
+
+
+
+
+
+
+
+mouth: 11
+day: 12
+##配置使用配置
+time: 2017-${mouth}-${day}
+
+##对象配置
+person:
+  name: 王海潮
+  age: 22
+  address: 小上海
+
+
+
+
+
+
+
