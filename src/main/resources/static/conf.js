@@ -1,6 +1,6 @@
 // var host = "http://www.chaohaiwang.cn:16000/docker";
 
-var host = "http://localhost:8084/docker";
+var host = "/juan";
 
 
 

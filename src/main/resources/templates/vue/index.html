@@ -2,68 +2,70 @@
 <html lang="en" xmlns:v-bind="http://www.w3.org/1999/xhtml" xmlns:v-on="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <title>Docker 主机管理</title>
+    <title>Mysql 管理</title>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
 <div id="body">
     <form class="form-horizontal" role="form">
-
         <div class="form-group">
-            <label class="col-sm-4 control-label"></label>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-4 control-label">{{chooseDataBaseTxt}}</label>
             <div class="col-sm-4">
-                <img class="logo" src="lib/logo.png">
+                <select class="form-control" @change="selectDatabase">
+                    <!--默认显示但是无法选择-->
+                    <option disabled selected hidden>{{chooseDataBasePlaceholder}}
+                    </option>
+                    <option v-for="item in dataBases" v-bind:value="item.schemaName">{{item.schemaName}}</option>
+                </select>
             </div>
         </div>
 
         <div class="form-group">
-            <label class="col-sm-4 control-label"></label>
+            <label class="col-sm-4 control-label">{{chooseTableTxt}}</label>
             <div class="col-sm-4">
-                <label class="col-sm-9 control-label info" style="color: white">{{info}}</label>
-            </div>
-        </div>
-
-
-        <div class="form-group">
-            <label class="col-sm-4 control-label">{{hostIpTxt}}</label>
-            <div class="col-sm-4">
-                <input type="text" class="form-control" v-model="hostIpValue" v-bind:placeholder="hostIpPlaceholder">
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label class="col-sm-4 control-label">{{hostPortTxt}}</label>
-            <div class="col-sm-4">
-                <input type="text" class="form-control" v-model="hostPortValue"
-                       v-bind:placeholder="hostPortPlaceholder">
+                <select class="form-control" @change="selectTable">
+                    <option disabled selected hidden>{{chooseTablePlaceholder}}
+                    </option>
+                    <option v-for="item in tables" v-bind:value="item.tableName">{{item.tableName}}</option>
+                </select>
             </div>
         </div>
 
 
         <div class="form-group">
-            <label class="col-sm-4 control-label">{{hostAccountTxt}}</label>
+            <label class="col-sm-4 control-label">{{chooseColumnTxt}}</label>
             <div class="col-sm-4">
-                <input type="text" class="form-control" v-model="hostAccountValue"
-                       v-bind:placeholder="hostAccountPlaceholder">
+                <!--<input type="text" class="form-control" v-model="chooseColumnValue"-->
+                <!--v-bind:placeholder="chooseColumnPlaceholder">@change="selectTable"-->
+                <select class="form-control">
+                    <option disabled selected hidden>{{chooseColumnPlaceholder}}
+                    </option>
+                    <option v-for="item in columns" v-bind:value="item.columnName">{{item.columnName}}</option>
+                </select>
             </div>
         </div>
 
         <div class="form-group">
-            <label class="col-sm-4 control-label">{{hostPasswordTxt}}</label>
+            <label class="col-sm-4 control-label">{{packageTxt}}</label>
             <div class="col-sm-4">
-                <input type="text" class="form-control" v-model="hostPasswordValue"
-                       v-bind:placeholder="hostPasswordPlaceholder">
+                <input type="text" class="form-control" v-model="packageValue"
+                       v-bind:placeholder="packagePlaceholder">
             </div>
         </div>
 
 
         <div class="form-group sub">
             <div class="col-sm-8 control-label">
-                <button type="button" class="btn btn-info" v-on:click="test_connect"
-                        v-bind:disabled="connectDisabled">Test Connect
-                </button>
-                <button type="button" class="btn btn-primary" v-on:click="save"
-                        v-bind:disabled="saveDisabled">保存
+                <!--<button type="button" class="btn btn-info" v-on:click="test_connect"-->
+                        <!--v-bind:disabled="connectDisabled">Test Connect-->
+                <!--</button>-->
+                <!--<button type="button" class="btn btn-primary" v-on:click="save"-->
+                        <!--v-bind:disabled="saveDisabled">保存-->
+                <!--</button>-->
+                <button type="button" class="btn btn-primary" v-on:click="generate"
+                        v-bind:disabled="saveDisabled">生成
                 </button>
             </div>
         </div>
@@ -81,24 +83,25 @@
         el: "#body",
         data: {
 
-            info: "Docker PaaS 编辑宿主机",
+            chooseDataBaseTxt: "数据库",
+            chooseDataBasePlaceholder: "请选择数据库",
+            dataBases: [],
+            chooseDataBaseValue: "",
 
-            hostIpTxt: "主机ip",
-            hostIpPlaceholder: "请输入主机ip",
-            hostIpValue: "",
+            chooseTableTxt: "数据表",
+            chooseTablePlaceholder: "请选择数据表",
+            tables: [],
+            chooseTableValue: "",
 
-            hostPortTxt: "主机端口号",
-            hostPortPlaceholder: "请输入主机端口号：默认是22",
-            hostPortValue: "22",
-
-            hostAccountTxt: "用户名",
-            hostAccountPlaceholder: "请输入主机用户名：默认是root",
-            hostAccountValue: "root",
+            chooseColumnTxt: "字段",
+            chooseColumnPlaceholder: "请选择字段",
+            columns: [],
+            chooseColumnValue: "",
 
 
-            hostPasswordTxt: "主机Password",
-            hostPasswordPlaceholder: "请输入主机Password",
-            hostPasswordValue: "",
+            packageTxt: "package",
+            packagePlaceholder: "请输入package, eg. demo.xx",
+            packageValue: "",
 
             saveSuccess: "保存成功",
             connectSuccess: "连接成功",
@@ -133,13 +136,13 @@
             },
             test_connect: function () {
                 this.connectDisabled = true;
-                if (this.hostIpValue != "" && this.hostPasswordValue != ""
-                    && this.hostAccountValue != "" && this.hostPasswordValue != "") {
+                if (this.chooseDataBaseValue != "" && this.packageValue != ""
+                    && this.chooseColumnValue != "" && this.packageValue != "") {
                     var json = {
-                        'host-ip': this.hostIpValue,
-                        account: this.hostAccountValue,
-                        password: this.hostPasswordValue,
-                        port: this.hostPortValue,
+                        'host-ip': this.chooseDataBaseValue,
+                        account: this.chooseColumnValue,
+                        password: this.packageValue,
+                        port: this.chooseTableValue,
                         'user-id': '3'
                     };
                     var url_param = url_deal(json);
@@ -174,13 +177,13 @@
             },
             save: function () {
                 this.saveDisabled = true;
-                if (this.hostIpValue != "" && this.hostPasswordValue != ""
-                    && this.hostAccountValue != "" && this.hostPasswordValue != "") {
+                if (this.chooseDataBaseValue != "" && this.packageValue != ""
+                    && this.chooseColumnValue != "" && this.packageValue != "") {
                     var json = {
-                        'host-ip': this.hostIpValue,
-                        account: this.hostAccountValue,
-                        password: this.hostPasswordValue,
-                        port: this.hostPortValue,
+                        'host-ip': this.chooseDataBaseValue,
+                        account: this.chooseColumnValue,
+                        password: this.packageValue,
+                        port: this.chooseTableValue,
                         'user-id': this.userId
                     };
                     var url_param = url_deal(json);
@@ -193,23 +196,92 @@
                 this.saveDisabled = false;
 
             }, init: function () {
-                var id = queryUrlParam('id');
-                this.$http.get(host + '/host/query-by-id?id=' + id)
+                //初始化数据库选项
+                this.$http.get(host + '/mybatis/getAllDB')
                     .then(
                         function success(res) {
                             var data = res.body;
                             if (data.code == 0) {
                                 if (data.content != null) {
-                                    this.hostIpValue = data.content.hostIp;
-                                    this.hostPortValue = data.content.port;
-                                    this.hostAccountValue = data.content.account;
-                                    this.hostPasswordValue = data.content.password;
-                                    this.userId = data.content.userId;
+                                    this.dataBases = data.content;
                                 } else {
                                     alert(data.msg);
                                 }
                             } else {
                                 alert(this.alertErrorValue)
+                            }
+                        }
+                    );
+            }, selectDatabase: function (ele) {
+                //当选择数据库时
+                // console.log(ele);
+                this.chooseDataBaseValue = ele.target.value;
+                //调用获取tables的函数
+                this.getAllTablesByDB();
+
+            }, getAllTablesByDB: function () {
+                //选择数据库选项后初始化tables
+                this.$http.get(host + '/mybatis/getAllTablesByDB?dataBase=' + this.chooseDataBaseValue)
+                    .then(
+                        function success(res) {
+                            var data = res.body;
+                            if (data.code == 0) {
+                                if (data.content != null) {
+                                    this.tables = data.content;
+                                } else {
+                                    alert(data.msg);
+                                }
+                            } else {
+                                alert(this.alertErrorValue)
+                            }
+                        }
+                    );
+            }, selectTable: function (ele) {
+                //当选择数据库时
+                // console.log(ele);
+                this.chooseTableValue = ele.target.value;
+                //调用获取tables的函数
+                this.getAllColumns();
+
+            }, getAllColumns: function () {
+                //选择数据库选项后初始化tables
+                this.$http.get(host + '/mybatis/getAllColumns?dataBase='
+                    + this.chooseDataBaseValue + '&tableName=' + this.chooseTableValue)
+                    .then(
+                        function success(res) {
+                            var data = res.body;
+                            if (data.code == 0) {
+                                if (data.content != null) {
+                                    this.columns = data.content;
+                                } else {
+                                    alert(data.msg);
+                                }
+                            } else {
+                                alert(this.alertErrorValue)
+                            }
+                        }
+                    );
+            }, generate: function () {
+                //选择数据库选项后初始化tables
+                this.$http.get(host + '/generate/generateFile',
+                    {
+                        params: {
+                            dataBase: this.chooseDataBaseValue,
+                            ptableName: this.chooseTableValue,
+                            basePackage: this.packageValue
+                        }
+                    })
+                    .then(
+                        function success(res) {
+                            var data = res.body;
+                            if (data.code == 0) {
+                                if (data.content != null) {
+                                    this.columns = data.content;
+                                } else {
+                                    alert(data.msg);
+                                }
+                            } else {
+                                alert(data.msg)
                             }
                         }
                     );
