@@ -68,6 +68,9 @@
                     <button type="button" class="btn btn-primary" v-on:click="generate"
                             v-bind:disabled="saveDisabled">生成
                     </button>
+                    <button type="button" class="btn btn-primary" v-on:click="download"
+                            v-bind:disabled="saveDisabled">下载
+                    </button>
                 </div>
             </div>
         </form>
@@ -265,6 +268,14 @@
                             }
                         }
                     );
+            }, download: function () {
+                //选择数据库选项后初始化tables
+                var downloadUrl = host + '/generate/download?'
+                    + 'dataBase=' + this.chooseDataBaseValue
+                    + '&ptableName=' + this.chooseTableValue
+                    + '&basePackage=' + this.packageValue;
+                window.open(downloadUrl);
+
             }
         }
     });

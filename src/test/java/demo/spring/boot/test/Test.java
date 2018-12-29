@@ -6,6 +6,7 @@ import demo.spring.boot.demospringboot.parse.mysql.parse.vo.JavaTable;
 import freemarker.template.TemplateException;
 import lombok.extern.slf4j.Slf4j;
 
+import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
 
@@ -227,14 +228,25 @@ public class Test {
 //
 //    }
 
+//    @org.junit.Test
+//    public void testT() throws SQLException, ClassNotFoundException, IOException, TemplateException {
+//        String dataBase = "test";
+//        String ptableName = "ts_transportationtask_journey_info";
+//        String basePackage = "demo.my";
+//        JavaTable javaTable = GenerateFile.GenerateFile(dataBase, ptableName, basePackage);
+//        log.info("javaTable:{}",javaTable);
+//
+//    }
+//
+
     @org.junit.Test
-    public void testT() throws SQLException, ClassNotFoundException, IOException, TemplateException {
-        String dataBase = "test";
-        String ptableName = "ts_transportationtask_journey_info";
-        String basePackage = "demo.my";
-        JavaTable javaTable = GenerateFile.GenerateFile(dataBase, ptableName, basePackage);
-        log.info("javaTable:{}",javaTable);
+    public void testW() throws SQLException, ClassNotFoundException, IOException, TemplateException {
+        String path = "xxx/UserVo.java";
+        File file = new File(path);
+        file.createNewFile();
 
     }
+
+
 
 }

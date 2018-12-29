@@ -38,20 +38,31 @@ public class JavaTable {
     private List<JavaField> javaFields;//java字段信息
     private List<JavaField> primaryKeys;//java key
     private String basePackage;
+    private String basePackagePath;
+
     private String classVoName;
     private String classVoPackage;
+    private String classVoPath;
     private String classVoStr;
+
     private String classDAOName;
     private String classDAOPackage;
+    private String classDaoPath;
     private String classDaoStr;
+
     private String classServiceName;
     private String classServicePackage;
+    private String classServicePath;
     private String classServiceStr;
+
     private String classServiceImplName;
     private String classServiceImplPackage;
+    private String classServiceImplPath;
     private String classServiceImplStr;
-    private String mapperStr;
 
+    private String mapperName;
+    private String mapperPath;
+    private String mapperStr;
 
 
     /**
@@ -91,11 +102,22 @@ public class JavaTable {
         javaTable.setClassVoName(baseName + "Vo");
         javaTable.setClassServiceName(baseName + "Service");
         javaTable.setClassServiceImplName(baseName + "ServiceImpl");
+        javaTable.setMapperName(baseName + "Mapper");
+
         //处理类的package路径
         javaTable.setClassDAOPackage(javaTable.getBasePackage() + "." + javaTable.getClassDAOName());
         javaTable.setClassVoPackage(javaTable.getBasePackage() + "." + javaTable.getClassVoName());
         javaTable.setClassServicePackage(javaTable.getBasePackage() + "." + javaTable.getClassServiceName());
         javaTable.setClassServiceImplPackage(javaTable.getBasePackage() + "." + javaTable.getClassServiceImplName());
+
+        //处理文件的path
+        javaTable.setClassDaoPath(javaTable.getClassDAOPackage().replace(".", "/") + ".java");
+        javaTable.setClassVoPath(javaTable.getClassVoPackage().replace(".", "/") + ".java");
+        javaTable.setClassServicePath(javaTable.getClassServicePackage().replace(".", "/") + "java");
+        javaTable.setClassServiceImplPath(javaTable.getClassServiceImplPackage().replace(".", "/") + ".java");
+        javaTable.setMapperPath(javaTable.getBasePackage().replace(".", "/") + "/" + javaTable.getMapperName() + ".xml");
+        javaTable.setBasePackagePath(javaTable.getBasePackage().replace(".", "/"));
+
         return javaTable;
     }
 }
