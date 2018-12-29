@@ -4,6 +4,7 @@ import demo.spring.boot.demospringboot.framework.Code;
 import demo.spring.boot.demospringboot.framework.Response;
 import demo.spring.boot.demospringboot.parse.mysql.parse.db.GenerateFile;
 import demo.spring.boot.demospringboot.parse.mysql.parse.vo.JavaTable;
+import demo.spring.boot.demospringboot.util.FileUtils;
 import demo.spring.boot.demospringboot.util.ZipUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -193,13 +194,12 @@ public class GenerateController {
         InputStream inputStream = new FileInputStream(zipFileName);
 
 
-
         voFile.delete();
         daoFile.delete();
         serviceFile.delete();
         serviceImplFile.delete();
         mapperFile.delete();
-        new File(dirPath).delete();
+        FileUtils.deleteDirectory(dirPath);
         file.delete();
 
         return inputStream;
