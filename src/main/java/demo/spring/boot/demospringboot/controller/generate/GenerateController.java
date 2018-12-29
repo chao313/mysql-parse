@@ -116,8 +116,8 @@ public class GenerateController {
                                                @RequestParam(value = "basePackage") String basePackage) throws Exception {
 
         JavaTable javaTable = GenerateFile.GenerateFile(dataBase, ptableName, basePackage);
-        String dirPath = javaTable.getBasePackagePath().substring(0,
-                javaTable.getBasePackagePath().indexOf("/"));
+        String dirPath = javaTable.getBasePackagePath().indexOf("/") > 0 ? javaTable.getBasePackagePath().substring(0,
+                javaTable.getBasePackagePath().indexOf("/")) : javaTable.getBasePackagePath();
         String fileNameZip = dirPath + ".zip";
         InputStream inputStream = this.createFilesAndZip(javaTable, fileNameZip, dirPath);
 
@@ -189,7 +189,7 @@ public class GenerateController {
 
         File file = new File(tmpPath + zipFileName);
         OutputStream outputStream = new FileOutputStream(file);
-        ZipUtils.toZip(dirPath, outputStream, true);
+        ZipUtils.toZip(tmpPath+dirPath, outputStream, true);
         outputStream.flush();
         outputStream.close();
 

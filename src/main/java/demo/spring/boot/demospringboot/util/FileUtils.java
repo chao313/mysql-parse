@@ -64,7 +64,7 @@ public class FileUtils {
                 return true;
             }
         } else {
-            log.error("删除单个文件{}失败!", fileName);
+            log.info("删除单个文件{}失败!", fileName);
             return false;
         }
     }
