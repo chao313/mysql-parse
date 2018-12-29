@@ -7,71 +7,119 @@
 </head>
 <body>
 <div id="body">
-    <form class="form-horizontal" role="form">
-        <div class="form-group">
-        </div>
-        <div class="form-group">
-            <label class="col-sm-4 control-label">{{chooseDataBaseTxt}}</label>
-            <div class="col-sm-4">
-                <select class="form-control" @change="selectDatabase">
-                    <!--默认显示但是无法选择-->
-                    <option disabled selected hidden>{{chooseDataBasePlaceholder}}
-                    </option>
-                    <option v-for="item in dataBases" v-bind:value="item.schemaName">{{item.schemaName}}</option>
-                </select>
+    <div>
+        <form class="form-horizontal" role="form">
+            <div class="form-group">
             </div>
-        </div>
-
-        <div class="form-group">
-            <label class="col-sm-4 control-label">{{chooseTableTxt}}</label>
-            <div class="col-sm-4">
-                <select class="form-control" @change="selectTable">
-                    <option disabled selected hidden>{{chooseTablePlaceholder}}
-                    </option>
-                    <option v-for="item in tables" v-bind:value="item.tableName">{{item.tableName}}</option>
-                </select>
+            <div class="form-group">
+                <label class="col-sm-4 control-label">{{chooseDataBaseTxt}}</label>
+                <div class="col-sm-4">
+                    <select class="form-control" @change="selectDatabase">
+                        <!--默认显示但是无法选择-->
+                        <option disabled selected hidden>{{chooseDataBasePlaceholder}}
+                        </option>
+                        <option v-for="item in dataBases" v-bind:value="item.schemaName">{{item.schemaName}}</option>
+                    </select>
+                </div>
             </div>
-        </div>
 
-
-        <div class="form-group">
-            <label class="col-sm-4 control-label">{{chooseColumnTxt}}</label>
-            <div class="col-sm-4">
-                <!--<input type="text" class="form-control" v-model="chooseColumnValue"-->
-                <!--v-bind:placeholder="chooseColumnPlaceholder">@change="selectTable"-->
-                <select class="form-control">
-                    <option disabled selected hidden>{{chooseColumnPlaceholder}}
-                    </option>
-                    <option v-for="item in columns" v-bind:value="item.columnName">{{item.columnName}}</option>
-                </select>
+            <div class="form-group">
+                <label class="col-sm-4 control-label">{{chooseTableTxt}}</label>
+                <div class="col-sm-4">
+                    <select class="form-control" @change="selectTable">
+                        <option disabled selected hidden>{{chooseTablePlaceholder}}
+                        </option>
+                        <option v-for="item in tables" v-bind:value="item.tableName">{{item.tableName}}</option>
+                    </select>
+                </div>
             </div>
-        </div>
 
-        <div class="form-group">
-            <label class="col-sm-4 control-label">{{packageTxt}}</label>
-            <div class="col-sm-4">
-                <input type="text" class="form-control" v-model="packageValue"
-                       v-bind:placeholder="packagePlaceholder">
+
+            <div class="form-group">
+                <label class="col-sm-4 control-label">{{chooseColumnTxt}}</label>
+                <div class="col-sm-4">
+                    <!--<input type="text" class="form-control" v-model="chooseColumnValue"-->
+                    <!--v-bind:placeholder="chooseColumnPlaceholder">@change="selectTable"-->
+                    <select class="form-control">
+                        <option disabled selected hidden>{{chooseColumnPlaceholder}}
+                        </option>
+                        <option v-for="item in columns" v-bind:value="item.columnName">{{item.columnName}}</option>
+                    </select>
+                </div>
             </div>
-        </div>
 
-
-        <div class="form-group sub">
-            <div class="col-sm-8 control-label">
-                <!--<button type="button" class="btn btn-info" v-on:click="test_connect"-->
-                        <!--v-bind:disabled="connectDisabled">Test Connect-->
-                <!--</button>-->
-                <!--<button type="button" class="btn btn-primary" v-on:click="save"-->
-                        <!--v-bind:disabled="saveDisabled">保存-->
-                <!--</button>-->
-                <button type="button" class="btn btn-primary" v-on:click="generate"
-                        v-bind:disabled="saveDisabled">生成
-                </button>
+            <div class="form-group">
+                <label class="col-sm-4 control-label">{{packageTxt}}</label>
+                <div class="col-sm-4">
+                    <input type="text" class="form-control" v-model="packageValue"
+                           v-bind:placeholder="packagePlaceholder">
+                </div>
             </div>
+
+
+            <div class="form-group sub">
+                <div class="col-sm-8 control-label">
+                    <!--<button type="button" class="btn btn-info" v-on:click="test_connect"-->
+                    <!--v-bind:disabled="connectDisabled">Test Connect-->
+                    <!--</button>-->
+                    <!--<button type="button" class="btn btn-primary" v-on:click="save"-->
+                    <!--v-bind:disabled="saveDisabled">保存-->
+                    <!--</button>-->
+                    <button type="button" class="btn btn-primary" v-on:click="generate"
+                            v-bind:disabled="saveDisabled">生成
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div>
+        <div>
+            <form class="form-horizontal" role="form">
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">{{voTxt}}</label>
+                    <div class="col-sm-4">
+                        <code>
+                            <pre>{{voValue}}</pre>
+                        </code>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">{{DaoTxt}}</label>
+                    <div class="col-sm-4">
+                        <code>
+                            <pre>{{DaoValue}}</pre>
+                        </code>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">{{ServiceTxt}}</label>
+                    <div class="col-sm-4">
+                        <code>
+                            <pre>{{ServiceValue}}</pre>
+                        </code>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">{{ServiceImplTxt}}</label>
+                    <div class="col-sm-4">
+                        <code>
+                            <pre>{{ServiceImplValue}}</pre>
+                        </code>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">{{MapperTxt}}</label>
+                    <div class="col-sm-4">
+                        <code>
+                            <pre>{{MapperValue}}</pre>
+                        </code>
+                    </div>
+                </div>
+            </form>
         </div>
-    </form>
+    </div>
 </div>
-
 
 </body>
 <script src="../vue.min.js"></script>
@@ -103,99 +151,26 @@
             packagePlaceholder: "请输入package, eg. demo.xx",
             packageValue: "",
 
+            voTxt: "Vo",
+            voValue: "",
+            DaoTxt: "Dao",
+            DaoValue: "",
+            ServiceTxt: "Service",
+            ServiceValue: "",
+            ServiceImplTxt: "ServiceImpl",
+            ServiceImplValue: "",
+            MapperTxt: "Mapper",
+            MapperValue: "",
+
             saveSuccess: "保存成功",
             connectSuccess: "连接成功",
             alertErrorValue: "系统错误，请联系管理员！",
             alertParamMiss: "请完善参数",
 
-            userId: "",
-
-            connectDisabled: false,
             saveDisabled: false
         },
         methods: {
-            post_connect: function (url_param) {
-                this.$http.post(
-                    host + '/host/valid?' + url_param
-                ).then(function success(res) {
-                    var data = res.body;
-                    if (data.code == 0) {
-                        if (data.content == true) {
-                            //如果成功
-                            alert(this.connectSuccess);
-                        } else {
-                            alert(data.msg);
-                        }
-                    } else {
-                        alert(this.alertErrorValue)
-                    }
-
-                }, function error(res) {
-                    alert(this.alertErrorValue)
-                });
-            },
-            test_connect: function () {
-                this.connectDisabled = true;
-                if (this.chooseDataBaseValue != "" && this.packageValue != ""
-                    && this.chooseColumnValue != "" && this.packageValue != "") {
-                    var json = {
-                        'host-ip': this.chooseDataBaseValue,
-                        account: this.chooseColumnValue,
-                        password: this.packageValue,
-                        port: this.chooseTableValue,
-                        'user-id': '3'
-                    };
-                    var url_param = url_deal(json);
-                    this.post_connect(url_param);
-
-                } else {
-                    alert(this.alertParamMiss);
-
-                }
-                this.connectDisabled = false;
-
-            },
-            post_save: function (url_param) {
-                this.$http.post(
-                    host + '/host/update?' + url_param
-                ).then(function success(res) {
-                    var data = res.body;
-                    if (data.code == 0) {
-                        if (data.content == true) {
-                            //如果成功
-                            alert(this.saveSuccess);
-                        } else {
-                            alert(data.msg);
-                        }
-                    } else {
-                        alert(this.alertErrorValue)
-                    }
-
-                }, function error(res) {
-                    alert(this.alertErrorValue)
-                });
-            },
-            save: function () {
-                this.saveDisabled = true;
-                if (this.chooseDataBaseValue != "" && this.packageValue != ""
-                    && this.chooseColumnValue != "" && this.packageValue != "") {
-                    var json = {
-                        'host-ip': this.chooseDataBaseValue,
-                        account: this.chooseColumnValue,
-                        password: this.packageValue,
-                        port: this.chooseTableValue,
-                        'user-id': this.userId
-                    };
-                    var url_param = url_deal(json);
-                    this.post_save(url_param);
-
-                } else {
-                    alert(this.alertParamMiss);
-
-                }
-                this.saveDisabled = false;
-
-            }, init: function () {
+            init: function () {
                 //初始化数据库选项
                 this.$http.get(host + '/mybatis/getAllDB')
                     .then(
@@ -276,7 +251,12 @@
                             var data = res.body;
                             if (data.code == 0) {
                                 if (data.content != null) {
-                                    this.columns = data.content;
+                                    // this.columns = data.content;
+                                    this.voValue = data.content.classVoStr;
+                                    this.DaoValue = data.content.classDaoStr;
+                                    this.ServiceValue = data.content.classServiceStr;
+                                    this.ServiceImplValue = data.content.classServiceImplStr;
+                                    this.MapperValue = data.content.mapperStr;
                                 } else {
                                     alert(data.msg);
                                 }
