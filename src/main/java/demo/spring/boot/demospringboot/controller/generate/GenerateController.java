@@ -162,7 +162,7 @@ public class GenerateController {
         File serviceFile = new File(javaTable.getClassServiceImplPath());
         serviceFile.createNewFile();
         serviceOutputStream = new BufferedOutputStream(new FileOutputStream(serviceFile));
-        serviceOutputStream.write(javaTable.getClassDaoStr().getBytes());
+        serviceOutputStream.write(javaTable.getClassServiceStr().getBytes());
         serviceOutputStream.flush();
 
         File serviceImplFile = new File(javaTable.getClassServiceImplPath());
