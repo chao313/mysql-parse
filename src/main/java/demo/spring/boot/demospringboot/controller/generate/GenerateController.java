@@ -29,6 +29,8 @@ public class GenerateController {
     private static Logger LOGGER =
             LoggerFactory.getLogger(GenerateController.class);
 
+    private static final String tmpPath = "tmp/";
+
 
     @GetMapping("/generateFile")
     public Response<JavaTable> GenerateFile(@RequestParam(value = "dataBase") String dataBase,
@@ -146,33 +148,33 @@ public class GenerateController {
         BufferedOutputStream mapperFileOutputStream = null;
 
         //创建文件夹
-        new File(javaTable.getBasePackagePath()).mkdirs();
+        new File(tmpPath + javaTable.getBasePackagePath()).mkdirs();
 
-        File voFile = new File(javaTable.getClassVoPath());
+        File voFile = new File(tmpPath + javaTable.getClassVoPath());
         voFile.createNewFile();
         voOutputStream = new BufferedOutputStream(new FileOutputStream(voFile));
         voOutputStream.write(javaTable.getClassVoStr().getBytes());
         voOutputStream.flush();
 
-        File daoFile = new File(javaTable.getClassDaoPath());
+        File daoFile = new File(tmpPath + javaTable.getClassDaoPath());
         daoFile.createNewFile();
         daoOutputStream = new BufferedOutputStream(new FileOutputStream(daoFile));
         daoOutputStream.write(javaTable.getClassDaoStr().getBytes());
         daoOutputStream.flush();
 
-        File serviceFile = new File(javaTable.getClassServiceImplPath());
+        File serviceFile = new File(tmpPath + javaTable.getClassServiceImplPath());
         serviceFile.createNewFile();
         serviceOutputStream = new BufferedOutputStream(new FileOutputStream(serviceFile));
         serviceOutputStream.write(javaTable.getClassServiceStr().getBytes());
         serviceOutputStream.flush();
 
-        File serviceImplFile = new File(javaTable.getClassServiceImplPath());
+        File serviceImplFile = new File(tmpPath + javaTable.getClassServiceImplPath());
         serviceFile.createNewFile();
         serviceImplOutputStream = new BufferedOutputStream(new FileOutputStream(serviceImplFile));
         serviceImplOutputStream.write(javaTable.getClassDaoStr().getBytes());
         serviceImplOutputStream.flush();
 
-        File mapperFile = new File(javaTable.getMapperPath());
+        File mapperFile = new File(tmpPath + javaTable.getMapperPath());
         mapperFile.createNewFile();
         mapperFileOutputStream = new BufferedOutputStream(new FileOutputStream(mapperFile));
         mapperFileOutputStream.write(javaTable.getMapperStr().getBytes());
@@ -185,13 +187,13 @@ public class GenerateController {
         mapperFileOutputStream.close();
 
 
-        File file = new File(zipFileName);
+        File file = new File(tmpPath + zipFileName);
         OutputStream outputStream = new FileOutputStream(file);
         ZipUtils.toZip(dirPath, outputStream, true);
         outputStream.flush();
         outputStream.close();
 
-        InputStream inputStream = new FileInputStream(zipFileName);
+        InputStream inputStream = new FileInputStream(tmpPath + zipFileName);
 
 
         voFile.delete();
@@ -199,7 +201,7 @@ public class GenerateController {
         serviceFile.delete();
         serviceImplFile.delete();
         mapperFile.delete();
-        FileUtils.deleteDirectory(dirPath);
+        FileUtils.deleteDirectory(tmpPath + dirPath);
         file.delete();
 
         return inputStream;
