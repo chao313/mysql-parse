@@ -1,0 +1,360 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="demo.spring.boot.demospringboot.mybatis.dao.ColumnsDao">
+
+    <insert id="insert"
+            parameterType="demo.spring.boot.demospringboot.mybatis.vo.ColumnsVo">
+        INSERT INTO `COLUMNS`(
+          `TABLE_CATALOG` ,
+          `TABLE_SCHEMA` ,
+          `TABLE_NAME` ,
+          `COLUMN_NAME` ,
+          `ORDINAL_POSITION` ,
+          `COLUMN_DEFAULT` ,
+          `IS_NULLABLE` ,
+          `DATA_TYPE` ,
+          `CHARACTER_MAXIMUM_LENGTH` ,
+          `CHARACTER_OCTET_LENGTH` ,
+          `NUMERIC_PRECISION` ,
+          `NUMERIC_SCALE` ,
+          `DATETIME_PRECISION` ,
+          `CHARACTER_SET_NAME` ,
+          `COLLATION_NAME` ,
+          `COLUMN_TYPE` ,
+          `COLUMN_KEY` ,
+          `EXTRA` ,
+          `PRIVILEGES` ,
+          `COLUMN_COMMENT` ,
+          `GENERATION_EXPRESSION`
+        )VALUE(
+             #{tableCatalog}  ,
+             #{tableSchema}  ,
+             #{tableName}  ,
+             #{columnName}  ,
+             #{ordinalPosition}  ,
+             #{columnDefault}  ,
+             #{isNullable}  ,
+             #{dataType}  ,
+             #{characterMaximumLength}  ,
+             #{characterOctetLength}  ,
+             #{numericPrecision}  ,
+             #{numericScale}  ,
+             #{datetimePrecision}  ,
+             #{characterSetName}  ,
+             #{collationName}  ,
+             #{columnType}  ,
+             #{columnKey}  ,
+             #{extra}  ,
+             #{privileges}  ,
+             #{columnComment}  ,
+             #{generationExpression}
+        )
+     </insert>
+
+    <update id="updateAllFieldByPrimaryKey"
+            parameterType="demo.spring.boot.demospringboot.mybatis.vo.ColumnsVo">
+        UPDATE `COLUMNS`
+        <set>
+            `TABLE_CATALOG` = #{tableCatalog}
+            `TABLE_SCHEMA` = #{tableSchema}
+            `TABLE_NAME` = #{tableName}
+            `COLUMN_NAME` = #{columnName}
+            `ORDINAL_POSITION` = #{ordinalPosition}
+            `COLUMN_DEFAULT` = #{columnDefault}
+            `IS_NULLABLE` = #{isNullable}
+            `DATA_TYPE` = #{dataType}
+            `CHARACTER_MAXIMUM_LENGTH` = #{characterMaximumLength}
+            `CHARACTER_OCTET_LENGTH` = #{characterOctetLength}
+            `NUMERIC_PRECISION` = #{numericPrecision}
+            `NUMERIC_SCALE` = #{numericScale}
+            `DATETIME_PRECISION` = #{datetimePrecision}
+            `CHARACTER_SET_NAME` = #{characterSetName}
+            `COLLATION_NAME` = #{collationName}
+            `COLUMN_TYPE` = #{columnType}
+            `COLUMN_KEY` = #{columnKey}
+            `EXTRA` = #{extra}
+            `PRIVILEGES` = #{privileges}
+            `COLUMN_COMMENT` = #{columnComment}
+            `GENERATION_EXPRESSION` = #{generationExpression}
+        </set>
+        <where>
+            AND 1 = 1
+        </where>
+    </update>
+
+    <update id="updateBaseFieldByPrimaryKey"
+            parameterType="demo.spring.boot.demospringboot.mybatis.vo.ColumnsVo">
+        UPDATE `COLUMNS`
+        <set>
+            <if test="tableCatalog != null and tableCatalog != '' ">
+                `TABLE_CATALOG` = #{tableCatalog}
+            </if>
+            <if test="tableSchema != null and tableSchema != '' ">
+                `TABLE_SCHEMA` = #{tableSchema}
+            </if>
+            <if test="tableName != null and tableName != '' ">
+                `TABLE_NAME` = #{tableName}
+            </if>
+            <if test="columnName != null and columnName != '' ">
+                `COLUMN_NAME` = #{columnName}
+            </if>
+            <if test="ordinalPosition != null and ordinalPosition != '' ">
+                `ORDINAL_POSITION` = #{ordinalPosition}
+            </if>
+            <if test="columnDefault != null and columnDefault != '' ">
+                `COLUMN_DEFAULT` = #{columnDefault}
+            </if>
+            <if test="isNullable != null and isNullable != '' ">
+                `IS_NULLABLE` = #{isNullable}
+            </if>
+            <if test="dataType != null and dataType != '' ">
+                `DATA_TYPE` = #{dataType}
+            </if>
+            <if test="characterMaximumLength != null and characterMaximumLength != '' ">
+                `CHARACTER_MAXIMUM_LENGTH` = #{characterMaximumLength}
+            </if>
+            <if test="characterOctetLength != null and characterOctetLength != '' ">
+                `CHARACTER_OCTET_LENGTH` = #{characterOctetLength}
+            </if>
+            <if test="numericPrecision != null and numericPrecision != '' ">
+                `NUMERIC_PRECISION` = #{numericPrecision}
+            </if>
+            <if test="numericScale != null and numericScale != '' ">
+                `NUMERIC_SCALE` = #{numericScale}
+            </if>
+            <if test="datetimePrecision != null and datetimePrecision != '' ">
+                `DATETIME_PRECISION` = #{datetimePrecision}
+            </if>
+            <if test="characterSetName != null and characterSetName != '' ">
+                `CHARACTER_SET_NAME` = #{characterSetName}
+            </if>
+            <if test="collationName != null and collationName != '' ">
+                `COLLATION_NAME` = #{collationName}
+            </if>
+            <if test="columnType != null and columnType != '' ">
+                `COLUMN_TYPE` = #{columnType}
+            </if>
+            <if test="columnKey != null and columnKey != '' ">
+                `COLUMN_KEY` = #{columnKey}
+            </if>
+            <if test="extra != null and extra != '' ">
+                `EXTRA` = #{extra}
+            </if>
+            <if test="privileges != null and privileges != '' ">
+                `PRIVILEGES` = #{privileges}
+            </if>
+            <if test="columnComment != null and columnComment != '' ">
+                `COLUMN_COMMENT` = #{columnComment}
+            </if>
+            <if test="generationExpression != null and generationExpression != '' ">
+                `GENERATION_EXPRESSION` = #{generationExpression}
+            </if>
+        </set>
+        <where>
+            AND 1 = 1
+        </where>
+    </update>
+
+    <select id="queryByPrimaryKey"
+            resultType="demo.spring.boot.demospringboot.mybatis.vo.ColumnsVo">
+        SELECT
+        `TABLE_CATALOG` ,
+        `TABLE_SCHEMA` ,
+        `TABLE_NAME` ,
+        `COLUMN_NAME` ,
+        `ORDINAL_POSITION` ,
+        `COLUMN_DEFAULT` ,
+        `IS_NULLABLE` ,
+        `DATA_TYPE` ,
+        `CHARACTER_MAXIMUM_LENGTH` ,
+        `CHARACTER_OCTET_LENGTH` ,
+        `NUMERIC_PRECISION` ,
+        `NUMERIC_SCALE` ,
+        `DATETIME_PRECISION` ,
+        `CHARACTER_SET_NAME` ,
+        `COLLATION_NAME` ,
+        `COLUMN_TYPE` ,
+        `COLUMN_KEY` ,
+        `EXTRA` ,
+        `PRIVILEGES` ,
+        `COLUMN_COMMENT` ,
+        `GENERATION_EXPRESSION`
+        FROM `COLUMNS`
+        <where>
+            AND 1 = 1
+        </where>
+    </select>
+
+    <select id="queryBase"
+            resultType="demo.spring.boot.demospringboot.mybatis.vo.ColumnsVo"
+            parameterType="demo.spring.boot.demospringboot.mybatis.vo.ColumnsVo">
+        SELECT
+        `TABLE_CATALOG` ,
+        `TABLE_SCHEMA` ,
+        `TABLE_NAME` ,
+        `COLUMN_NAME` ,
+        `ORDINAL_POSITION` ,
+        `COLUMN_DEFAULT` ,
+        `IS_NULLABLE` ,
+        `DATA_TYPE` ,
+        `CHARACTER_MAXIMUM_LENGTH` ,
+        `CHARACTER_OCTET_LENGTH` ,
+        `NUMERIC_PRECISION` ,
+        `NUMERIC_SCALE` ,
+        `DATETIME_PRECISION` ,
+        `CHARACTER_SET_NAME` ,
+        `COLLATION_NAME` ,
+        `COLUMN_TYPE` ,
+        `COLUMN_KEY` ,
+        `EXTRA` ,
+        `PRIVILEGES` ,
+        `COLUMN_COMMENT` ,
+        `GENERATION_EXPRESSION`
+        FROM `COLUMNS`
+        <where>
+            AND 1 = 1
+            <if test="tableCatalog != null and tableCatalog != '' ">
+                AND `TABLE_CATALOG` = #{tableCatalog}
+            </if>
+            <if test="tableSchema != null and tableSchema != '' ">
+                AND `TABLE_SCHEMA` = #{tableSchema}
+            </if>
+            <if test="tableName != null and tableName != '' ">
+                AND `TABLE_NAME` = #{tableName}
+            </if>
+            <if test="columnName != null and columnName != '' ">
+                AND `COLUMN_NAME` = #{columnName}
+            </if>
+            <if test="ordinalPosition != null and ordinalPosition != '' ">
+                AND `ORDINAL_POSITION` = #{ordinalPosition}
+            </if>
+            <if test="columnDefault != null and columnDefault != '' ">
+                AND `COLUMN_DEFAULT` = #{columnDefault}
+            </if>
+            <if test="isNullable != null and isNullable != '' ">
+                AND `IS_NULLABLE` = #{isNullable}
+            </if>
+            <if test="dataType != null and dataType != '' ">
+                AND `DATA_TYPE` = #{dataType}
+            </if>
+            <if test="characterMaximumLength != null and characterMaximumLength != '' ">
+                AND `CHARACTER_MAXIMUM_LENGTH` = #{characterMaximumLength}
+            </if>
+            <if test="characterOctetLength != null and characterOctetLength != '' ">
+                AND `CHARACTER_OCTET_LENGTH` = #{characterOctetLength}
+            </if>
+            <if test="numericPrecision != null and numericPrecision != '' ">
+                AND `NUMERIC_PRECISION` = #{numericPrecision}
+            </if>
+            <if test="numericScale != null and numericScale != '' ">
+                AND `NUMERIC_SCALE` = #{numericScale}
+            </if>
+            <if test="datetimePrecision != null and datetimePrecision != '' ">
+                AND `DATETIME_PRECISION` = #{datetimePrecision}
+            </if>
+            <if test="characterSetName != null and characterSetName != '' ">
+                AND `CHARACTER_SET_NAME` = #{characterSetName}
+            </if>
+            <if test="collationName != null and collationName != '' ">
+                AND `COLLATION_NAME` = #{collationName}
+            </if>
+            <if test="columnType != null and columnType != '' ">
+                AND `COLUMN_TYPE` = #{columnType}
+            </if>
+            <if test="columnKey != null and columnKey != '' ">
+                AND `COLUMN_KEY` = #{columnKey}
+            </if>
+            <if test="extra != null and extra != '' ">
+                AND `EXTRA` = #{extra}
+            </if>
+            <if test="privileges != null and privileges != '' ">
+                AND `PRIVILEGES` = #{privileges}
+            </if>
+            <if test="columnComment != null and columnComment != '' ">
+                AND `COLUMN_COMMENT` = #{columnComment}
+            </if>
+            <if test="generationExpression != null and generationExpression != '' ">
+                AND `GENERATION_EXPRESSION` = #{generationExpression}
+            </if>
+        </where>
+    </select>
+
+    <delete id="deleteByPrimaryKey">
+        DELETE FROM `COLUMNS`
+        <where>
+            AND 1 = 1
+        </where>
+
+    </delete>
+    <delete id="deleteBase"
+            parameterType="demo.spring.boot.demospringboot.mybatis.vo.ColumnsVo">
+        DELETE FROM `COLUMNS`
+        <where>
+            AND 1 = 1
+            <if test="tableCatalog != null and tableCatalog != '' ">
+                AND `TABLE_CATALOG` = #{tableCatalog}
+            </if>
+            <if test="tableSchema != null and tableSchema != '' ">
+                AND `TABLE_SCHEMA` = #{tableSchema}
+            </if>
+            <if test="tableName != null and tableName != '' ">
+                AND `TABLE_NAME` = #{tableName}
+            </if>
+            <if test="columnName != null and columnName != '' ">
+                AND `COLUMN_NAME` = #{columnName}
+            </if>
+            <if test="ordinalPosition != null and ordinalPosition != '' ">
+                AND `ORDINAL_POSITION` = #{ordinalPosition}
+            </if>
+            <if test="columnDefault != null and columnDefault != '' ">
+                AND `COLUMN_DEFAULT` = #{columnDefault}
+            </if>
+            <if test="isNullable != null and isNullable != '' ">
+                AND `IS_NULLABLE` = #{isNullable}
+            </if>
+            <if test="dataType != null and dataType != '' ">
+                AND `DATA_TYPE` = #{dataType}
+            </if>
+            <if test="characterMaximumLength != null and characterMaximumLength != '' ">
+                AND `CHARACTER_MAXIMUM_LENGTH` = #{characterMaximumLength}
+            </if>
+            <if test="characterOctetLength != null and characterOctetLength != '' ">
+                AND `CHARACTER_OCTET_LENGTH` = #{characterOctetLength}
+            </if>
+            <if test="numericPrecision != null and numericPrecision != '' ">
+                AND `NUMERIC_PRECISION` = #{numericPrecision}
+            </if>
+            <if test="numericScale != null and numericScale != '' ">
+                AND `NUMERIC_SCALE` = #{numericScale}
+            </if>
+            <if test="datetimePrecision != null and datetimePrecision != '' ">
+                AND `DATETIME_PRECISION` = #{datetimePrecision}
+            </if>
+            <if test="characterSetName != null and characterSetName != '' ">
+                AND `CHARACTER_SET_NAME` = #{characterSetName}
+            </if>
+            <if test="collationName != null and collationName != '' ">
+                AND `COLLATION_NAME` = #{collationName}
+            </if>
+            <if test="columnType != null and columnType != '' ">
+                AND `COLUMN_TYPE` = #{columnType}
+            </if>
+            <if test="columnKey != null and columnKey != '' ">
+                AND `COLUMN_KEY` = #{columnKey}
+            </if>
+            <if test="extra != null and extra != '' ">
+                AND `EXTRA` = #{extra}
+            </if>
+            <if test="privileges != null and privileges != '' ">
+                AND `PRIVILEGES` = #{privileges}
+            </if>
+            <if test="columnComment != null and columnComment != '' ">
+                AND `COLUMN_COMMENT` = #{columnComment}
+            </if>
+            <if test="generationExpression != null and generationExpression != '' ">
+                AND `GENERATION_EXPRESSION` = #{generationExpression}
+            </if>
+        </where>
+    </delete>
+
+</mapper>

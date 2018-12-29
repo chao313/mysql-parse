@@ -1,0 +1,354 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+        <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="demo.spring.boot.demospringboot.mybatis.dao.TablesDao">
+
+    <insert id="insert"
+            parameterType="demo.spring.boot.demospringboot.mybatis.vo.TablesVo">
+        INSERT INTO `TABLES`(
+        `TABLE_CATALOG` ,
+        `TABLE_SCHEMA` ,
+        `TABLE_NAME` ,
+        `TABLE_TYPE` ,
+        `ENGINE` ,
+        `VERSION` ,
+        `ROW_FORMAT` ,
+        `TABLE_ROWS` ,
+        `AVG_ROW_LENGTH` ,
+        `DATA_LENGTH` ,
+        `MAX_DATA_LENGTH` ,
+        `INDEX_LENGTH` ,
+        `DATA_FREE` ,
+        `AUTO_INCREMENT` ,
+        `CREATE_TIME` ,
+        `UPDATE_TIME` ,
+        `CHECK_TIME` ,
+        `TABLE_COLLATION` ,
+        `CHECKSUM` ,
+        `CREATE_OPTIONS` ,
+        `TABLE_COMMENT`
+        )VALUE(
+        #{tableCatalog}  ,
+        #{tableSchema}  ,
+        #{tableName}  ,
+        #{tableType}  ,
+        #{engine}  ,
+        #{version}  ,
+        #{rowFormat}  ,
+        #{tableRows}  ,
+        #{avgRowLength}  ,
+        #{dataLength}  ,
+        #{maxDataLength}  ,
+        #{indexLength}  ,
+        #{dataFree}  ,
+        #{autoIncrement}  ,
+        #{createTime}  ,
+        #{updateTime}  ,
+        #{checkTime}  ,
+        #{tableCollation}  ,
+        #{checksum}  ,
+        #{createOptions}  ,
+        #{tableComment}
+        )
+    </insert>
+
+    <update id="updateAllFieldByPrimaryKey"
+            parameterType="demo.spring.boot.demospringboot.mybatis.vo.TablesVo">
+        UPDATE `TABLES`
+        <set>
+            `TABLE_CATALOG` = #{tableCatalog}
+            `TABLE_SCHEMA` = #{tableSchema}
+            `TABLE_NAME` = #{tableName}
+            `TABLE_TYPE` = #{tableType}
+            `ENGINE` = #{engine}
+            `VERSION` = #{version}
+            `ROW_FORMAT` = #{rowFormat}
+            `TABLE_ROWS` = #{tableRows}
+            `AVG_ROW_LENGTH` = #{avgRowLength}
+            `DATA_LENGTH` = #{dataLength}
+            `MAX_DATA_LENGTH` = #{maxDataLength}
+            `INDEX_LENGTH` = #{indexLength}
+            `DATA_FREE` = #{dataFree}
+            `AUTO_INCREMENT` = #{autoIncrement}
+            `CREATE_TIME` = #{createTime}
+            `UPDATE_TIME` = #{updateTime}
+            `CHECK_TIME` = #{checkTime}
+            `TABLE_COLLATION` = #{tableCollation}
+            `CHECKSUM` = #{checksum}
+            `CREATE_OPTIONS` = #{createOptions}
+            `TABLE_COMMENT` = #{tableComment}
+        </set>
+        <where>
+        </where>
+    </update>
+
+    <update id="updateBaseFieldByPrimaryKey"
+            parameterType="demo.spring.boot.demospringboot.mybatis.vo.TablesVo">
+        UPDATE `TABLES`
+        <set>
+            <if test="tableCatalog != null and tableCatalog != '' ">
+                `TABLE_CATALOG` = #{tableCatalog}
+            </if>
+            <if test="tableSchema != null and tableSchema != '' ">
+                `TABLE_SCHEMA` = #{tableSchema}
+            </if>
+            <if test="tableName != null and tableName != '' ">
+                `TABLE_NAME` = #{tableName}
+            </if>
+            <if test="tableType != null and tableType != '' ">
+                `TABLE_TYPE` = #{tableType}
+            </if>
+            <if test="engine != null and engine != '' ">
+                `ENGINE` = #{engine}
+            </if>
+            <if test="version != null and version != '' ">
+                `VERSION` = #{version}
+            </if>
+            <if test="rowFormat != null and rowFormat != '' ">
+                `ROW_FORMAT` = #{rowFormat}
+            </if>
+            <if test="tableRows != null and tableRows != '' ">
+                `TABLE_ROWS` = #{tableRows}
+            </if>
+            <if test="avgRowLength != null and avgRowLength != '' ">
+                `AVG_ROW_LENGTH` = #{avgRowLength}
+            </if>
+            <if test="dataLength != null and dataLength != '' ">
+                `DATA_LENGTH` = #{dataLength}
+            </if>
+            <if test="maxDataLength != null and maxDataLength != '' ">
+                `MAX_DATA_LENGTH` = #{maxDataLength}
+            </if>
+            <if test="indexLength != null and indexLength != '' ">
+                `INDEX_LENGTH` = #{indexLength}
+            </if>
+            <if test="dataFree != null and dataFree != '' ">
+                `DATA_FREE` = #{dataFree}
+            </if>
+            <if test="autoIncrement != null and autoIncrement != '' ">
+                `AUTO_INCREMENT` = #{autoIncrement}
+            </if>
+            <if test="createTime != null and createTime != '' ">
+                `CREATE_TIME` = #{createTime}
+            </if>
+            <if test="updateTime != null and updateTime != '' ">
+                `UPDATE_TIME` = #{updateTime}
+            </if>
+            <if test="checkTime != null and checkTime != '' ">
+                `CHECK_TIME` = #{checkTime}
+            </if>
+            <if test="tableCollation != null and tableCollation != '' ">
+                `TABLE_COLLATION` = #{tableCollation}
+            </if>
+            <if test="checksum != null and checksum != '' ">
+                `CHECKSUM` = #{checksum}
+            </if>
+            <if test="createOptions != null and createOptions != '' ">
+                `CREATE_OPTIONS` = #{createOptions}
+            </if>
+            <if test="tableComment != null and tableComment != '' ">
+                `TABLE_COMMENT` = #{tableComment}
+            </if>
+        </set>
+        <where>
+        </where>
+    </update>
+
+    <select id="queryByPrimaryKey"
+            resultType="demo.spring.boot.demospringboot.mybatis.vo.TablesVo">
+        SELECT
+        `TABLE_CATALOG` ,
+        `TABLE_SCHEMA` ,
+        `TABLE_NAME` ,
+        `TABLE_TYPE` ,
+        `ENGINE` ,
+        `VERSION` ,
+        `ROW_FORMAT` ,
+        `TABLE_ROWS` ,
+        `AVG_ROW_LENGTH` ,
+        `DATA_LENGTH` ,
+        `MAX_DATA_LENGTH` ,
+        `INDEX_LENGTH` ,
+        `DATA_FREE` ,
+        `AUTO_INCREMENT` ,
+        `CREATE_TIME` ,
+        `UPDATE_TIME` ,
+        `CHECK_TIME` ,
+        `TABLE_COLLATION` ,
+        `CHECKSUM` ,
+        `CREATE_OPTIONS` ,
+        `TABLE_COMMENT`
+        FROM `TABLES`
+        <where>
+        </where>
+    </select>
+
+    <select id="queryBase"
+            resultType="demo.spring.boot.demospringboot.mybatis.vo.TablesVo"
+            parameterType="demo.spring.boot.demospringboot.mybatis.vo.TablesVo">
+        SELECT
+        `TABLE_CATALOG` ,
+        `TABLE_SCHEMA` ,
+        `TABLE_NAME` ,
+        `TABLE_TYPE` ,
+        `ENGINE` ,
+        `VERSION` ,
+        `ROW_FORMAT` ,
+        `TABLE_ROWS` ,
+        `AVG_ROW_LENGTH` ,
+        `DATA_LENGTH` ,
+        `MAX_DATA_LENGTH` ,
+        `INDEX_LENGTH` ,
+        `DATA_FREE` ,
+        `AUTO_INCREMENT` ,
+        `CREATE_TIME` ,
+        `UPDATE_TIME` ,
+        `CHECK_TIME` ,
+        `TABLE_COLLATION` ,
+        `CHECKSUM` ,
+        `CREATE_OPTIONS` ,
+        `TABLE_COMMENT`
+        FROM `TABLES`
+        <where>
+            <if test="tableCatalog != null and tableCatalog != '' ">
+                `TABLE_CATALOG` = #{tableCatalog}
+            </if>
+            <if test="tableSchema != null and tableSchema != '' ">
+                `TABLE_SCHEMA` = #{tableSchema}
+            </if>
+            <if test="tableName != null and tableName != '' ">
+                `TABLE_NAME` = #{tableName}
+            </if>
+            <if test="tableType != null and tableType != '' ">
+                `TABLE_TYPE` = #{tableType}
+            </if>
+            <if test="engine != null and engine != '' ">
+                `ENGINE` = #{engine}
+            </if>
+            <if test="version != null and version != '' ">
+                `VERSION` = #{version}
+            </if>
+            <if test="rowFormat != null and rowFormat != '' ">
+                `ROW_FORMAT` = #{rowFormat}
+            </if>
+            <if test="tableRows != null and tableRows != '' ">
+                `TABLE_ROWS` = #{tableRows}
+            </if>
+            <if test="avgRowLength != null and avgRowLength != '' ">
+                `AVG_ROW_LENGTH` = #{avgRowLength}
+            </if>
+            <if test="dataLength != null and dataLength != '' ">
+                `DATA_LENGTH` = #{dataLength}
+            </if>
+            <if test="maxDataLength != null and maxDataLength != '' ">
+                `MAX_DATA_LENGTH` = #{maxDataLength}
+            </if>
+            <if test="indexLength != null and indexLength != '' ">
+                `INDEX_LENGTH` = #{indexLength}
+            </if>
+            <if test="dataFree != null and dataFree != '' ">
+                `DATA_FREE` = #{dataFree}
+            </if>
+            <if test="autoIncrement != null and autoIncrement != '' ">
+                `AUTO_INCREMENT` = #{autoIncrement}
+            </if>
+            <if test="createTime != null and createTime != '' ">
+                `CREATE_TIME` = #{createTime}
+            </if>
+            <if test="updateTime != null and updateTime != '' ">
+                `UPDATE_TIME` = #{updateTime}
+            </if>
+            <if test="checkTime != null and checkTime != '' ">
+                `CHECK_TIME` = #{checkTime}
+            </if>
+            <if test="tableCollation != null and tableCollation != '' ">
+                `TABLE_COLLATION` = #{tableCollation}
+            </if>
+            <if test="checksum != null and checksum != '' ">
+                `CHECKSUM` = #{checksum}
+            </if>
+            <if test="createOptions != null and createOptions != '' ">
+                `CREATE_OPTIONS` = #{createOptions}
+            </if>
+            <if test="tableComment != null and tableComment != '' ">
+                `TABLE_COMMENT` = #{tableComment}
+            </if>
+        </where>
+    </select>
+
+    <delete id="deleteByPrimaryKey">
+        DELETE FROM `TABLES`
+        <where>
+        </where>
+
+    </delete>
+    <delete id="deleteBase"
+            parameterType="demo.spring.boot.demospringboot.mybatis.vo.TablesVo">
+        DELETE FROM `TABLES`
+        <where>
+            <if test="tableCatalog != null and tableCatalog != '' ">
+                `TABLE_CATALOG` = #{tableCatalog}
+            </if>
+            <if test="tableSchema != null and tableSchema != '' ">
+                `TABLE_SCHEMA` = #{tableSchema}
+            </if>
+            <if test="tableName != null and tableName != '' ">
+                `TABLE_NAME` = #{tableName}
+            </if>
+            <if test="tableType != null and tableType != '' ">
+                `TABLE_TYPE` = #{tableType}
+            </if>
+            <if test="engine != null and engine != '' ">
+                `ENGINE` = #{engine}
+            </if>
+            <if test="version != null and version != '' ">
+                `VERSION` = #{version}
+            </if>
+            <if test="rowFormat != null and rowFormat != '' ">
+                `ROW_FORMAT` = #{rowFormat}
+            </if>
+            <if test="tableRows != null and tableRows != '' ">
+                `TABLE_ROWS` = #{tableRows}
+            </if>
+            <if test="avgRowLength != null and avgRowLength != '' ">
+                `AVG_ROW_LENGTH` = #{avgRowLength}
+            </if>
+            <if test="dataLength != null and dataLength != '' ">
+                `DATA_LENGTH` = #{dataLength}
+            </if>
+            <if test="maxDataLength != null and maxDataLength != '' ">
+                `MAX_DATA_LENGTH` = #{maxDataLength}
+            </if>
+            <if test="indexLength != null and indexLength != '' ">
+                `INDEX_LENGTH` = #{indexLength}
+            </if>
+            <if test="dataFree != null and dataFree != '' ">
+                `DATA_FREE` = #{dataFree}
+            </if>
+            <if test="autoIncrement != null and autoIncrement != '' ">
+                `AUTO_INCREMENT` = #{autoIncrement}
+            </if>
+            <if test="createTime != null and createTime != '' ">
+                `CREATE_TIME` = #{createTime}
+            </if>
+            <if test="updateTime != null and updateTime != '' ">
+                `UPDATE_TIME` = #{updateTime}
+            </if>
+            <if test="checkTime != null and checkTime != '' ">
+                `CHECK_TIME` = #{checkTime}
+            </if>
+            <if test="tableCollation != null and tableCollation != '' ">
+                `TABLE_COLLATION` = #{tableCollation}
+            </if>
+            <if test="checksum != null and checksum != '' ">
+                `CHECKSUM` = #{checksum}
+            </if>
+            <if test="createOptions != null and createOptions != '' ">
+                `CREATE_OPTIONS` = #{createOptions}
+            </if>
+            <if test="tableComment != null and tableComment != '' ">
+                `TABLE_COMMENT` = #{tableComment}
+            </if>
+        </where>
+    </delete>
+
+</mapper>

@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:v-bind="http://www.w3.org/1999/xhtml" xmlns:v-on="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Docker 主机管理</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div id="body">
+    <form class="form-horizontal" role="form">
+
+        <div class="form-group">
+            <label class="col-sm-4 control-label"></label>
+            <div class="col-sm-4">
+                <img class="logo" src="lib/logo.png">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-4 control-label"></label>
+            <div class="col-sm-4">
+                <label class="col-sm-9 control-label info" style="color: white">{{info}}</label>
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <label class="col-sm-4 control-label">{{hostIpTxt}}</label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control" v-model="hostIpValue" v-bind:placeholder="hostIpPlaceholder">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-4 control-label">{{hostPortTxt}}</label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control" v-model="hostPortValue"
+                       v-bind:placeholder="hostPortPlaceholder">
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <label class="col-sm-4 control-label">{{hostAccountTxt}}</label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control" v-model="hostAccountValue"
+                       v-bind:placeholder="hostAccountPlaceholder">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-4 control-label">{{hostPasswordTxt}}</label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control" v-model="hostPasswordValue"
+                       v-bind:placeholder="hostPasswordPlaceholder">
+            </div>
+        </div>
+
+
+        <div class="form-group sub">
+            <div class="col-sm-8 control-label">
+                <button type="button" class="btn btn-info" v-on:click="test_connect"
+                        v-bind:disabled="connectDisabled">Test Connect
+                </button>
+                <button type="button" class="btn btn-primary" v-on:click="save"
+                        v-bind:disabled="saveDisabled">保存
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+</body>
+<script src="../vue.min.js"></script>
+<script src="../vue-resource.js"></script>
+<script src="../jquery.js"></script>
+<script src="../conf.js"></script>
+<script>
+    var vue = new Vue({
+        el: "#body",
+        data: {
+
+            info: "Docker PaaS 编辑宿主机",
+
+            hostIpTxt: "主机ip",
+            hostIpPlaceholder: "请输入主机ip",
+            hostIpValue: "",
+
+            hostPortTxt: "主机端口号",
+            hostPortPlaceholder: "请输入主机端口号：默认是22",
+            hostPortValue: "22",
+
+            hostAccountTxt: "用户名",
+            hostAccountPlaceholder: "请输入主机用户名：默认是root",
+            hostAccountValue: "root",
+
+
+            hostPasswordTxt: "主机Password",
+            hostPasswordPlaceholder: "请输入主机Password",
+            hostPasswordValue: "",
+
+            saveSuccess: "保存成功",
+            connectSuccess: "连接成功",
+            alertErrorValue: "系统错误，请联系管理员！",
+            alertParamMiss: "请完善参数",
+
+            userId: "",
+
+            connectDisabled: false,
+            saveDisabled: false
+        },
+        methods: {
+            post_connect: function (url_param) {
+                this.$http.post(
+                    host + '/host/valid?' + url_param
+                ).then(function success(res) {
+                    var data = res.body;
+                    if (data.code == 0) {
+                        if (data.content == true) {
+                            //如果成功
+                            alert(this.connectSuccess);
+                        } else {
+                            alert(data.msg);
+                        }
+                    } else {
+                        alert(this.alertErrorValue)
+                    }
+
+                }, function error(res) {
+                    alert(this.alertErrorValue)
+                });
+            },
+            test_connect: function () {
+                this.connectDisabled = true;
+                if (this.hostIpValue != "" && this.hostPasswordValue != ""
+                    && this.hostAccountValue != "" && this.hostPasswordValue != "") {
+                    var json = {
+                        'host-ip': this.hostIpValue,
+                        account: this.hostAccountValue,
+                        password: this.hostPasswordValue,
+                        port: this.hostPortValue,
+                        'user-id': '3'
+                    };
+                    var url_param = url_deal(json);
+                    this.post_connect(url_param);
+
+                } else {
+                    alert(this.alertParamMiss);
+
+                }
+                this.connectDisabled = false;
+
+            },
+            post_save: function (url_param) {
+                this.$http.post(
+                    host + '/host/update?' + url_param
+                ).then(function success(res) {
+                    var data = res.body;
+                    if (data.code == 0) {
+                        if (data.content == true) {
+                            //如果成功
+                            alert(this.saveSuccess);
+                        } else {
+                            alert(data.msg);
+                        }
+                    } else {
+                        alert(this.alertErrorValue)
+                    }
+
+                }, function error(res) {
+                    alert(this.alertErrorValue)
+                });
+            },
+            save: function () {
+                this.saveDisabled = true;
+                if (this.hostIpValue != "" && this.hostPasswordValue != ""
+                    && this.hostAccountValue != "" && this.hostPasswordValue != "") {
+                    var json = {
+                        'host-ip': this.hostIpValue,
+                        account: this.hostAccountValue,
+                        password: this.hostPasswordValue,
+                        port: this.hostPortValue,
+                        'user-id': this.userId
+                    };
+                    var url_param = url_deal(json);
+                    this.post_save(url_param);
+
+                } else {
+                    alert(this.alertParamMiss);
+
+                }
+                this.saveDisabled = false;
+
+            }, init: function () {
+                var id = queryUrlParam('id');
+                this.$http.get(host + '/host/query-by-id?id=' + id)
+                    .then(
+                        function success(res) {
+                            var data = res.body;
+                            if (data.code == 0) {
+                                if (data.content != null) {
+                                    this.hostIpValue = data.content.hostIp;
+                                    this.hostPortValue = data.content.port;
+                                    this.hostAccountValue = data.content.account;
+                                    this.hostPasswordValue = data.content.password;
+                                    this.userId = data.content.userId;
+                                } else {
+                                    alert(data.msg);
+                                }
+                            } else {
+                                alert(this.alertErrorValue)
+                            }
+                        }
+                    );
+            }
+        }
+    });
+
+    //初始化
+    vue.init();
+</script>
+</html>

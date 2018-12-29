@@ -24,15 +24,16 @@
             </#list>
         </set>
         <where>
+            AND 1 = 1
              <#list mysqlAndJavaKeys as mysqlAndJavaField>
-                `${mysqlAndJavaField.mysqlField.name}` = <#noparse>#{</#noparse>${mysqlAndJavaField.javaField.name}<#noparse>}</#noparse> <#if field_has_next>,</#if>
+              AND  `${mysqlAndJavaField.mysqlField.name}` = <#noparse>#{</#noparse>${mysqlAndJavaField.javaField.name}<#noparse>}</#noparse> <#if field_has_next>,</#if>
              </#list>
         </where>
      </update>
 
      <update id="updateBaseFieldByPrimaryKey"
             parameterType="${javaTable.classVoPackage}">
-     UPDATE `${mysqlTable.tableName}`
+       UPDATE `${mysqlTable.tableName}`
          <set>
             <#list mysqlAndJavaFields as mysqlAndJavaField>
                 <if test="${mysqlAndJavaField.javaField.name} != null and ${mysqlAndJavaField.javaField.name} != '' ">
@@ -41,8 +42,9 @@
             </#list>
         </set>
        <where>
+           AND 1 = 1
             <#list mysqlAndJavaKeys as mysqlAndJavaField>
-                 `${mysqlAndJavaField.mysqlField.name}` = <#noparse>#{</#noparse>${mysqlAndJavaField.javaField.name}<#noparse>}</#noparse> <#if field_has_next>,</#if>
+             AND    `${mysqlAndJavaField.mysqlField.name}` = <#noparse>#{</#noparse>${mysqlAndJavaField.javaField.name}<#noparse>}</#noparse> <#if field_has_next>,</#if>
             </#list>
        </where>
      </update>
@@ -55,8 +57,9 @@
               </#list>
            FROM `${mysqlTable.tableName}`
              <where>
+                 AND 1 = 1
                  <#list mysqlAndJavaKeys as mysqlAndJavaField>
-                     `${mysqlAndJavaField.mysqlField.name}` = <#noparse>#{</#noparse>${mysqlAndJavaField.javaField.name}<#noparse>}</#noparse> <#if field_has_next>,</#if>
+                   AND  `${mysqlAndJavaField.mysqlField.name}` = <#noparse>#{</#noparse>${mysqlAndJavaField.javaField.name}<#noparse>}</#noparse> <#if field_has_next>,</#if>
                  </#list>
              </where>
      </select>
@@ -70,9 +73,10 @@
               </#list>
         FROM `${mysqlTable.tableName}`
         <where>
+            AND 1 = 1
              <#list mysqlAndJavaFields as mysqlAndJavaField>
                  <if test="${mysqlAndJavaField.javaField.name} != null and ${mysqlAndJavaField.javaField.name} != '' ">
-                 `${mysqlAndJavaField.mysqlField.name}` = <#noparse>#{</#noparse>${mysqlAndJavaField.javaField.name}<#noparse>}</#noparse> <#if field_has_next>,</#if>
+                 AND `${mysqlAndJavaField.mysqlField.name}` = <#noparse>#{</#noparse>${mysqlAndJavaField.javaField.name}<#noparse>}</#noparse> <#if field_has_next>,</#if>
                  </if>
              </#list>
         </where>
@@ -81,9 +85,10 @@
     <delete id="deleteByPrimaryKey">
         DELETE FROM `${mysqlTable.tableName}`
         <where>
-          <#list mysqlAndJavaKeys as mysqlAndJavaField>
-              `${mysqlAndJavaField.mysqlField.name}` = <#noparse>#{</#noparse>${mysqlAndJavaField.javaField.name}<#noparse>}</#noparse> <#if field_has_next>,</#if>
-          </#list>
+            AND 1 = 1
+              <#list mysqlAndJavaKeys as mysqlAndJavaField>
+                 AND `${mysqlAndJavaField.mysqlField.name}` = <#noparse>#{</#noparse>${mysqlAndJavaField.javaField.name}<#noparse>}</#noparse> <#if field_has_next>,</#if>
+              </#list>
         </where>
 
     </delete>
@@ -91,11 +96,12 @@
             parameterType="${javaTable.classVoPackage}">
         DELETE FROM `${mysqlTable.tableName}`
         <where>
-          <#list mysqlAndJavaFields as mysqlAndJavaField>
-           <if test="${mysqlAndJavaField.javaField.name} != null and ${mysqlAndJavaField.javaField.name} != '' ">
-             `${mysqlAndJavaField.mysqlField.name}` = <#noparse>#{</#noparse>${mysqlAndJavaField.javaField.name}<#noparse>}</#noparse> <#if field_has_next>,</#if>
-           </if>
-          </#list>
+            AND 1 = 1
+              <#list mysqlAndJavaFields as mysqlAndJavaField>
+               <if test="${mysqlAndJavaField.javaField.name} != null and ${mysqlAndJavaField.javaField.name} != '' ">
+                 AND `${mysqlAndJavaField.mysqlField.name}` = <#noparse>#{</#noparse>${mysqlAndJavaField.javaField.name}<#noparse>}</#noparse> <#if field_has_next>,</#if>
+               </if>
+              </#list>
         </where>
     </delete>
 
