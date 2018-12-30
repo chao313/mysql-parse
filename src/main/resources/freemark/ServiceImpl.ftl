@@ -47,7 +47,7 @@ public class ${javaTable.classServiceImplName} implements ${javaTable.classServi
     @Override
     public boolean insert(List<${javaTable.tableName}Vo> vos) {
 
-        return dao.insert(vos) > 0 ? true : false;
+        return dao.inserts(vos) > 0 ? true : false;
 
     }
 

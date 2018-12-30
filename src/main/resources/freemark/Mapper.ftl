@@ -21,7 +21,7 @@
         )
     </insert>
 
-    <insert id="insert"
+    <insert id="inserts"
             parameterType="java.util.List">
         INSERT INTO `${mysqlTable.tableName}`(
         <#list mysqlTable.mysqlFields as field>

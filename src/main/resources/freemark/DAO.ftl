@@ -32,7 +32,7 @@ public interface ${javaTable.classDAOName} {
     /**
      * insert vos 批量插入
      */
-    int insert(@Param(value = "vos") List<${javaTable.tableName}Vo> vos);
+    int inserts(@Param(value = "vos") List<${javaTable.tableName}Vo> vos);
 
     /**
      * 查询base
