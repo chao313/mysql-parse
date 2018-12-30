@@ -18,8 +18,7 @@ import lombok.ToString;
 public class ${javaTable.classVoName} {
 
 <#list javaTable.javaFields as field>
-            private ${field.type} ${field.name} ; // ${field.comment}
+            private ${field.type} ${field.name} ; <#if field.comment?? && field.comment !=""> // ${field.comment} </#if>
 </#list>
-
 
 }

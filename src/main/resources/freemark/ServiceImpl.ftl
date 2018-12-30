@@ -25,42 +25,80 @@ public class ${javaTable.classServiceImplName} implements ${javaTable.classServi
      @Autowired
      private ${javaTable.classDAOName} dao;
 
-    /**
-     *  insert
-     */
+     /**
+      *  insert
+      */
      @Override
      public boolean insert(${javaTable.tableName}Vo vo){
 
            return dao.insert(vo) > 0 ? true : false;
+
+     }
+
+    /**
+     *  insert vos 批量插入
+     */
+     boolean insert(@Param(value = "vos") $List<${javaTable.tableName}Vo> vos){
+
+          return dao.insert(vos) > 0 ? true : false;
+
      }
 
 
     /**
-     *  update all field by PrimaryKey
-     *  会更新指定主键的所有非主键字段(字段包括null)
+     * 查询base
+     */
+    List<${javaTable.tableName}Vo> queryBase(${javaTable.tableName}Vo query){
+
+        return dao.queryBase(query);
+
+     }
+
+
+     /**
+     * update base
+     */
+     boolean updateBase(@Param(value = "source") ${javaTable.tableName}Vo source,@Param(value = "target") ${javaTable.tableName}Vo target){
+
+        return dao.updateBase(source , target) > 0 ? true : false;
+
+     }
+
+
+     /**
+     * 删除base
      */
      @Override
-     public boolean updateAllFieldByPrimaryKey(${javaTable.tableName}Vo vo){
+     public boolean deleteBase(${javaTable.tableName}Vo vo){
+
+           return dao.deleteBase(vo) > 0 ? true : false;
+
+      }
+
+
+ <#if javaTable.primaryKeys?? && (javaTable.primaryKeys?size>0) >
+
+     /**
+      *  update all field by PrimaryKey
+      *
+      *  会更新指定主键的所有非主键字段(字段包括null)
+      *  <#list javaTable.primaryKeys as field>
+      *    ${field.name}  ${field.comment}
+      *  </#list>
+      */
+      @Override
+      public boolean updateAllFieldByPrimaryKey(${javaTable.tableName}Vo vo){
 
           return dao.updateAllFieldByPrimaryKey(vo) > 0 ? true : false;
-     }
+      }
 
 
-    /**
-     *  update all field by PrimaryKey
-     *  会更新指定主键的所有非主键字段(字段非null)
-     */
-     @Override
-     public boolean updateBaseFieldByPrimaryKey(${javaTable.tableName}Vo vo){
-
-         return dao.updateBaseFieldByPrimaryKey(vo) > 0 ? true : false;
-
-     }
-
-
-    /**
-     *  根据PrimaryKey查询
-     */
+     /**
+      *  根据PrimaryKey查询
+      *  <#list javaTable.primaryKeys as field>
+      *   ${field.name}  ${field.comment}
+      *  </#list>
+      */
      @Override
      public ${javaTable.tableName}Vo queryByPrimaryKey(<#list javaTable.primaryKeys as field> ${field.type} ${field.name}<#if field_has_next>,</#if></#list>){
 
@@ -68,19 +106,29 @@ public class ${javaTable.classServiceImplName} implements ${javaTable.classServi
 
      }
 
-    /**
-     * 查询base
-     */
-     @Override
-     public List<${javaTable.tableName}Vo> queryBase(${javaTable.tableName}Vo query){
+     /**
+      *  update all field by PrimaryKey
+      *
+      *  会更新指定主键的所有非主键字段(字段非null)
+      *  <#list javaTable.primaryKeys as field>
+      *   ${field.name}  ${field.comment}
+      *  </#list>
+      */
+      @Override
+      public boolean updateBaseFieldByPrimaryKey(${javaTable.tableName}Vo vo){
 
-        return dao.queryBase(query);
+         return dao.updateBaseFieldByPrimaryKey(vo) > 0 ? true : false;
 
-     }
+      }
 
-    /**
-     *  根据PrimaryKey删除
-     */
+
+
+     /**
+       *  根据PrimaryKey删除
+       *  <#list javaTable.primaryKeys as field>
+       *   ${field.name} : ${field.comment}
+       *  </#list>
+       */
      @Override
      public boolean deleteByPrimaryKey(<#list javaTable.primaryKeys as field> ${field.type} ${field.name}<#if field_has_next>,</#if></#list>){
 
@@ -88,14 +136,5 @@ public class ${javaTable.classServiceImplName} implements ${javaTable.classServi
 
      }
 
-    /**
-     * 删除base
-     */
-    @Override
-    public boolean deleteBase(${javaTable.tableName}Vo vo){
-
-       return dao.deleteBase(vo) > 0 ? true : false;
-
-    }
-
+ </#if>
 }
