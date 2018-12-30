@@ -3,6 +3,7 @@ package ${javaTable.basePackage};
 
 import java.util.List;
 import ${javaTable.classVoPackage};
+import org.apache.ibatis.annotations.Param;
 
 
 /**
@@ -26,7 +27,7 @@ public interface ${javaTable.classDAOName} {
     /**
      *  insert vos 批量插入
      */
-     int insert(@Param(value = "vos") $List<${javaTable.tableName}Vo> vos);
+     int insert(@Param(value = "vos") List<${javaTable.tableName}Vo> vos);
 
 
     /**

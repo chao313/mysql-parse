@@ -38,7 +38,7 @@ public class ${javaTable.classServiceImplName} implements ${javaTable.classServi
     /**
      *  insert vos 批量插入
      */
-     boolean insert(@Param(value = "vos") $List<${javaTable.tableName}Vo> vos){
+     boolean insert(List<${javaTable.tableName}Vo> vos){
 
           return dao.insert(vos) > 0 ? true : false;
 
@@ -58,7 +58,7 @@ public class ${javaTable.classServiceImplName} implements ${javaTable.classServi
      /**
      * update base
      */
-     boolean updateBase(@Param(value = "source") ${javaTable.tableName}Vo source,@Param(value = "target") ${javaTable.tableName}Vo target){
+     boolean updateBase(${javaTable.tableName}Vo source, ${javaTable.tableName}Vo target){
 
         return dao.updateBase(source , target) > 0 ? true : false;
 

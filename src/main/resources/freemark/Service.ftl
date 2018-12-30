@@ -26,7 +26,7 @@ public interface ${javaTable.classServiceName} {
     /**
      *  insert vos 批量插入
      */
-     boolean insert(@Param(value = "vos") $List<${javaTable.tableName}Vo> vos);
+     boolean insert(List<${javaTable.tableName}Vo> vos);
 
 
     /**
@@ -38,7 +38,7 @@ public interface ${javaTable.classServiceName} {
         /**
         * update base
         */
-        boolean updateBase(@Param(value = "source") ${javaTable.tableName}Vo source,@Param(value = "target") ${javaTable.tableName}Vo target);
+        boolean updateBase(${javaTable.tableName}Vo source, ${javaTable.tableName}Vo target);
 
         /**
         * 删除base
