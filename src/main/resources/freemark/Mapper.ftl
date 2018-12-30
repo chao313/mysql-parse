@@ -2,7 +2,13 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="${javaTable.classDAOPackage}">
 
-     <insert id="insert"
+    <resultMap id="resultMap" type="${javaTable.classVoPackage}">
+         <#list mysqlAndJavaFields as mysqlAndJavaField>
+             <result column="${mysqlAndJavaField.mysqlField.name}" property="${mysqlAndJavaField.javaField.name}"/>
+         </#list>
+    </resultMap>
+
+    <insert id="insert"
             parameterType="${javaTable.classVoPackage}">
         INSERT INTO `${mysqlTable.tableName}`(
         <#list mysqlTable.mysqlFields as field>
@@ -13,7 +19,7 @@
              <#noparse>#{</#noparse>${field.name}<#noparse>}</#noparse>  <#if field_has_next>,</#if>
          </#list>
         )
-     </insert>
+    </insert>
 
     <insert id="insert"
             parameterType="java.util.List">
@@ -23,15 +29,15 @@
         </#list>
         )VALUES
         <foreach collection="vos" item="item" separator=",">
-        (
+            (
          <#list javaTable.javaFields as field>
              <#noparse>#{</#noparse>${field.name}<#noparse>}</#noparse>  <#if field_has_next>,</#if>
          </#list>
-        )
+            )
         </foreach>
     </insert>
 
-    <select id="queryBase"
+    <select id="queryBase" resultMap="resultMap"
             resultType="${javaTable.classVoPackage}"
             parameterType="${javaTable.classVoPackage}">
         SELECT
@@ -43,76 +49,85 @@
             1 =1
              <#list mysqlAndJavaFields as mysqlAndJavaField>
                  <if test="${mysqlAndJavaField.javaField.name} != null and ${mysqlAndJavaField.javaField.name} != '' ">
-                     AND `${mysqlAndJavaField.mysqlField.name}` = <#noparse>#{</#noparse>${mysqlAndJavaField.javaField.name}<#noparse>}</#noparse> <#if field_has_next>,</#if>
+                     AND `${mysqlAndJavaField.mysqlField.name}` = <#noparse>
+                     #{</#noparse>${mysqlAndJavaField.javaField.name}<#noparse>}</#noparse> <#if field_has_next>,</#if>
                  </if>
              </#list>
         </where>
     </select>
 
-     <update id="updateABase"
+    <update id="updateABase"
             parameterType="${javaTable.classVoPackage}">
-       UPDATE `${mysqlTable.tableName}`
+        UPDATE `${mysqlTable.tableName}`
         <set>
             <#list mysqlAndJavaFields as mysqlAndJavaField>
-                `${mysqlAndJavaField.mysqlField.name}` = <#noparse>#{source.</#noparse>${mysqlAndJavaField.javaField.name}<#noparse>}</#noparse> <#if field_has_next>,</#if>
+                `${mysqlAndJavaField.mysqlField.name}` = <#noparse>
+                #{source.</#noparse>${mysqlAndJavaField.javaField.name}<#noparse>}</#noparse> <#if field_has_next>
+                ,</#if>
             </#list>
         </set>
         <where>
             1 =1
              <#list mysqlAndJavaKeys as mysqlAndJavaField>
              <if test="${mysqlAndJavaField.javaField.name} != null and ${mysqlAndJavaField.javaField.name} != '' ">
-              AND  `${mysqlAndJavaField.mysqlField.name}` = <#noparse>#{target.</#noparse>${mysqlAndJavaField.javaField.name}<#noparse>}</#noparse> <#if field_has_next>,</#if>
+                 AND `${mysqlAndJavaField.mysqlField.name}` = <#noparse>
+                 #{target.</#noparse>${mysqlAndJavaField.javaField.name}<#noparse>}</#noparse> <#if field_has_next>
+                 ,</#if>
              </if>
              </#list>
         </where>
-     </update>
+    </update>
 
-     <delete id="deleteBase"
-             parameterType="${javaTable.classVoPackage}">
-         DELETE FROM `${mysqlTable.tableName}`
-         <where>
-             1 =1
+    <delete id="deleteBase"
+            parameterType="${javaTable.classVoPackage}">
+        DELETE FROM `${mysqlTable.tableName}`
+        <where>
+            1 =1
                <#list mysqlAndJavaFields as mysqlAndJavaField>
                 <if test="${mysqlAndJavaField.javaField.name} != null and ${mysqlAndJavaField.javaField.name} != '' ">
-                    AND `${mysqlAndJavaField.mysqlField.name}` = <#noparse>#{</#noparse>${mysqlAndJavaField.javaField.name}<#noparse>}</#noparse> <#if field_has_next>,</#if>
+                    AND `${mysqlAndJavaField.mysqlField.name}` = <#noparse>
+                    #{</#noparse>${mysqlAndJavaField.javaField.name}<#noparse>}</#noparse> <#if field_has_next>,</#if>
                 </if>
                </#list>
-         </where>
-     </delete>
+        </where>
+    </delete>
 
 <#if javaTable.primaryKeys?? && (javaTable.primaryKeys?size>0) >
 
      <update id="updateBaseFieldByPrimaryKey"
-            parameterType="${javaTable.classVoPackage}">
-       UPDATE `${mysqlTable.tableName}`
+             parameterType="${javaTable.classVoPackage}">
+         UPDATE `${mysqlTable.tableName}`
          <set>
             <#list mysqlAndJavaFields as mysqlAndJavaField>
                 <if test="${mysqlAndJavaField.javaField.name} != null and ${mysqlAndJavaField.javaField.name} != '' ">
-                    `${mysqlAndJavaField.mysqlField.name}` = <#noparse>#{</#noparse>${mysqlAndJavaField.javaField.name}<#noparse>}</#noparse> <#if field_has_next>,</#if>
+                    `${mysqlAndJavaField.mysqlField.name}` = <#noparse>
+                    #{</#noparse>${mysqlAndJavaField.javaField.name}<#noparse>}</#noparse> <#if field_has_next>,</#if>
                 </if>
             </#list>
-        </set>
-       <where>
-           1 =1
+         </set>
+         <where>
+             1 =1
             <#list mysqlAndJavaKeys as mysqlAndJavaField>
-             AND    `${mysqlAndJavaField.mysqlField.name}` = <#noparse>#{</#noparse>${mysqlAndJavaField.javaField.name}<#noparse>}</#noparse> <#if field_has_next>,</#if>
+             AND `${mysqlAndJavaField.mysqlField.name}` = <#noparse>
+                #{</#noparse>${mysqlAndJavaField.javaField.name}<#noparse>}</#noparse> <#if field_has_next>,</#if>
             </#list>
-       </where>
+         </where>
      </update>
 
-     <select id="queryByPrimaryKey"
+     <select id="queryByPrimaryKey" resultMap="resultMap"
              resultType="${javaTable.classVoPackage}">
-           SELECT
+         SELECT
               <#list mysqlTable.mysqlFields as field>
               `${field.name}` <#if field_has_next>,</#if>
               </#list>
-           FROM `${mysqlTable.tableName}`
-             <where>
-                 1 =1
+         FROM `${mysqlTable.tableName}`
+         <where>
+             1 =1
                  <#list mysqlAndJavaKeys as mysqlAndJavaField>
-                   AND  `${mysqlAndJavaField.mysqlField.name}` = <#noparse>#{</#noparse>${mysqlAndJavaField.javaField.name}<#noparse>}</#noparse> <#if field_has_next>,</#if>
+                   AND `${mysqlAndJavaField.mysqlField.name}` = <#noparse>
+                     #{</#noparse>${mysqlAndJavaField.javaField.name}<#noparse>}</#noparse> <#if field_has_next>,</#if>
                  </#list>
-             </where>
+         </where>
      </select>
 
 
@@ -122,7 +137,8 @@
         <where>
             1 =1
               <#list mysqlAndJavaKeys as mysqlAndJavaField>
-                 AND `${mysqlAndJavaField.mysqlField.name}` = <#noparse>#{</#noparse>${mysqlAndJavaField.javaField.name}<#noparse>}</#noparse> <#if field_has_next>,</#if>
+                 AND `${mysqlAndJavaField.mysqlField.name}` = <#noparse>
+                  #{</#noparse>${mysqlAndJavaField.javaField.name}<#noparse>}</#noparse> <#if field_has_next>,</#if>
               </#list>
         </where>
 

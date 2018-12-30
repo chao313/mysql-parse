@@ -1,7 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="${javaTable.classDAOPackage}">
-
+    <resultMap id="truckExitInfo" type="com.sgx.inspect.entity.sequence.RoadNetOut">
+        <id column="exit_record_no" property="exitRecordId" />
+        <result column="total_toll" property="totalToll"/>
+        <result column="p_discount_toll" property="pDiscountToll"/>
+        <result column="prealAmount" property="prealAmount"/>
+        <result column="free_kind" property="freeKind"/>
+        <result column="over_load_rate" property="overLoadRate"/>
+        <result column="pay_method" property="payMethod"/>
+        <result column="total_weight" property="weight"/>
+    </resultMap>
 
     <insert id="insert"
             parameterType="${javaTable.classVoPackage}">
