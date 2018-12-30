@@ -11,7 +11,7 @@ import ${javaTable.classVoPackage};
 
 
 /**
- * 对应的表名   :${javaTable.tableName}
+ * 对应的表名   :${mysqlTable.tableName}
  * 表类型      :${javaTable.tableType}
  * 表引擎      :${javaTable.engine}
  * 表版本      :${javaTable.version}

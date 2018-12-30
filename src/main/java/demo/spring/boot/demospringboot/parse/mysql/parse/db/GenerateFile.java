@@ -34,6 +34,7 @@ public class GenerateFile {
 
         //转入freemark
         Map<String, Object> map = new HashMap<>();
+        map.put("mysqlTable", mysqlTable);
         map.put("javaTable", javaTable);
         File templateDirFile = ResourceUtils.getFile("classpath:freemark");
         StringBuffer voStr = FreemarkUtil.generateXmlByTemplate(map, templateDirFile, "Vo.ftl");
@@ -67,7 +68,6 @@ public class GenerateFile {
             mysqlAndJavaField.setMysqlField(mysqlTable.getPrimaryKeys().get(i));
             mysqlAndJavaKeys.add(mysqlAndJavaField);
         }
-        map.put("mysqlTable", mysqlTable);
         map.put("mysqlAndJavaFields", mysqlAndJavaFields);
         map.put("mysqlAndJavaKeys", mysqlAndJavaKeys);
         StringBuffer mapperStr = FreemarkUtil.generateXmlByTemplate(map, templateDirFile, "Mapper.ftl");
