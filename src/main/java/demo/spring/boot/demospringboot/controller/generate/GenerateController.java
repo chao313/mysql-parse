@@ -162,7 +162,7 @@ public class GenerateController {
         daoOutputStream.write(javaTable.getClassDaoStr().getBytes());
         daoOutputStream.flush();
 
-        File serviceFile = new File(tmpPath + javaTable.getClassServiceImplPath());
+        File serviceFile = new File(tmpPath + javaTable.getClassServicePath());
         serviceFile.createNewFile();
         serviceOutputStream = new BufferedOutputStream(new FileOutputStream(serviceFile));
         serviceOutputStream.write(javaTable.getClassServiceStr().getBytes());
@@ -171,7 +171,7 @@ public class GenerateController {
         File serviceImplFile = new File(tmpPath + javaTable.getClassServiceImplPath());
         serviceFile.createNewFile();
         serviceImplOutputStream = new BufferedOutputStream(new FileOutputStream(serviceImplFile));
-        serviceImplOutputStream.write(javaTable.getClassServiceStr().getBytes());
+        serviceImplOutputStream.write(javaTable.getClassServiceImplStr().getBytes());
         serviceImplOutputStream.flush();
 
         File mapperFile = new File(tmpPath + javaTable.getMapperPath());

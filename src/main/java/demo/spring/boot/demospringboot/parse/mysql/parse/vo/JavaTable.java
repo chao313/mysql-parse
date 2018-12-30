@@ -9,7 +9,9 @@ import org.springframework.beans.BeanUtils;
 
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * 整数类型：BIT、BOOL、TINY INT、SMALL INT、MEDIUM INT、 INT、 BIG INT
@@ -37,6 +39,8 @@ public class JavaTable {
     String tableComment;               //TABLE_COMMENT
     private List<JavaField> javaFields;//java字段信息
     private List<JavaField> primaryKeys;//java key
+    private List<String> javaFieldTypeNameUnique;//java字段Type - 去掉重复字段
+    private List<String> primaryKeyTypeNameUnique;//java key Type - 去掉重复字段
     private String basePackage;
     private String basePackagePath;
 
@@ -113,10 +117,27 @@ public class JavaTable {
         //处理文件的path
         javaTable.setClassDaoPath(javaTable.getClassDAOPackage().replace(".", "/") + ".java");
         javaTable.setClassVoPath(javaTable.getClassVoPackage().replace(".", "/") + ".java");
-        javaTable.setClassServicePath(javaTable.getClassServicePackage().replace(".", "/") + "java");
+        javaTable.setClassServicePath(javaTable.getClassServicePackage().replace(".", "/") + ".java");
         javaTable.setClassServiceImplPath(javaTable.getClassServiceImplPackage().replace(".", "/") + ".java");
         javaTable.setMapperPath(javaTable.getBasePackage().replace(".", "/") + "/" + javaTable.getMapperName() + ".xml");
         javaTable.setBasePackagePath(javaTable.getBasePackage().replace(".", "/"));
+
+        //处理 unique
+        List<String> javaFieldTypeNameUnique = new ArrayList<>();
+        javaTable.getJavaFields().forEach(javaField -> {
+            if (!javaFieldTypeNameUnique.contains(javaField.getType())) {
+                javaFieldTypeNameUnique.add(javaField.getType());
+            }
+        });
+        javaTable.setJavaFieldTypeNameUnique(javaFieldTypeNameUnique);
+
+        List<String> primaryKeyTypeNameUnique = new ArrayList<>();
+        javaTable.getPrimaryKeys().forEach(javaField -> {
+            if (!primaryKeyTypeNameUnique.contains(javaField.getType())) {
+                primaryKeyTypeNameUnique.add(javaField.getType());
+            }
+        });
+        javaTable.setPrimaryKeyTypeNameUnique(primaryKeyTypeNameUnique);
 
         return javaTable;
     }

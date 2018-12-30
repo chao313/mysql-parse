@@ -1,7 +1,9 @@
 package ${javaTable.basePackage};
 
-
-<#list javaTable.javaFields as field><#if field.type = "Timestamp" >import java.sql.Timestamp; </#if><#if field.type = "Time" >import java.sql.Time; </#if><#if field.type = "Date" >import java.util.Date; </#if></#list>
+<#list javaTable.javaFieldTypeNameUnique as fieldType><#if fieldType = "Timestamp" >import java.sql.Timestamp;
+</#if><#if fieldType = "Time" >import java.sql.Time;
+</#if><#if fieldType = "Date" >import java.util.Date;
+</#if></#list>
 
 /**
  * 对应的表名   :${javaTable.tableName}
@@ -18,30 +20,30 @@ package ${javaTable.basePackage};
 public class ${javaTable.classVoName} {
 
 <#list javaTable.javaFields as field>
-     private ${field.type} ${field.name}; <#if field.comment?? && field.comment !=""> // ${field.comment} </#if>
+    private ${field.type} ${field.name}; <#if field.comment?? && field.comment !=""> // ${field.comment} </#if>
 </#list>
 
 
 <#list javaTable.javaFields as field>
-      public ${field.type} get${field.name?cap_first}() {
+    public ${field.type} get${field.name?cap_first}() {
 
-         return ${field.name};
+        return ${field.name};
 
-       }
+    }
 
-       public void set${field.name?cap_first}(${field.type} ${field.name}) {
+    public void set${field.name?cap_first}(${field.type} ${field.name}) {
 
-          this.${field.name} = ${field.name};
+        this.${field.name} = ${field.name};
 
-       }
+    }
 
 </#list>
 
-     @Override
-      public String toString() {
-          return "${javaTable.classVoName}{" +
+    @Override
+    public String toString() {
+        return "${javaTable.classVoName}{" +
 <#list javaTable.javaFields as field>
-               ", ${field.name} '" + ${field.name} + <#if field.type = 'String' >'\'' +</#if>
+                ", ${field.name} '" + ${field.name} +<#if field.type = 'String' > '\'' +</#if>
 </#list>
                 '}';
     }
