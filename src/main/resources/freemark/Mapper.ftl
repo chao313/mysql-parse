@@ -31,7 +31,7 @@
         <foreach collection="vos" item="item" separator=",">
             (
          <#list javaTable.javaFields as field>
-             <#noparse>#{</#noparse>${field.name}<#noparse>}</#noparse>  <#if field_has_next>,</#if>
+             <#noparse>#{item.</#noparse>${field.name}<#noparse>}</#noparse>  <#if field_has_next>,</#if>
          </#list>
             )
         </foreach>
@@ -56,7 +56,7 @@
         </where>
     </select>
 
-    <update id="updateABase"
+    <update id="updateBase"
             parameterType="${javaTable.classVoPackage}">
         UPDATE `${mysqlTable.tableName}`
         <set>
