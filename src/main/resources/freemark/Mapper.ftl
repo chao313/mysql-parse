@@ -48,7 +48,7 @@
         <where>
             1 =1
              <#list mysqlAndJavaFields as mysqlAndJavaField>
-                 <if test="${mysqlAndJavaField.javaField.name} != null and ${mysqlAndJavaField.javaField.name} != '' ">
+                 <if test="${mysqlAndJavaField.javaField.name} != null">
                      AND `${mysqlAndJavaField.mysqlField.name}` = <#noparse>#{</#noparse>${mysqlAndJavaField.javaField.name}<#noparse>}</#noparse>
                  </if>
              </#list>
@@ -60,15 +60,17 @@
         UPDATE `${mysqlTable.tableName}`
         <set>
             <#list mysqlAndJavaFields as mysqlAndJavaField>
-                <if test="source.${mysqlAndJavaField.javaField.name} != null and source.${mysqlAndJavaField.javaField.name} != '' ">
-                `${mysqlAndJavaField.mysqlField.name}` = <#noparse>#{source.</#noparse>${mysqlAndJavaField.javaField.name}<#noparse>}</#noparse>
-                </if>
+                <#if mysqlAndJavaField.mysqlField.isPRI=false>
+                  <if test="source.${mysqlAndJavaField.javaField.name} != null">
+                   `${mysqlAndJavaField.mysqlField.name}` = <#noparse>#{source.</#noparse>${mysqlAndJavaField.javaField.name}<#noparse>}</#noparse><#if mysqlAndJavaField_has_next>,</#if>
+                  </if>
+               </#if>
             </#list>
         </set>
         <where>
             1 =1
              <#list mysqlAndJavaFields as mysqlAndJavaField>
-             <if test="target.${mysqlAndJavaField.javaField.name} != null and target.${mysqlAndJavaField.javaField.name} != '' ">
+             <if test="target.${mysqlAndJavaField.javaField.name} != null">
                  AND `${mysqlAndJavaField.mysqlField.name}` = <#noparse>#{target.</#noparse>${mysqlAndJavaField.javaField.name}<#noparse>}</#noparse>
              </if>
              </#list>
@@ -80,13 +82,15 @@
         UPDATE `${mysqlTable.tableName}`
         <set>
             <#list mysqlAndJavaFields as mysqlAndJavaField>
-                `${mysqlAndJavaField.mysqlField.name}` = <#noparse>#{source.</#noparse>${mysqlAndJavaField.javaField.name}<#noparse>}</#noparse>
+                <#if mysqlAndJavaField.mysqlField.isPRI=false>
+                   `${mysqlAndJavaField.mysqlField.name}` = <#noparse>#{source.</#noparse>${mysqlAndJavaField.javaField.name}<#noparse>}</#noparse><#if mysqlAndJavaField_has_next>,</#if>
+                </#if>
             </#list>
         </set>
         <where>
             1 =1
              <#list mysqlAndJavaFields as mysqlAndJavaField>
-             <if test="target.${mysqlAndJavaField.javaField.name} != null and target.${mysqlAndJavaField.javaField.name} != '' ">
+             <if test="target.${mysqlAndJavaField.javaField.name} != null">
                  AND `${mysqlAndJavaField.mysqlField.name}` = <#noparse>#{target.</#noparse>${mysqlAndJavaField.javaField.name}<#noparse>}</#noparse>
              </if>
              </#list>
@@ -99,7 +103,7 @@
         <where>
             1 =1
                <#list mysqlAndJavaFields as mysqlAndJavaField>
-                <if test="${mysqlAndJavaField.javaField.name} != null and ${mysqlAndJavaField.javaField.name} != '' ">
+                <if test="${mysqlAndJavaField.javaField.name} != null">
                     AND `${mysqlAndJavaField.mysqlField.name}` = <#noparse>#{</#noparse>${mysqlAndJavaField.javaField.name}<#noparse>}</#noparse>
                 </if>
                </#list>
@@ -107,40 +111,6 @@
     </delete>
 
 <#if javaTable.primaryKeys?? && (javaTable.primaryKeys?size>0) >
-
-     <update id="updateAllFieldByPrimaryKey"
-             parameterType="${javaTable.classVoPackage}">
-         UPDATE `${mysqlTable.tableName}`
-         <set>
-            <#list mysqlAndJavaFields as mysqlAndJavaField>
-                    `${mysqlAndJavaField.mysqlField.name}` = <#noparse>#{</#noparse>${mysqlAndJavaField.javaField.name}<#noparse>}</#noparse> <#if mysqlAndJavaField_has_next>,</#if>
-            </#list>
-         </set>
-         <where>
-             1 =1
-            <#list mysqlAndJavaKeys as mysqlAndJavaField>
-             AND `${mysqlAndJavaField.mysqlField.name}` = <#noparse>#{</#noparse>${mysqlAndJavaField.javaField.name}<#noparse>}</#noparse>
-            </#list>
-         </where>
-     </update>
-
-     <update id="updateBaseFieldByPrimaryKey"
-             parameterType="${javaTable.classVoPackage}">
-         UPDATE `${mysqlTable.tableName}`
-         <set>
-                 <#list mysqlAndJavaFields as mysqlAndJavaField>
-                     <if test="${mysqlAndJavaField.javaField.name} != null and ${mysqlAndJavaField.javaField.name} != '' ">
-                         `${mysqlAndJavaField.mysqlField.name}` = <#noparse>#{</#noparse>${mysqlAndJavaField.javaField.name}<#noparse>}</#noparse> <#if mysqlAndJavaField_has_next>,</#if>
-                     </if>
-                 </#list>
-         </set>
-         <where>
-             1 =1
-                 <#list mysqlAndJavaKeys as mysqlAndJavaField>
-                  AND `${mysqlAndJavaField.mysqlField.name}` = <#noparse>#{</#noparse>${mysqlAndJavaField.javaField.name}<#noparse>}</#noparse>
-                 </#list>
-         </where>
-     </update>
 
      <select id="queryByPrimaryKey" resultMap="resultMap"
              resultType="${javaTable.classVoPackage}">

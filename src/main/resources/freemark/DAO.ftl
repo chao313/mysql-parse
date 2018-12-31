@@ -57,14 +57,6 @@ public interface ${javaTable.classDAOName} {
 
 
  <#if javaTable.primaryKeys?? && (javaTable.primaryKeys?size>0) >
-    /**
-     * update all field by PrimaryKey
-     * <p>
-     * 会更新指定主键的所有非主键字段(字段包括null)
-     * <#list javaTable.primaryKeys as field><p>
-     * ${field.name} : ${field.comment}</#list>
-     */
-    int updateAllFieldByPrimaryKey(${javaTable.tableName}Vo vo);
 
     /**
      * 根据PrimaryKey查询
@@ -72,15 +64,6 @@ public interface ${javaTable.classDAOName} {
      * ${field.name} : ${field.comment}</#list>
      */
     ${javaTable.tableName}Vo queryByPrimaryKey(<#list javaTable.primaryKeys as field>${field.type} ${field.name}<#if field_has_next>,</#if></#list>);
-
-    /**
-     * update all field by PrimaryKey
-     * <p>
-     * 会更新指定主键的所有非主键字段(字段非null)
-     * <#list javaTable.primaryKeys as field><p>
-     * ${field.name} : ${field.comment}</#list>
-     */
-    int updateBaseFieldByPrimaryKey(${javaTable.tableName}Vo vo);
 
     /**
      * 根据PrimaryKey删除

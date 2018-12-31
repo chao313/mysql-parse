@@ -94,19 +94,6 @@ public class ${javaTable.classServiceImplName} implements ${javaTable.classServi
  <#if javaTable.primaryKeys?? && (javaTable.primaryKeys?size>0) >
 
     /**
-     * update all field by PrimaryKey
-     * <p>
-     * 会更新指定主键的所有非主键字段(字段包括null)
-     * <#list javaTable.primaryKeys as field><p>
-     * ${field.name}  ${field.comment}</#list>
-     */
-    @Override
-    public boolean updateAllFieldByPrimaryKey(${javaTable.tableName}Vo vo) {
-
-        return dao.updateAllFieldByPrimaryKey(vo) > 0 ? true : false;
-    }
-
-    /**
      * 根据PrimaryKey查询
      * <#list javaTable.primaryKeys as field><p>
      * ${field.name}  ${field.comment}</#list>
@@ -115,20 +102,6 @@ public class ${javaTable.classServiceImplName} implements ${javaTable.classServi
     public ${javaTable.tableName}Vo queryByPrimaryKey(<#list javaTable.primaryKeys as field>${field.type} ${field.name}<#if field_has_next>, </#if></#list>) {
 
         return dao.queryByPrimaryKey(<#list javaTable.primaryKeys as field>${field.name}<#if field_has_next>, </#if></#list>);
-
-    }
-
-    /**
-     * update all field by PrimaryKey
-     * <p>
-     * 会更新指定主键的所有非主键字段(字段非null)
-     * <#list javaTable.primaryKeys as field><p>
-     * ${field.name}  ${field.comment}</#list>
-     */
-    @Override
-    public boolean updateBaseFieldByPrimaryKey(${javaTable.tableName}Vo vo) {
-
-        return dao.updateBaseFieldByPrimaryKey(vo) > 0 ? true : false;
 
     }
 
