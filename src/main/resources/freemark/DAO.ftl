@@ -40,9 +40,15 @@ public interface ${javaTable.classDAOName} {
     List<${javaTable.tableName}Vo> queryBase(${javaTable.tableName}Vo query);
 
     /**
-     * update base
+     * update base (exclude value is null or "")
      */
     int updateBase(@Param(value = "source") ${javaTable.tableName}Vo source, @Param(value = "target") ${javaTable.tableName}Vo target);
+
+
+    /**
+     * update base (include value is null or "")
+     */
+    int updateBaseIncludeNull(@Param(value = "source") ${javaTable.tableName}Vo source, @Param(value = "target") ${javaTable.tableName}Vo target);
 
     /**
      * 删除base

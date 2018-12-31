@@ -62,12 +62,22 @@ public class ${javaTable.classServiceImplName} implements ${javaTable.classServi
     }
 
     /**
-     * update base
+     * update base (exclude value is null or "")
      */
     @Override
     public boolean updateBase(${javaTable.tableName}Vo source, ${javaTable.tableName}Vo target) {
 
         return dao.updateBase(source, target) > 0 ? true : false;
+
+    }
+
+    /**
+     * update base (include value is null or "")
+     */
+    @Override
+    public boolean updateBaseIncludeNull(${javaTable.tableName}Vo source, ${javaTable.tableName}Vo target) {
+
+        return dao.updateBaseIncludeNull(source, target) > 0 ? true : false;
 
     }
 

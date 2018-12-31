@@ -41,9 +41,14 @@ public interface ${javaTable.classServiceName} {
 
 
     /**
-     * update base
+     * update base (exclude value is null or "")
      */
     boolean updateBase(${javaTable.tableName}Vo source, ${javaTable.tableName}Vo target);
+
+    /**
+     * update base (include value is null or "")
+     */
+    boolean updateBaseIncludeNull(${javaTable.tableName}Vo source, ${javaTable.tableName}Vo target);
 
     /**
      * 删除base
