@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Mysql 管理</title>
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
 <div id="body">
@@ -22,7 +22,7 @@
                     </select>
                 </div>
             </div>
-
+            <!--主表-->
             <div class="form-group">
                 <label class="col-sm-4 control-label">{{chooseTableTxt}}</label>
                 <div class="col-sm-4">
@@ -33,21 +33,7 @@
                     </select>
                 </div>
             </div>
-
-
-            <div class="form-group">
-                <label class="col-sm-4 control-label">{{chooseColumnTxt}}</label>
-                <div class="col-sm-4">
-                    <!--<input type="text" class="form-control" v-model="chooseColumnValue"-->
-                    <!--v-bind:placeholder="chooseColumnPlaceholder">@change="selectTable"-->
-                    <select class="form-control">
-                        <option disabled selected hidden>{{chooseColumnPlaceholder}}
-                        </option>
-                        <option v-for="item in columns" v-bind:value="item.columnName">{{item.columnName}}</option>
-                    </select>
-                </div>
-            </div>
-
+            <!--package-->
             <div class="form-group">
                 <label class="col-sm-4 control-label">{{packageTxt}}</label>
                 <div class="col-sm-4">
@@ -55,21 +41,58 @@
                            v-bind:placeholder="packagePlaceholder">
                 </div>
             </div>
+            <!--主表字段-->
+            <div class="form-group">
+                <label class="col-sm-4 control-label">{{chooseColumnTxt}}</label>
+                <div class="col-sm-2">
+                    <select class="form-control" @change="selectFieldBase">
+                        <option disabled selected hidden>{{chooseColumnPlaceholder}}
+                        </option>
+                        <option v-for="item in columns" v-bind:value="item.columnName">{{item.columnName}}</option>
+                    </select>
+                </div>
+            </div>
+            <!--选择关联表-->
+            <div class="form-group">
+                <label class="col-sm-4 control-label">{{chooseTableAssociationTxt}}</label>
+                <div class="col-sm-4">
+                    <select class="form-control" @change="selectAssociationTable">
+                        <option disabled selected hidden>{{chooseTableAssociationPlaceholder}}
+                        </option>
+                        <option v-for="item in tablesAssociation" v-bind:value="item.tableName">{{item.tableName}}
+                        </option>
+                    </select>
+                </div>
+            </div>
+            <!--选择关联字段-->
+            <div class="form-group">
+                <label class="col-sm-4 control-label">{{chooseColumnAssociationTxt}}</label>
+                <div class="col-sm-4">
+                    <select class="form-control" @change="selectFieldBaseAssociation">
+                        <option disabled selected hidden>{{chooseColumnAssociationTxt}}
+                        </option>
+                        <option v-for="item in columnsAssociation" v-bind:value="item.columnName">{{item.columnName}}
+                        </option>
+                    </select>
+                </div>
+            </div>
 
 
             <div class="form-group sub">
                 <div class="col-sm-8 control-label">
-                    <!--<button type="button" class="btn btn-info" v-on:click="test_connect"-->
-                    <!--v-bind:disabled="connectDisabled">Test Connect-->
-                    <!--</button>-->
-                    <!--<button type="button" class="btn btn-primary" v-on:click="save"-->
-                    <!--v-bind:disabled="saveDisabled">保存-->
-                    <!--</button>-->
                     <button type="button" class="btn btn-primary" v-on:click="generate"
-                            v-bind:disabled="saveDisabled">生成
+                            v-bind:disabled="saveDisabled">生成主表
                     </button>
                     <button type="button" class="btn btn-primary" v-on:click="download"
-                            v-bind:disabled="saveDisabled">下载
+                            v-bind:disabled="saveDisabled">下载主表
+                    </button>
+                </div>
+                <div class="col-sm-8 control-label">
+                    <button type="button" class="btn btn-primary" v-on:click="generateAssociation"
+                            v-bind:disabled="saveDisabled">生成关联表
+                    </button>
+                    <button type="button" class="btn btn-primary" v-on:click="downloadAssociation"
+                            v-bind:disabled="saveDisabled">下载关联表
                     </button>
                 </div>
             </div>
@@ -149,6 +172,16 @@
             columns: [],
             chooseColumnValue: "",
 
+            chooseTableAssociationTxt: "关联数据表",
+            chooseTableAssociationPlaceholder: "请选择关联数据表",
+            tablesAssociation: [],
+            chooseTableAssociationValue: "",
+
+            chooseColumnAssociationTxt: "关联字段",
+            chooseColumnAssociationPlaceholder: "请选择关联字段",
+            columnsAssociation: [],
+            chooseColumnAssociationValue: "",
+
 
             packageTxt: "package",
             packagePlaceholder: "请输入package, eg. demo.xx",
@@ -206,6 +239,7 @@
                             if (data.code == 0) {
                                 if (data.content != null) {
                                     this.tables = data.content;
+                                    this.tablesAssociation = data.content;//目前只支持同库
                                 } else {
                                     alert(data.msg);
                                 }
@@ -231,6 +265,31 @@
                             if (data.code == 0) {
                                 if (data.content != null) {
                                     this.columns = data.content;
+                                } else {
+                                    alert(data.msg);
+                                }
+                            } else {
+                                alert(this.alertErrorValue)
+                            }
+                        }
+                    );
+            }, selectAssociationTable: function (ele) {
+                //当选择关联数据库时
+                // console.log(ele);
+                this.chooseTableAssociationValue = ele.target.value;
+                //调用获取tables的函数
+                this.getAllAssociationColumns();
+
+            }, getAllAssociationColumns: function () {
+                //选择数据库选项后初始化tables
+                this.$http.get(host + '/mybatis/getAllColumns?dataBase='
+                    + this.chooseDataBaseValue + '&tableName=' + this.chooseTableValue)
+                    .then(
+                        function success(res) {
+                            var data = res.body;
+                            if (data.code == 0) {
+                                if (data.content != null) {
+                                    this.columnsAssociation = data.content;
                                 } else {
                                     alert(data.msg);
                                 }
@@ -275,6 +334,53 @@
                     + '&ptableName=' + this.chooseTableValue
                     + '&basePackage=' + this.packageValue;
                 window.open(downloadUrl);
+
+            }, generateAssociation: function () {
+                //选择数据库选项后初始化tables
+                this.$http.get(host + '/generate/generateFileAssociation',
+                    {
+                        params: {
+                            dataBase: this.chooseDataBaseValue,
+                            basePackage: this.packageValue,
+                            tableBase: this.chooseTableValue,
+                            fieldBase: this.chooseColumnValue,
+                            tableAssociation: this.chooseTableAssociationValue,
+                            fieldAssociation: this.chooseColumnAssociationValue
+                        }
+                    })
+                    .then(
+                        function success(res) {
+                            var data = res.body;
+                            if (data.code == 0) {
+                                if (data.content != null) {
+                                    // this.columns = data.content;
+                                    this.voValue = data.content.classVoStr;
+                                    this.DaoValue = data.content.classDaoStr;
+                                    this.ServiceValue = data.content.classServiceStr;
+                                    this.ServiceImplValue = data.content.classServiceImplStr;
+                                    this.MapperValue = data.content.mapperStr;
+                                } else {
+                                    alert(data.msg);
+                                }
+                            } else {
+                                alert(data.msg)
+                            }
+                        }
+                    );
+            }, downloadAssociation: function () {
+                //选择数据库选项后初始化tables
+                var downloadUrl = host + '/generate/download?'
+                    + 'dataBase=' + this.chooseDataBaseValue
+                    + '&ptableName=' + this.chooseTableValue
+                    + '&basePackage=' + this.packageValue;
+                window.open(downloadUrl);
+
+            }, selectFieldBase: function (ele) {
+                this.chooseColumnValue = ele.target.value;
+
+            }, selectFieldBaseAssociation: function (ele) {
+
+                this.chooseColumnAssociationValue = ele.target.value;
 
             }
         }

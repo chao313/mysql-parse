@@ -39,6 +39,9 @@ public class JavaTable {
     String tableComment;               //TABLE_COMMENT
     private List<JavaField> javaFields;//java字段信息
     private List<JavaField> primaryKeys;//java key
+    private MysqlTable mysqlTable;//java key
+    private List<MysqlAndJavaField> mysqlAndJavaFields;//存放mysl和java的对应map
+    private List<MysqlAndJavaField> mysqlAndJavaKeys;//存放mysl和java的key的对应map
     private List<String> javaFieldTypeNameUnique;//java字段Type - 去掉重复字段
     private List<String> primaryKeyTypeNameUnique;//java key Type - 去掉重复字段
     private String basePackage;
@@ -79,6 +82,7 @@ public class JavaTable {
         assert (null != mysqlTable.getMysqlFields());
         JavaTable javaTable = new JavaTable();
         javaTable.setBasePackage(basePackage);
+        javaTable.setMysqlTable(mysqlTable);
         BeanUtils.copyProperties(mysqlTable, javaTable);//复制到javatable里面
         javaTable.setTableName(CamelUtils.toUpperCaseFirstOne(CamelUtils.underline2Camel(javaTable.getTableName())));
         List<JavaField> javaFields = new ArrayList<>();
@@ -138,6 +142,24 @@ public class JavaTable {
             }
         });
         javaTable.setPrimaryKeyTypeNameUnique(primaryKeyTypeNameUnique);
+
+//        //处理mysqlAndJavaFields和primaryKeys
+//        List<MysqlAndJavaField> mysqlAndJavaFields = new ArrayList<>();
+//        for (int i = 0; i < mysqlTable.getMysqlFields().size(); i++) {
+//            MysqlAndJavaField mysqlAndJavaField = new MysqlAndJavaField();
+//            mysqlAndJavaField.setJavaField(javaTable.getJavaFields().get(i));
+//            mysqlAndJavaField.setMysqlField(mysqlTable.getMysqlFields().get(i));
+//            mysqlAndJavaFields.add(mysqlAndJavaField);
+//        }
+//        List<MysqlAndJavaField> mysqlAndJavaKeys = new ArrayList<>();
+//        for (int i = 0; i < mysqlTable.getPrimaryKeys().size(); i++) {
+//            MysqlAndJavaField mysqlAndJavaField = new MysqlAndJavaField();
+//            mysqlAndJavaField.setJavaField(javaTable.getPrimaryKeys().get(i));
+//            mysqlAndJavaField.setMysqlField(mysqlTable.getPrimaryKeys().get(i));
+//            mysqlAndJavaKeys.add(mysqlAndJavaField);
+//        }
+//        javaTable.setMysqlAndJavaFields(mysqlAndJavaFields);
+//        javaTable.setMysqlAndJavaKeys(mysqlAndJavaKeys);
 
         return javaTable;
     }

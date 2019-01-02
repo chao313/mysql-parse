@@ -3,6 +3,7 @@ package demo.spring.boot.demospringboot.controller.generate;
 import demo.spring.boot.demospringboot.framework.Code;
 import demo.spring.boot.demospringboot.framework.Response;
 import demo.spring.boot.demospringboot.parse.mysql.parse.db.GenerateFile;
+import demo.spring.boot.demospringboot.parse.mysql.parse.vo.AssociationRequest;
 import demo.spring.boot.demospringboot.parse.mysql.parse.vo.JavaTable;
 import demo.spring.boot.demospringboot.util.FileUtils;
 import demo.spring.boot.demospringboot.util.ZipUtils;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.*;
+import java.util.List;
 
 /**
  * 2018/4/6    Created by   juan
@@ -50,64 +52,6 @@ public class GenerateController {
         return response;
 
     }
-
-//    @GetMapping("/generateFileAndCreate")
-//    public Response<JavaTable> generateFileAndCreate(@RequestParam(value = "dataBase") String dataBase,
-//                                                     @RequestParam(value = "ptableName") String ptableName,
-//                                                     @RequestParam(value = "basePackage") String basePackage) {
-//        Response<JavaTable> response = new Response<>();
-//        try {
-//            BufferedOutputStream voOutputStream = null;
-//            BufferedOutputStream daoOutputStream = null;
-//            BufferedOutputStream serviceOutputStream = null;
-//            BufferedOutputStream serviceImplOutputStream = null;
-//            BufferedOutputStream mapperFileOutputStream = null;
-//            JavaTable javaTable = GenerateFile.GenerateFile(dataBase, ptableName, basePackage);
-//
-//
-//            //创建文件夹
-//            new File(javaTable.getBasePackagePath()).mkdirs();
-//
-//            File voFile = new File(javaTable.getClassVoPath());
-//            voFile.createNewFile();
-//            voOutputStream = new BufferedOutputStream(new FileOutputStream(voFile));
-//            voOutputStream.write(javaTable.getClassVoStr().getBytes());
-//            voOutputStream.flush();
-//
-//            File daoFile = new File(javaTable.getClassDaoPath());
-//            daoFile.createNewFile();
-//            daoOutputStream = new BufferedOutputStream(new FileOutputStream(daoFile));
-//            daoOutputStream.write(javaTable.getClassDaoStr().getBytes());
-//            daoOutputStream.flush();
-//
-//            File serviceFile = new File(javaTable.getClassServiceImplPath());
-//            serviceFile.createNewFile();
-//            serviceOutputStream = new BufferedOutputStream(new FileOutputStream(serviceFile));
-//            serviceOutputStream.write(javaTable.getClassDaoStr().getBytes());
-//            serviceOutputStream.flush();
-//
-//            File serviceImplFile = new File(javaTable.getClassServiceImplPath());
-//            serviceFile.createNewFile();
-//            serviceImplOutputStream = new BufferedOutputStream(new FileOutputStream(serviceImplFile));
-//            serviceImplOutputStream.write(javaTable.getClassDaoStr().getBytes());
-//            serviceImplOutputStream.flush();
-//
-//            File mapperFile = new File(javaTable.getMapperPath());
-//            mapperFile.createNewFile();
-//            mapperFileOutputStream = new BufferedOutputStream(new FileOutputStream(mapperFile));
-//            mapperFileOutputStream.write(javaTable.getMapperStr().getBytes());
-//            mapperFileOutputStream.flush();
-//
-//
-//        } catch (Exception e) {
-//            response.setCode(Code.System.FAIL);
-//            response.setMsg(e.getMessage());
-//            response.addException(e);
-//            LOGGER.error("异常 ：{} ", e.getMessage(), e);
-//        }
-//        return response;
-//
-//    }
 
 
     @GetMapping("/download")
@@ -189,7 +133,7 @@ public class GenerateController {
 
         File file = new File(tmpPath + zipFileName);
         OutputStream outputStream = new FileOutputStream(file);
-        ZipUtils.toZip(tmpPath+dirPath, outputStream, true);
+        ZipUtils.toZip(tmpPath + dirPath, outputStream, true);
         outputStream.flush();
         outputStream.close();
 
