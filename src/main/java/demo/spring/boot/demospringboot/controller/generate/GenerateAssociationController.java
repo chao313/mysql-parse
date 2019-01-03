@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 
 import javax.ws.rs.BeanParam;
+import java.util.List;
 
 /**
  * 2018/4/6    Created by   juan
@@ -24,16 +25,42 @@ public class GenerateAssociationController {
 
     private static final String tmpPath = "tmp/";
 
+//    @PostMapping("/generateFile")
+//    public Response<JavaTable> GenerateFileAssociation(@RequestBody BaseAndAssociationRequest request) {
+//        Response<JavaTable> response = new Response<>();
+//        try {
+//            JavaTable javaTable = GenerateFile.GenerateFileAssociation(request.getDataBase(),
+//                    request.getTableBase(),
+//                    request.getBasePackage(),
+//                    request.getAssociationRequests());
+//            response.setCode(Code.System.OK);
+//            response.setContent(javaTable);
+//        } catch (Exception e) {
+//            response.setCode(Code.System.FAIL);
+//            response.setMsg(e.getMessage());
+//            response.addException(e);
+//            LOGGER.error("异常 ：{} ", e.getMessage(), e);
+//        }
+//        return response;
+//
+//    }
+
     @PostMapping("/generateFile")
-    public Response<JavaTable> GenerateFileAssociation(@RequestBody BaseAndAssociationRequest request) {
+    public Response<JavaTable> GenerateFileAssociation(@RequestParam(value = "dataBase") String dataBase,
+                                                       @RequestParam(value = "basePackage") String basePackage,
+                                                       @RequestParam(value = "tableBase") String tableBase,
+                                                       @RequestParam(value = "hasChooseAssociationLeftTable[]") String[] hasChooseAssociationLeftTable,
+                                                       @RequestParam(value = "hasChooseAssociationLeftField[]") String[] hasChooseAssociationLeftField,
+                                                       @RequestParam(value = "hasChooseAssociationRightTable[]") String[] hasChooseAssociationRightTable,
+                                                       @RequestParam(value = "hasChooseAssociationRightField[]") String[] hasChooseAssociationRightField) {
         Response<JavaTable> response = new Response<>();
         try {
-            JavaTable javaTable = GenerateFile.GenerateFileAssociation(request.getDataBase(),
-                    request.getTableBase(),
-                    request.getBasePackage(),
-                    request.getAssociationRequests());
-            response.setCode(Code.System.OK);
-            response.setContent(javaTable);
+//            JavaTable javaTable = GenerateFile.GenerateFileAssociation(request.getDataBase(),
+//                    request.getTableBase(),
+//                    request.getBasePackage(),
+//                    request.getAssociationRequests());
+//            response.setCode(Code.System.OK);
+//            response.setContent(javaTable);
         } catch (Exception e) {
             response.setCode(Code.System.FAIL);
             response.setMsg(e.getMessage());

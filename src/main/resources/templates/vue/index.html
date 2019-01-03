@@ -63,41 +63,47 @@
                 </div>
             </div>
             <!--关联操作-->
-            <div class="form-group" v-if="chooseAssociation.length>0" v-for="item in chooseAssociation">
+            <div class="form-group" v-if="chooseAssociation.length>0" v-for="(itemTmp,index) in chooseAssociation">
                 <label class="col-sm-2 control-label">{{chooseAssociationTxt}}</label>
                 <div class="col-sm-2">
-                    <select class="form-control" @change="selectFieldBase">
+                    <select class="form-control" @change="chooseAssociationLeftTableFunction">
                         <option disabled selected hidden>{{chooseAssociationLeftTablePlaceholder}}
                         </option>
-                        <option v-for="item in columns" v-bind:value="item.columnName">{{item.columnName}}</option>
+                        <option v-for="item in chooseAssociationLeftTable[index+1]" v-bind:value="item.tableName">
+                            {{item.tableName}}
+                        </option>
                     </select>
                 </div>
                 <div class="col-sm-2">
-                    <select class="form-control" @change="selectFieldBase">
+                    <select class="form-control" @change="selectAssociationLeftFieldFunction">
                         <option disabled selected hidden>{{chooseAssociationLeftFieldPlaceholder}}
                         </option>
-                        <option v-for="item in columns" v-bind:value="item.columnName">{{item.columnName}}</option>
+                        <option v-for="item in chooseAssociationLeftField[index+1]" v-bind:value="item.columnName">
+                            {{item.columnName}}
+                        </option>
                     </select>
                 </div>
                 <div class="col-sm-2">
-                    <select class="form-control" @change="selectAssociationTable">
+                    <select class="form-control" @change="selectAssociationRightTableFunction">
                         <option disabled selected hidden>{{chooseAssociationRightTablePlaceholder}}
                         </option>
-                        <option v-for="item in tablesAssociation" v-bind:value="item.tableName">{{item.tableName}}
+                        <option v-for="item in chooseAssociationRightTable[index+1]" v-bind:value="item.tableName">
+                            {{item.tableName}}
                         </option>
                     </select>
                 </div>
                 <div class="col-sm-2">
-                    <select class="form-control" @change="selectAssociationTable">
+                    <select class="form-control" @change="selectAssociationRightFieldFunction">
                         <option disabled selected hidden>{{chooseAssociationRightFieldPlaceholder}}
                         </option>
-                        <option v-for="item in tablesAssociation" v-bind:value="item.tableName">{{item.tableName}}
+                        <option v-for="item in chooseAssociationRightField[index+1]" v-bind:value="item.columnName">
+                            {{item.columnName}}
                         </option>
                     </select>
                 </div>
             </div>
             <div class="form-group sub">
-                <div class="col-sm-8 control-label" v-if="chooseAssociation.length>0">
+                <div class="col-sm-8 control-label" v-if="chooseAssociation.length==0">
                     <button type="button" class="btn btn-primary" v-on:click="generate"
                             v-bind:disabled="saveDisabled">生成主表
                     </button>
@@ -192,9 +198,16 @@
             chooseAssociationRightFieldPlaceholder: "添加关联右字段",
 
             chooseAssociation: [],//用来显示数量
-            chooseAssociationTable: [[]],//记录关联的表
-            chooseAssociationField: [[]],//记录关联的字段
+            chooseAssociationLeftTable: [[]],//记录可选关联的左表
+            chooseAssociationLeftField: [[]],//记录关联的左字段
+            chooseAssociationRightTable: [[]],//记录关联的右表
+            chooseAssociationRightField: [[]],//记录关联的右字段
             chooseAssociationI: 0,       //记录循环的次数
+
+            hasChooseAssociationLeftTable: [],//记录已选关联的左表
+            hasChooseAssociationLeftField: [],//记录已选关联的左字段
+            hasChooseAssociationRightTable: [],//记录已选关联的右表
+            hasChooseAssociationRightField: [],//记录已选关联的右字段
 
 
             chooseColumnTxt: "字段",
@@ -367,17 +380,16 @@
 
             }, generateAssociation: function () {
                 //选择数据库选项后初始化tables
-                this.$http.get(host + '/generate/generateFileAssociation',
+                this.$http.post(host + '/generateAssociation/generateFile',
                     {
-                        params: {
-                            dataBase: this.chooseDataBaseValue,
-                            basePackage: this.packageValue,
-                            tableBase: this.chooseTableValue,
-                            fieldBase: this.chooseColumnValue,
-                            tableAssociation: this.chooseTableAssociationValue,
-                            fieldAssociation: this.chooseColumnAssociationValue
-                        }
-                    })
+                        "dataBase": this.chooseDataBaseValue,
+                        "basePackage": this.packageValue,
+                        "tableBase": this.chooseTableValue,
+                        "hasChooseAssociationLeftTable": this.hasChooseAssociationLeftTable,
+                        "hasChooseAssociationLeftField": this.hasChooseAssociationLeftField,
+                        "hasChooseAssociationRightTable": this.hasChooseAssociationRightTable,
+                        "hasChooseAssociationRightField": this.hasChooseAssociationRightField
+                    }, {emulateJSON: true})
                     .then(
                         function success(res) {
                             var data = res.body;
@@ -413,15 +425,25 @@
                 this.chooseColumnAssociationValue = ele.target.value;
 
             }, addAssociation: function () {//添加关联关系
-
-                console.log("之前数据")
-                console.log(this.chooseAssociation)
                 this.chooseAssociation.push(1);
-                console.log("之后数据")
-                console.log(this.chooseAssociation)
-
+                this.chooseAssociationLeftTable.push(this.tables);
+                this.chooseAssociationLeftField.push(this.columns);
+                this.chooseAssociationRightTable.push(this.tables);
+                this.chooseAssociationRightField.push(this.columns);
+                console.info(this.tables);
             }, delAssociation: function () {
                 this.chooseAssociation.pop();
+            }, chooseAssociationLeftTableFunction: function (ele) {
+                this.hasChooseAssociationLeftTable.push(ele.target.value);
+
+            }, selectAssociationLeftFieldFunction: function (ele) {
+                this.hasChooseAssociationLeftField.push(ele.target.value);
+
+            }, selectAssociationRightTableFunction: function (ele) {
+                this.hasChooseAssociationRightTable.push(ele.target.value);
+
+            }, selectAssociationRightFieldFunction: function (ele) {
+                this.hasChooseAssociationRightField.push(ele.target.value);
             }
         }
     });
