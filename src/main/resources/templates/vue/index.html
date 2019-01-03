@@ -1,5 +1,10 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:v-bind="http://www.w3.org/1999/xhtml" xmlns:v-on="http://www.w3.org/1999/xhtml">
+<style>
+    .add_img {
+        width: 30px;
+    }
+</style>
 <head>
     <meta charset="UTF-8">
     <title>Mysql 管理</title>
@@ -41,43 +46,48 @@
                            v-bind:placeholder="packagePlaceholder">
                 </div>
             </div>
-            <!--主表字段-->
+            <!--添加关联按钮-->
             <div class="form-group">
-                <label class="col-sm-4 control-label">{{chooseColumnTxt}}</label>
+                <div class="col-sm-4">
+                    <label class="col-sm-12 control-label"><img src="../+.png" class="add_img"
+                                                                v-on:click="addAssociation"/></label>
+                </div>
+            </div>
+            <!--关联操作-->
+            <div class="form-group add">
+                <label class="col-sm-2 control-label">{{chooseAssociationTxt}}</label>
                 <div class="col-sm-2">
                     <select class="form-control" @change="selectFieldBase">
-                        <option disabled selected hidden>{{chooseColumnPlaceholder}}
+                        <option disabled selected hidden>{{chooseAssociationLeftTablePlaceholder}}
                         </option>
                         <option v-for="item in columns" v-bind:value="item.columnName">{{item.columnName}}</option>
                     </select>
                 </div>
-            </div>
-            <!--选择关联表-->
-            <div class="form-group">
-                <label class="col-sm-4 control-label">{{chooseTableAssociationTxt}}</label>
-                <div class="col-sm-4">
+                <div class="col-sm-2">
+                    <select class="form-control" @change="selectFieldBase">
+                        <option disabled selected hidden>{{chooseAssociationLeftFieldPlaceholder}}
+                        </option>
+                        <option v-for="item in columns" v-bind:value="item.columnName">{{item.columnName}}</option>
+                    </select>
+                </div>
+                =
+                <div class="col-sm-2">
                     <select class="form-control" @change="selectAssociationTable">
-                        <option disabled selected hidden>{{chooseTableAssociationPlaceholder}}
+                        <option disabled selected hidden>{{chooseAssociationRightTablePlaceholder}}
+                        </option>
+                        <option v-for="item in tablesAssociation" v-bind:value="item.tableName">{{item.tableName}}
+                        </option>
+                    </select>
+                </div>
+                <div class="col-sm-2">
+                    <select class="form-control" @change="selectAssociationTable">
+                        <option disabled selected hidden>{{chooseAssociationRightFieldPlaceholder}}
                         </option>
                         <option v-for="item in tablesAssociation" v-bind:value="item.tableName">{{item.tableName}}
                         </option>
                     </select>
                 </div>
             </div>
-            <!--选择关联字段-->
-            <div class="form-group">
-                <label class="col-sm-4 control-label">{{chooseColumnAssociationTxt}}</label>
-                <div class="col-sm-4">
-                    <select class="form-control" @change="selectFieldBaseAssociation">
-                        <option disabled selected hidden>{{chooseColumnAssociationTxt}}
-                        </option>
-                        <option v-for="item in columnsAssociation" v-bind:value="item.columnName">{{item.columnName}}
-                        </option>
-                    </select>
-                </div>
-            </div>
-
-
             <div class="form-group sub">
                 <div class="col-sm-8 control-label">
                     <button type="button" class="btn btn-primary" v-on:click="generate"
@@ -166,6 +176,18 @@
             chooseTablePlaceholder: "请选择数据表",
             tables: [],
             chooseTableValue: "",
+
+            chooseAssociationTxt: "添加关联",
+            chooseAssociationLeftTablePlaceholder: "添加关联左表",
+            chooseAssociationLeftFieldPlaceholder: "添加关联左字段",
+            chooseAssociationRightTablePlaceholder: "添加关联右表",
+            chooseAssociationRightFieldPlaceholder: "添加关联右字段",
+
+            chooseAssociation:[[]],//用来显示数量
+            chooseAssociationTable: [[]],//记录关联的表
+            chooseAssociationField: [[]],//记录关联的字段
+            chooseAssociationI: 0,       //记录循环的次数
+
 
             chooseColumnTxt: "字段",
             chooseColumnPlaceholder: "请选择字段",
@@ -381,6 +403,9 @@
             }, selectFieldBaseAssociation: function (ele) {
 
                 this.chooseColumnAssociationValue = ele.target.value;
+
+            }, addAssociation: function () {//添加关联关系
+
 
             }
         }
