@@ -4,6 +4,11 @@
     .add_img {
         width: 30px;
     }
+
+    .del_img {
+        width: 30px;
+    }
+
 </style>
 <head>
     <meta charset="UTF-8">
@@ -52,9 +57,13 @@
                     <label class="col-sm-12 control-label"><img src="../+.png" class="add_img"
                                                                 v-on:click="addAssociation"/></label>
                 </div>
+                <div class="col-sm-4">
+                    <label class="col-sm-12 control-label"><img src="../-.png" class="del_img"
+                                                                v-on:click="delAssociation"/></label>
+                </div>
             </div>
             <!--关联操作-->
-            <div class="form-group add">
+            <div class="form-group" v-if="chooseAssociation.length>0" v-for="item in chooseAssociation">
                 <label class="col-sm-2 control-label">{{chooseAssociationTxt}}</label>
                 <div class="col-sm-2">
                     <select class="form-control" @change="selectFieldBase">
@@ -70,7 +79,6 @@
                         <option v-for="item in columns" v-bind:value="item.columnName">{{item.columnName}}</option>
                     </select>
                 </div>
-                =
                 <div class="col-sm-2">
                     <select class="form-control" @change="selectAssociationTable">
                         <option disabled selected hidden>{{chooseAssociationRightTablePlaceholder}}
@@ -183,7 +191,7 @@
             chooseAssociationRightTablePlaceholder: "添加关联右表",
             chooseAssociationRightFieldPlaceholder: "添加关联右字段",
 
-            chooseAssociation:[[]],//用来显示数量
+            chooseAssociation: [],//用来显示数量
             chooseAssociationTable: [[]],//记录关联的表
             chooseAssociationField: [[]],//记录关联的字段
             chooseAssociationI: 0,       //记录循环的次数
@@ -406,7 +414,14 @@
 
             }, addAssociation: function () {//添加关联关系
 
+                console.log("之前数据")
+                console.log(this.chooseAssociation)
+                this.chooseAssociation.push(1);
+                console.log("之后数据")
+                console.log(this.chooseAssociation)
 
+            }, delAssociation: function () {
+                this.chooseAssociation.pop();
             }
         }
     });
