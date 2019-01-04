@@ -3,7 +3,6 @@ package demo.spring.boot.demospringboot.controller.generate;
 import demo.spring.boot.demospringboot.framework.Code;
 import demo.spring.boot.demospringboot.framework.Response;
 import demo.spring.boot.demospringboot.parse.mysql.parse.db.GenerateFile;
-import demo.spring.boot.demospringboot.parse.mysql.parse.vo.AssociationRequest;
 import demo.spring.boot.demospringboot.parse.mysql.parse.vo.JavaTable;
 import demo.spring.boot.demospringboot.util.FileUtils;
 import demo.spring.boot.demospringboot.util.ZipUtils;
@@ -18,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.*;
-import java.util.List;
 
 /**
  * 2018/4/6    Created by   juan

@@ -1,14 +1,11 @@
 package ${javaTable.basePackage};
 
-<#list javaTable.javaFieldTypeNameUnique as fieldType><#if fieldType = "Timestamp" >import java.sql.Timestamp;
-</#if><#if fieldType = "Time" >import java.sql.Time;
-</#if><#if fieldType = "Date" >import java.util.Date;
-</#if></#list>
+import java.util.List;
 
 import ${javaTable.classVoPackage};
 
 /**
- * 对应的表名   :${mysqlTable.tableName}
+ * 对应的表名   :${javaTable.mysqlTable.tableName}
  * 表类型      :${javaTable.tableType}
  * 表引擎      :${javaTable.engine}
  * 表版本      :${javaTable.version}
@@ -20,35 +17,25 @@ import ${javaTable.classVoPackage};
  */
 
 
-public class ${javaTable.classVoName}AssociationVo extends ${javaTable.classVoName}Vo {
+public class ${javaTable.classVoName}AssociationVo extends ${javaTable.classVoName} {
 
-<#list javaTable.javaFields as field>
-    private ${field.type} ${field.name}; <#if field.comment?? && field.comment !=""> // ${field.comment} </#if>
+<#list javaTable.associationHashMap?keys as key>
+private List<${javaTable.associationHashMap[key].classVoName}> ${javaTable.associationHashMap[key].classVoName?uncap_first}s; <#if javaTable.associationHashMap[key].tableComment?? && javaTable.associationHashMap[key].tableComment !=""> // ${javaTable.associationHashMap[key].tableComment} </#if>
 </#list>
 
-
-<#list javaTable.javaFields as field>
-    public ${field.type} get${field.name?cap_first}() {
+<#list javaTable.associationHashMap?keys as key>
+    public ${javaTable.associationHashMap[key].field.type} get${javaTable.associationHashMap[key].classVoName?cap_first}s() {
 
         return ${field.name};
 
     }
 
-    public void set${field.name?cap_first}(${field.type} ${field.name}) {
+    public void set${javaTable.associationHashMap[key].classVoName?cap_first}s(List<${javaTable.associationHashMap[key].classVoName}> ${javaTable.associationHashMap[key].classVoName?uncap_first}s) {
 
-        this.${field.name} = ${field.name};
+        this.${javaTable.associationHashMap[key].classVoName?uncap_first}s = ${javaTable.associationHashMap[key].classVoName?uncap_first}s;
 
     }
 
 </#list>
-
-    @Override
-    public String toString() {
-        return "${javaTable.classVoName}{" +
-<#list javaTable.javaFields as field>
-                ", ${field.name} '" + ${field.name} +<#if field.type = 'String' > '\'' +</#if>
-</#list>
-                '}';
-    }
 
 }

@@ -3,13 +3,13 @@ package demo.spring.boot.demospringboot.controller.generate;
 import demo.spring.boot.demospringboot.framework.Code;
 import demo.spring.boot.demospringboot.framework.Response;
 import demo.spring.boot.demospringboot.parse.mysql.parse.db.GenerateFile;
-import demo.spring.boot.demospringboot.parse.mysql.parse.vo.BaseAndAssociationRequest;
+import demo.spring.boot.demospringboot.parse.mysql.parse.vo.AssociationTable;
 import demo.spring.boot.demospringboot.parse.mysql.parse.vo.JavaTable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 
-import javax.ws.rs.BeanParam;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -49,18 +49,29 @@ public class GenerateAssociationController {
     public Response<JavaTable> GenerateFileAssociation(@RequestParam(value = "dataBase") String dataBase,
                                                        @RequestParam(value = "basePackage") String basePackage,
                                                        @RequestParam(value = "tableBase") String tableBase,
-                                                       @RequestParam(value = "hasChooseAssociationLeftTable[]") String[] hasChooseAssociationLeftTable,
-                                                       @RequestParam(value = "hasChooseAssociationLeftField[]") String[] hasChooseAssociationLeftField,
-                                                       @RequestParam(value = "hasChooseAssociationRightTable[]") String[] hasChooseAssociationRightTable,
-                                                       @RequestParam(value = "hasChooseAssociationRightField[]") String[] hasChooseAssociationRightField) {
+                                                       @RequestParam(value = "hasChooseAssociationLeftTable[]") List<String> leftTables,
+                                                       @RequestParam(value = "hasChooseAssociationLeftField[]") List<String> leftFields,
+                                                       @RequestParam(value = "hasChooseAssociationRightTable[]") List<String> rightTables,
+                                                       @RequestParam(value = "hasChooseAssociationRightField[]") List<String> rightFields) {
         Response<JavaTable> response = new Response<>();
         try {
-//            JavaTable javaTable = GenerateFile.GenerateFileAssociation(request.getDataBase(),
-//                    request.getTableBase(),
-//                    request.getBasePackage(),
-//                    request.getAssociationRequests());
-//            response.setCode(Code.System.OK);
-//            response.setContent(javaTable);
+            //转换关系
+            List<AssociationTable> associationTables = new ArrayList<>();
+            for (int i = 0; i < leftTables.size(); i++) {
+                AssociationTable associationTable = new AssociationTable();
+                associationTable.setLeftTable(leftTables.get(i));
+                associationTable.setLeftField(leftFields.get(i));
+                associationTable.setRightTable(rightTables.get(i));
+                associationTable.setRightField(rightFields.get(i));
+                associationTables.add(associationTable);
+            }
+
+            JavaTable javaTable = GenerateFile.GenerateFileAssociation(dataBase,
+                    basePackage,
+                    basePackage,
+                    associationTables);
+            response.setCode(Code.System.OK);
+            response.setContent(javaTable);
         } catch (Exception e) {
             response.setCode(Code.System.FAIL);
             response.setMsg(e.getMessage());

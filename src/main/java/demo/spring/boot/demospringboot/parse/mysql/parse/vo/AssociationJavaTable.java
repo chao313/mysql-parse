@@ -9,6 +9,7 @@ import org.springframework.beans.BeanUtils;
 
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -34,6 +35,8 @@ public class AssociationJavaTable extends JavaTable {
     private String classAssociationVoPackage;
     private String classAssociationVoPath;
     private String classAssociationVoStr;
+
+    private HashMap<String,JavaTable> associationHashMap = new HashMap<>();//记录外键对应的JavaTable
 
 
 }
