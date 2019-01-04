@@ -88,10 +88,10 @@ public class GenerateFile {
      * @throws IOException
      * @throws TemplateException
      */
-    public static JavaTable GenerateFileAssociation(String dataBase,
-                                                    String tableBase,
-                                                    String basePackage,
-                                                    List<AssociationTable> associations)
+    public static List<AssociationJavaTable> GenerateFileAssociation(String dataBase,
+                                                                     String tableBase,
+                                                                     String basePackage,
+                                                                     List<AssociationTable> associations)
             throws SQLException, ClassNotFoundException, IOException, TemplateException {
 
         //第一步 生成所有关联的table的vo对象 - 过滤出所有的表
@@ -116,8 +116,10 @@ public class GenerateFile {
                     AssociationJavaTable.transByMysqlTable(tableBaseMysql, basePackage);//把表信息(包括字段转换为java类型)
             AssociationJavaTable associationJavaTable = new AssociationJavaTable();
             BeanUtils.copyProperties(javaTable, associationJavaTable);
+            associationJavaTable = AssociationJavaTable.parse(associationJavaTable);//数据转换
             log.info("[mysql解析]解析的表信息(包括字段):tableBaseJava:{}", associationJavaTable);
             associationJavaTables.add(associationJavaTable);
+            associationJavaTable.setAssociations(associations);
         }
 
         //把关联关系写入表中
@@ -135,19 +137,40 @@ public class GenerateFile {
                 }
             }
         }
-
-        //处理Vo
+        File templateDirFile = ResourceUtils.getFile("classpath:freemarkAssociation");
+        //处理Vo VoAssociation
         for (AssociationJavaTable associationJavaTable : associationJavaTables) {
             Map<String, Object> map = new HashMap<>();
             map.put("javaTable", associationJavaTable);
-            File templateDirFile = ResourceUtils.getFile("classpath:freemarkAssociation");
             StringBuffer voStr = FreemarkUtil.generateXmlByTemplate(map, templateDirFile, "Vo.ftl");
             associationJavaTable.setClassVoStr(voStr.toString());
             log.info("[mysql解析]Vo成功:{}", voStr.toString());
-            StringBuffer associationVoStr = FreemarkUtil.generateXmlByTemplate(map, templateDirFile, "VoAssociation.ftl");
-            associationJavaTable.setClassAssociationVoStr(associationVoStr.toString());
-            log.info("[mysql解析]associationVoStr成功:{}", associationVoStr.toString());
+            if (associationJavaTable.getAssociationHashMap().size() > 0) {
+                StringBuffer associationVoStr = FreemarkUtil.generateXmlByTemplate(map, templateDirFile, "VoAssociation.ftl");
+                associationJavaTable.setClassAssociationVoStr(associationVoStr.toString());
+                log.info("[mysql解析]associationVoStr成功:{}", associationVoStr.toString());
+                StringBuffer associationDAOStr = FreemarkUtil.generateXmlByTemplate(map, templateDirFile, "DAOAssociation.ftl");
+                associationJavaTable.setClassAssociationDAOStr(associationDAOStr.toString());
+                log.info("[mysql解析]associationDAOStr成功:{}", associationDAOStr.toString());
+
+                StringBuffer associationServiceStr = FreemarkUtil.generateXmlByTemplate(map, templateDirFile, "ServiceAssociation.ftl");
+                associationJavaTable.setClassAssociationServiceStr(associationServiceStr.toString());
+                log.info("[mysql解析]associationServiceStr成功:{}", associationServiceStr.toString());
+
+                StringBuffer associationServiceImplStr = FreemarkUtil.generateXmlByTemplate(map, templateDirFile, "ServiceImplAssociation.ftl");
+                associationJavaTable.setClassAssociationServiceImplStr(associationServiceStr.toString());
+                log.info("[mysql解析]associationServiceImplStr成功:{}", associationServiceImplStr.toString());
+            }
         }
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("javaTables", associationJavaTables);
+        map.put("javaTable", associationJavaTables.get(0));
+        StringBuffer associationMapperStr = FreemarkUtil.generateXmlByTemplate(map, templateDirFile, "MapperAssociation.ftl");
+        associationJavaTables.get(0).setMapperStr(associationMapperStr.toString());
+        log.info("[mysql解析]associationServiceImplStr成功:{}", associationMapperStr.toString());
+
+        return associationJavaTables;
 
 
 //        //
@@ -187,11 +210,10 @@ public class GenerateFile {
 //        tableBaseJava.setClassServiceImplStr(serviceImplStr.toString());
 //        log.info("[mysql解析]ServiceImpl成功{}}", serviceImplStr.toString());
 //
-//        StringBuffer mapperStr = FreemarkUtil.generateXmlByTemplate(map, templateDirFile, "Mapper.ftl");
+//        StringBuffer mapperStr = FreemarkUtil.generateXmlByTemplate(map, templateDirFile, "MapperAssociation.ftl");
 //        tableBaseJava.setMapperStr(mapperStr.toString());
 //        log.info("[mysql解析]Mapper成功{}", mapperStr.toString());
 //        return tableBaseJava;
-        return null;
 
     }
 

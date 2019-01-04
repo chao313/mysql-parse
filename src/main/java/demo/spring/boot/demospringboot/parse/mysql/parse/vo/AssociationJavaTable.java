@@ -30,13 +30,77 @@ import java.util.List;
 @Slf4j
 @ToString
 public class AssociationJavaTable extends JavaTable {
+    private List<AssociationTable> associations;
     //存放扩展类的数据
     private String classAssociationVoName;
     private String classAssociationVoPackage;
     private String classAssociationVoPath;
     private String classAssociationVoStr;
 
-    private HashMap<String,JavaTable> associationHashMap = new HashMap<>();//记录外键对应的JavaTable
+    private String classAssociationDAOName;
+    private String classAssociationDAOPackage;
+    private String classAssociationDAOPath;
+    private String classAssociationDAOStr;
 
+    private String classAssociationServiceName;
+    private String classAssociationServicePackage;
+    private String classAssociationServicePath;
+    private String classAssociationServiceStr;
 
+    private String classAssociationServiceImplName;
+    private String classAssociationServiceImplPackage;
+    private String classAssociationServiceImplPath;
+    private String classAssociationServiceImplStr;
+
+    private String associationMapperName;
+    private String associationMapperPackage;
+    private String associationMapperPath;
+    private String associationMapperStr;
+
+    private HashMap<String, JavaTable> associationHashMap = new HashMap<>();//记录外键对应的JavaTable
+
+    public static AssociationJavaTable parse(AssociationJavaTable associationJavaTable) {
+        AssociationJavaTable resultAssociationJavaTable = new AssociationJavaTable();
+        BeanUtils.copyProperties(associationJavaTable, resultAssociationJavaTable);
+
+        //处理类名
+        resultAssociationJavaTable.setClassAssociationVoName(resultAssociationJavaTable.getTableName() + "AssociationDao");
+        resultAssociationJavaTable.setClassAssociationDAOName(resultAssociationJavaTable.getTableName() + "AssociationVo");
+        resultAssociationJavaTable.setClassAssociationServiceName(resultAssociationJavaTable.getTableName() + "AssociationService");
+        resultAssociationJavaTable.setClassAssociationServiceImplName(resultAssociationJavaTable.getTableName() + "AssociationServiceImpl");
+        resultAssociationJavaTable.setAssociationMapperName(resultAssociationJavaTable.getTableName() + "AssociationMapper");
+
+        //处理类的package路径
+        resultAssociationJavaTable.setClassAssociationVoPackage(resultAssociationJavaTable.getBasePackage() + "." + resultAssociationJavaTable.getClassAssociationVoName());
+        resultAssociationJavaTable.setClassAssociationDAOPackage(resultAssociationJavaTable.getBasePackage() + "." + resultAssociationJavaTable.getClassAssociationDAOName());
+        resultAssociationJavaTable.setClassAssociationServicePackage(resultAssociationJavaTable.getBasePackage() + "." + resultAssociationJavaTable.getClassAssociationServiceName());
+        resultAssociationJavaTable.setClassAssociationServiceImplPackage(resultAssociationJavaTable.getBasePackage() + "." + resultAssociationJavaTable.getClassAssociationServiceImplName());
+
+        //处理文件的path
+        resultAssociationJavaTable.setClassAssociationVoPath(resultAssociationJavaTable.getClassAssociationVoPackage().replace(".", "/") + ".java");
+        resultAssociationJavaTable.setClassAssociationDAOPath(resultAssociationJavaTable.getClassDAOPackage().replace(".", "/") + ".java");
+        resultAssociationJavaTable.setClassAssociationServicePath(resultAssociationJavaTable.getClassServicePackage().replace(".", "/") + ".java");
+        resultAssociationJavaTable.setClassAssociationServiceImplPath(resultAssociationJavaTable.getClassServiceImplPackage().replace(".", "/") + ".java");
+        resultAssociationJavaTable.setAssociationMapperPath(resultAssociationJavaTable.getBasePackage().replace(".", "/") + "/" + resultAssociationJavaTable.getAssociationMapperName() + ".xml");
+
+        List<MysqlAndJavaField> mysqlAndJavaFields = new ArrayList<>();
+        for (int i = 0; i < associationJavaTable.getMysqlTable().getMysqlFields().size(); i++) {
+            MysqlAndJavaField mysqlAndJavaField = new MysqlAndJavaField();
+            mysqlAndJavaField.setJavaField(associationJavaTable.getJavaFields().get(i));
+            mysqlAndJavaField.setMysqlField(associationJavaTable.getMysqlTable().getMysqlFields().get(i));
+            mysqlAndJavaFields.add(mysqlAndJavaField);
+        }
+        //
+        List<MysqlAndJavaField> mysqlAndJavaKeys = new ArrayList<>();
+        for (int i = 0; i < associationJavaTable.getMysqlTable().getPrimaryKeys().size(); i++) {
+            MysqlAndJavaField mysqlAndJavaField = new MysqlAndJavaField();
+            mysqlAndJavaField.setJavaField(associationJavaTable.getPrimaryKeys().get(i));
+            mysqlAndJavaField.setMysqlField(associationJavaTable.getMysqlTable().getPrimaryKeys().get(i));
+            mysqlAndJavaKeys.add(mysqlAndJavaField);
+        }
+        resultAssociationJavaTable.setMysqlAndJavaFields(mysqlAndJavaFields);
+        resultAssociationJavaTable.setMysqlAndJavaKeys(mysqlAndJavaKeys);
+        return resultAssociationJavaTable;
+
+    }
 }

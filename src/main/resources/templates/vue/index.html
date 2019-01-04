@@ -411,10 +411,14 @@
                     );
             }, downloadAssociation: function () {
                 //选择数据库选项后初始化tables
-                var downloadUrl = host + '/generate/download?'
-                    + 'dataBase=' + this.chooseDataBaseValue
-                    + '&ptableName=' + this.chooseTableValue
-                    + '&basePackage=' + this.packageValue;
+                var downloadUrl = host + '/generateAssociation/download?'
+                    + "dataBase" + this.chooseDataBaseValue
+                    + "basePackage" + this.packageValue
+                    + "tableBase" + this.chooseTableValue
+                    + "hasChooseAssociationLeftTable" + this.hasChooseAssociationLeftTable
+                    + "hasChooseAssociationLeftField" + this.hasChooseAssociationLeftField
+                    + "hasChooseAssociationRightTable" + this.hasChooseAssociationRightTable
+                    + "hasChooseAssociationRightField" + this.hasChooseAssociationRightField
                 window.open(downloadUrl);
 
             }, selectFieldBase: function (ele) {

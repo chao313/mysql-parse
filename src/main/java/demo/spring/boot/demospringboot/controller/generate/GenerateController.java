@@ -61,7 +61,7 @@ public class GenerateController {
         String dirPath = javaTable.getBasePackagePath().indexOf("/") > 0 ? javaTable.getBasePackagePath().substring(0,
                 javaTable.getBasePackagePath().indexOf("/")) : javaTable.getBasePackagePath();
         String fileNameZip = dirPath + ".zip";
-        InputStream inputStream = this.createFilesAndZip(javaTable, fileNameZip, dirPath);
+        InputStream inputStream = ZipUtils.createFilesAndZip(javaTable, fileNameZip, dirPath);
 
         byte[] body = null;
         body = new byte[inputStream.available()];
@@ -74,80 +74,80 @@ public class GenerateController {
         return response;
     }
 
-    /**
-     * 返回的是压缩后的文件流,
-     *
-     * @param javaTable
-     * @param zipFileName 文件地址
-     * @return
-     * @throws IOException
-     */
-    private InputStream createFilesAndZip(JavaTable javaTable, String zipFileName, String dirPath) throws IOException {
-        BufferedOutputStream voOutputStream = null;
-        BufferedOutputStream daoOutputStream = null;
-        BufferedOutputStream serviceOutputStream = null;
-        BufferedOutputStream serviceImplOutputStream = null;
-        BufferedOutputStream mapperFileOutputStream = null;
-
-        //创建文件夹
-        new File(tmpPath + javaTable.getBasePackagePath()).mkdirs();
-
-        File voFile = new File(tmpPath + javaTable.getClassVoPath());
-        voFile.createNewFile();
-        voOutputStream = new BufferedOutputStream(new FileOutputStream(voFile));
-        voOutputStream.write(javaTable.getClassVoStr().getBytes());
-        voOutputStream.flush();
-
-        File daoFile = new File(tmpPath + javaTable.getClassDaoPath());
-        daoFile.createNewFile();
-        daoOutputStream = new BufferedOutputStream(new FileOutputStream(daoFile));
-        daoOutputStream.write(javaTable.getClassDaoStr().getBytes());
-        daoOutputStream.flush();
-
-        File serviceFile = new File(tmpPath + javaTable.getClassServicePath());
-        serviceFile.createNewFile();
-        serviceOutputStream = new BufferedOutputStream(new FileOutputStream(serviceFile));
-        serviceOutputStream.write(javaTable.getClassServiceStr().getBytes());
-        serviceOutputStream.flush();
-
-        File serviceImplFile = new File(tmpPath + javaTable.getClassServiceImplPath());
-        serviceFile.createNewFile();
-        serviceImplOutputStream = new BufferedOutputStream(new FileOutputStream(serviceImplFile));
-        serviceImplOutputStream.write(javaTable.getClassServiceImplStr().getBytes());
-        serviceImplOutputStream.flush();
-
-        File mapperFile = new File(tmpPath + javaTable.getMapperPath());
-        mapperFile.createNewFile();
-        mapperFileOutputStream = new BufferedOutputStream(new FileOutputStream(mapperFile));
-        mapperFileOutputStream.write(javaTable.getMapperStr().getBytes());
-        mapperFileOutputStream.flush();
-
-        voOutputStream.close();
-        daoOutputStream.close();
-        serviceOutputStream.close();
-        serviceImplOutputStream.close();
-        mapperFileOutputStream.close();
-
-
-        File file = new File(tmpPath + zipFileName);
-        OutputStream outputStream = new FileOutputStream(file);
-        ZipUtils.toZip(tmpPath + dirPath, outputStream, true);
-        outputStream.flush();
-        outputStream.close();
-
-        InputStream inputStream = new FileInputStream(tmpPath + zipFileName);
-
-
-        voFile.delete();
-        daoFile.delete();
-        serviceFile.delete();
-        serviceImplFile.delete();
-        mapperFile.delete();
-        FileUtils.deleteDirectory(tmpPath + dirPath);
-        file.delete();
-
-        return inputStream;
-    }
+//    /**
+//     * 返回的是压缩后的文件流,
+//     *
+//     * @param javaTable
+//     * @param zipFileName 文件地址
+//     * @return
+//     * @throws IOException
+//     */
+//    private InputStream createFilesAndZip(JavaTable javaTable, String zipFileName, String dirPath) throws IOException {
+//        BufferedOutputStream voOutputStream = null;
+//        BufferedOutputStream daoOutputStream = null;
+//        BufferedOutputStream serviceOutputStream = null;
+//        BufferedOutputStream serviceImplOutputStream = null;
+//        BufferedOutputStream mapperFileOutputStream = null;
+//
+//        //创建文件夹
+//        new File(tmpPath + javaTable.getBasePackagePath()).mkdirs();
+//
+//        File voFile = new File(tmpPath + javaTable.getClassVoPath());
+//        voFile.createNewFile();
+//        voOutputStream = new BufferedOutputStream(new FileOutputStream(voFile));
+//        voOutputStream.write(javaTable.getClassVoStr().getBytes());
+//        voOutputStream.flush();
+//
+//        File daoFile = new File(tmpPath + javaTable.getClassDaoPath());
+//        daoFile.createNewFile();
+//        daoOutputStream = new BufferedOutputStream(new FileOutputStream(daoFile));
+//        daoOutputStream.write(javaTable.getClassDaoStr().getBytes());
+//        daoOutputStream.flush();
+//
+//        File serviceFile = new File(tmpPath + javaTable.getClassServicePath());
+//        serviceFile.createNewFile();
+//        serviceOutputStream = new BufferedOutputStream(new FileOutputStream(serviceFile));
+//        serviceOutputStream.write(javaTable.getClassServiceStr().getBytes());
+//        serviceOutputStream.flush();
+//
+//        File serviceImplFile = new File(tmpPath + javaTable.getClassServiceImplPath());
+//        serviceFile.createNewFile();
+//        serviceImplOutputStream = new BufferedOutputStream(new FileOutputStream(serviceImplFile));
+//        serviceImplOutputStream.write(javaTable.getClassServiceImplStr().getBytes());
+//        serviceImplOutputStream.flush();
+//
+//        File mapperFile = new File(tmpPath + javaTable.getMapperPath());
+//        mapperFile.createNewFile();
+//        mapperFileOutputStream = new BufferedOutputStream(new FileOutputStream(mapperFile));
+//        mapperFileOutputStream.write(javaTable.getMapperStr().getBytes());
+//        mapperFileOutputStream.flush();
+//
+//        voOutputStream.close();
+//        daoOutputStream.close();
+//        serviceOutputStream.close();
+//        serviceImplOutputStream.close();
+//        mapperFileOutputStream.close();
+//
+//
+//        File file = new File(tmpPath + zipFileName);
+//        OutputStream outputStream = new FileOutputStream(file);
+//        ZipUtils.toZip(tmpPath + dirPath, outputStream, true);
+//        outputStream.flush();
+//        outputStream.close();
+//
+//        InputStream inputStream = new FileInputStream(tmpPath + zipFileName);
+//
+//
+//        voFile.delete();
+//        daoFile.delete();
+//        serviceFile.delete();
+//        serviceImplFile.delete();
+//        mapperFile.delete();
+//        FileUtils.deleteDirectory(tmpPath + dirPath);
+//        file.delete();
+//
+//        return inputStream;
+//    }
 
 
 }

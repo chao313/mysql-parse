@@ -222,7 +222,7 @@ public class Test {
 //        map.put("mysqlTable", mysqlTable);
 //        map.put("mysqlAndJavaFields", mysqlAndJavaFields);
 //        map.put("mysqlAndJavaKeys", mysqlAndJavaKeys);
-//        StringBuffer mapperStr = FreemarkUtil.generateXmlByTemplate(map, templateDirFile, "Mapper.ftl");
+//        StringBuffer mapperStr = FreemarkUtil.generateXmlByTemplate(map, templateDirFile, "MapperAssociation.ftl");
 //        log.info("{}", mapperStr.toString());
 //
 //
