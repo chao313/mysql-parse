@@ -57,14 +57,14 @@ public class FileUtils {
         if (file.isFile() && file.exists()) {
             Boolean succeedDelete = file.delete();
             if (succeedDelete) {
-                log.error("删除单个文件{}成功", fileName);
+                log.info("删除单个文件{}成功", fileName);
                 return true;
             } else {
                 log.error("删除单个文件{}失败!", fileName);
                 return true;
             }
         } else {
-            log.info("删除单个文件{}失败!", fileName);
+            log.error("删除单个文件{}失败!", fileName);
             return false;
         }
     }

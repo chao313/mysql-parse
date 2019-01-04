@@ -202,11 +202,22 @@ public class ZipUtils {
         BufferedOutputStream serviceOutputStream = null;
         BufferedOutputStream serviceImplOutputStream = null;
         BufferedOutputStream mapperFileOutputStream = null;
+        BufferedOutputStream voOutputStreamAssociation = null;
+        BufferedOutputStream daoOutputStreamAssociation = null;
+        BufferedOutputStream serviceOutputStreamAssociation = null;
+        BufferedOutputStream serviceImplOutputStreamAssociation = null;
+        BufferedOutputStream mapperFileOutputStreamAssociation = null;
         File voFile = null;
         File daoFile = null;
         File serviceFile = null;
         File serviceImplFile = null;
         File mapperFile = null;
+        File voFileAssociation = null;
+        File daoFileAssociation = null;
+        File serviceFileAssociation = null;
+        File serviceImplFileAssociation = null;
+        File mapperFileAssociation = null;
+
         for (AssociationJavaTable javaTable : associationJavaTables) {
             //创建文件夹
             new File(tmpPath + javaTable.getBasePackagePath()).mkdirs();
@@ -251,6 +262,48 @@ public class ZipUtils {
                 mapperFileOutputStream.write(javaTable.getMapperStr().getBytes());
                 mapperFileOutputStream.flush();
                 mapperFileOutputStream.close();
+            }
+            //关联处理
+            if (StringUtils.isNotBlank(javaTable.getClassAssociationVoStr())) {
+                voFileAssociation = new File(tmpPath + javaTable.getClassAssociationVoPath());
+                voFileAssociation.createNewFile();
+                voOutputStreamAssociation = new BufferedOutputStream(new FileOutputStream(voFileAssociation));
+                voOutputStreamAssociation.write(javaTable.getClassAssociationVoStr().getBytes());
+                voOutputStreamAssociation.flush();
+                voOutputStreamAssociation.close();
+            }
+            if (StringUtils.isNotBlank(javaTable.getClassAssociationDAOStr())) {
+                daoFileAssociation = new File(tmpPath + javaTable.getClassAssociationDAOPath());
+                daoFileAssociation.createNewFile();
+                daoOutputStreamAssociation = new BufferedOutputStream(new FileOutputStream(daoFileAssociation));
+                daoOutputStreamAssociation.write(javaTable.getClassAssociationDAOStr().getBytes());
+                daoOutputStreamAssociation.flush();
+                daoOutputStreamAssociation.close();
+            }
+
+            if (StringUtils.isNotBlank(javaTable.getClassAssociationServiceStr())) {
+                serviceFileAssociation = new File(tmpPath + javaTable.getClassAssociationServicePath());
+                serviceFileAssociation.createNewFile();
+                serviceOutputStreamAssociation = new BufferedOutputStream(new FileOutputStream(serviceFileAssociation));
+                serviceOutputStreamAssociation.write(javaTable.getClassAssociationServiceStr().getBytes());
+                serviceOutputStreamAssociation.flush();
+                serviceOutputStreamAssociation.close();
+            }
+            if (StringUtils.isNotBlank(javaTable.getClassAssociationServiceImplPath())) {
+                serviceImplFileAssociation = new File(tmpPath + javaTable.getClassAssociationServiceImplPath());
+                serviceImplFileAssociation.createNewFile();
+                serviceImplOutputStreamAssociation = new BufferedOutputStream(new FileOutputStream(serviceImplFileAssociation));
+                serviceImplOutputStreamAssociation.write(javaTable.getClassAssociationServiceImplStr().getBytes());
+                serviceImplOutputStreamAssociation.flush();
+                serviceImplOutputStreamAssociation.close();
+            }
+            if (StringUtils.isNotBlank(javaTable.getAssociationMapperStr())) {
+                mapperFileAssociation = new File(tmpPath + javaTable.getAssociationMapperPath());
+                mapperFileAssociation.createNewFile();
+                mapperFileOutputStreamAssociation = new BufferedOutputStream(new FileOutputStream(mapperFileAssociation));
+                mapperFileOutputStreamAssociation.write(javaTable.getAssociationMapperStr().getBytes());
+                mapperFileOutputStreamAssociation.flush();
+                mapperFileOutputStreamAssociation.close();
             }
 
         }

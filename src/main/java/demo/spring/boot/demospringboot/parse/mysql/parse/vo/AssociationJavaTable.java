@@ -64,8 +64,8 @@ public class AssociationJavaTable extends JavaTable {
         BeanUtils.copyProperties(associationJavaTable, resultAssociationJavaTable);
 
         //处理类名
-        resultAssociationJavaTable.setClassAssociationVoName(resultAssociationJavaTable.getTableName() + "AssociationDao");
-        resultAssociationJavaTable.setClassAssociationDAOName(resultAssociationJavaTable.getTableName() + "AssociationVo");
+        resultAssociationJavaTable.setClassAssociationVoName(resultAssociationJavaTable.getTableName() + "AssociationVo");
+        resultAssociationJavaTable.setClassAssociationDAOName(resultAssociationJavaTable.getTableName() + "AssociationDao");
         resultAssociationJavaTable.setClassAssociationServiceName(resultAssociationJavaTable.getTableName() + "AssociationService");
         resultAssociationJavaTable.setClassAssociationServiceImplName(resultAssociationJavaTable.getTableName() + "AssociationServiceImpl");
         resultAssociationJavaTable.setAssociationMapperName(resultAssociationJavaTable.getTableName() + "AssociationMapper");
@@ -78,9 +78,9 @@ public class AssociationJavaTable extends JavaTable {
 
         //处理文件的path
         resultAssociationJavaTable.setClassAssociationVoPath(resultAssociationJavaTable.getClassAssociationVoPackage().replace(".", "/") + ".java");
-        resultAssociationJavaTable.setClassAssociationDAOPath(resultAssociationJavaTable.getClassDAOPackage().replace(".", "/") + ".java");
-        resultAssociationJavaTable.setClassAssociationServicePath(resultAssociationJavaTable.getClassServicePackage().replace(".", "/") + ".java");
-        resultAssociationJavaTable.setClassAssociationServiceImplPath(resultAssociationJavaTable.getClassServiceImplPackage().replace(".", "/") + ".java");
+        resultAssociationJavaTable.setClassAssociationDAOPath(resultAssociationJavaTable.getClassAssociationDAOPackage().replace(".", "/") + ".java");
+        resultAssociationJavaTable.setClassAssociationServicePath(resultAssociationJavaTable.getClassAssociationServicePackage().replace(".", "/") + ".java");
+        resultAssociationJavaTable.setClassAssociationServiceImplPath(resultAssociationJavaTable.getClassAssociationServiceImplPackage().replace(".", "/") + ".java");
         resultAssociationJavaTable.setAssociationMapperPath(resultAssociationJavaTable.getBasePackage().replace(".", "/") + "/" + resultAssociationJavaTable.getAssociationMapperName() + ".xml");
 
         List<MysqlAndJavaField> mysqlAndJavaFields = new ArrayList<>();

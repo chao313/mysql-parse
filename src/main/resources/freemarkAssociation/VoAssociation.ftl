@@ -17,16 +17,16 @@ import ${javaTable.classVoPackage};
  */
 
 
-public class ${javaTable.classVoName}AssociationVo extends ${javaTable.classVoName} {
+public class ${javaTable.classAssociationVoName} extends ${javaTable.classVoName} {
 
 <#list javaTable.associationHashMap?keys as key>
 private List<${javaTable.associationHashMap[key].classVoName}> ${javaTable.associationHashMap[key].classVoName?uncap_first}s; <#if javaTable.associationHashMap[key].tableComment?? && javaTable.associationHashMap[key].tableComment !=""> // ${javaTable.associationHashMap[key].tableComment} </#if>
 </#list>
 
 <#list javaTable.associationHashMap?keys as key>
-    public ${javaTable.associationHashMap[key].field.type} get${javaTable.associationHashMap[key].classVoName?cap_first}s() {
+    public List<${javaTable.associationHashMap[key].classVoName}> get${javaTable.associationHashMap[key].classVoName?cap_first}s() {
 
-        return ${field.name};
+        return ${javaTable.associationHashMap[key].classVoName?uncap_first}s;
 
     }
 

@@ -6,7 +6,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import ${javaTable.classAssociationVoPackage};
-import ${javaTable.classSAssociationServicePackage};
+import ${javaTable.classAssociationServicePackage};
 import ${javaTable.classAssociationDAOPackage};
 
 
@@ -32,7 +32,7 @@ public class ${javaTable.classAssociationServiceImplName} implements ${javaTable
       /**
      * 查询base
      */
-    List<${javaTable.classAssociationVoName}> queryBase(<#list javaTable.associationHashMap?keys as key>${javaTable.associationHashMap[key].classVoName} ${javaTable.associationHashMap[key].classVoName?uncap_first} <#if key_has_next>, </#if></#list>){
+    public List<${javaTable.classAssociationVoName}> queryBase(<#list javaTable.associationHashMap?keys as key>${javaTable.associationHashMap[key].classVoName} ${javaTable.associationHashMap[key].classVoName?uncap_first} <#if key_has_next>, </#if></#list>){
 
         return dao.queryBase(<#list javaTable.associationHashMap?keys as key>${javaTable.associationHashMap[key].classVoName?uncap_first} <#if key_has_next>, </#if></#list>);
 

@@ -395,12 +395,52 @@
                             var data = res.body;
                             if (data.code == 0) {
                                 if (data.content != null) {
-                                    // this.columns = data.content;
-                                    this.voValue = data.content.classVoStr;
-                                    this.DaoValue = data.content.classDaoStr;
-                                    this.ServiceValue = data.content.classServiceStr;
-                                    this.ServiceImplValue = data.content.classServiceImplStr;
-                                    this.MapperValue = data.content.mapperStr;
+                                    var voValueTmp = "";
+                                    var DaoValueTmp = "";
+                                    var ServiceValueTmp = "";
+                                    var ServiceImplValueTmp = "";
+                                    var MapperValueTmp = "";
+                                    data.content.forEach(function (item) {
+                                        // this.columns = data.content;
+                                        if (item.classVoStr != "" && item.classVoStr != null) {
+                                            voValueTmp += item.classVoStr;
+
+                                        }
+                                        if (item.classDaoStr != "" && item.classDaoStr != null) {
+                                            DaoValueTmp += item.classDaoStr;
+                                        }
+                                        if (item.classServiceStr != "" && item.classServiceStr != null) {
+                                            ServiceValueTmp += item.classServiceStr;
+                                        }
+                                        if (item.classServiceImplStr != "" && item.classServiceImplStr != null) {
+                                            ServiceImplValueTmp += item.classServiceImplStr;
+                                        }
+                                        if (item.mapperStr != "" && item.mapperStr != null) {
+                                            MapperValueTmp += item.mapperStr;
+                                        }
+                                        //
+                                        if (item.classAssociationVoStr != "" && item.classAssociationVoStr != null) {
+                                            voValueTmp += item.classAssociationVoStr;
+                                        }
+                                        if (item.classAssociationDAOStr != "" && item.classAssociationDAOStr != null) {
+                                            DaoValueTmp += item.classAssociationDAOStr;
+                                        }
+                                        if (item.classAssociationServiceStr != "" && item.classAssociationServiceStr != null) {
+                                            ServiceValueTmp += item.classAssociationServiceStr;
+                                        }
+                                        if (item.classAssociationServiceImplStr != "" && item.classAssociationServiceImplStr != null) {
+                                            ServiceImplValueTmp += item.classAssociationServiceImplStr;
+                                        }
+                                        if (item.associationMapperStr != "" && item.associationMapperStr != null) {
+                                            MapperValueTmp += item.associationMapperStr;
+                                        }
+                                    });
+                                    this.voValue = voValueTmp;
+                                    this.DaoValue = DaoValueTmp;
+                                    this.ServiceValue = ServiceValueTmp;
+                                    this.ServiceImplValue = ServiceImplValueTmp;
+                                    this.MapperValue = MapperValueTmp;
+
                                 } else {
                                     alert(data.msg);
                                 }
@@ -412,13 +452,13 @@
             }, downloadAssociation: function () {
                 //选择数据库选项后初始化tables
                 var downloadUrl = host + '/generateAssociation/download?'
-                    + "dataBase" + this.chooseDataBaseValue
-                    + "basePackage" + this.packageValue
-                    + "tableBase" + this.chooseTableValue
-                    + "hasChooseAssociationLeftTable" + this.hasChooseAssociationLeftTable
-                    + "hasChooseAssociationLeftField" + this.hasChooseAssociationLeftField
-                    + "hasChooseAssociationRightTable" + this.hasChooseAssociationRightTable
-                    + "hasChooseAssociationRightField" + this.hasChooseAssociationRightField
+                    + "dataBase=" + this.chooseDataBaseValue
+                    + "&basePackage=" + this.packageValue
+                    + "&tableBase=" + this.chooseTableValue
+                    + "&hasChooseAssociationLeftTable=" + this.hasChooseAssociationLeftTable
+                    + "&hasChooseAssociationLeftField=" + this.hasChooseAssociationLeftField
+                    + "&hasChooseAssociationRightTable=" + this.hasChooseAssociationRightTable
+                    + "&hasChooseAssociationRightField=" + this.hasChooseAssociationRightField
                 window.open(downloadUrl);
 
             }, selectFieldBase: function (ele) {

@@ -131,7 +131,9 @@ public class GenerateFile {
                     for (AssociationJavaTable javaTable : associationJavaTables) {
                         if (javaTable.getMysqlTable().getTableName().equals(association.getRightTable())) {
                             //匹配到了对应的table
-                            associationJavaTable.getAssociationHashMap().put(association.getRightField(), javaTable);
+                            JavaTable javaTableTmp = new JavaTable();
+                            BeanUtils.copyProperties(javaTable, javaTableTmp);
+                            associationJavaTable.getAssociationHashMap().put(association.getRightField(), javaTableTmp);
                         }
                     }
                 }
@@ -158,7 +160,7 @@ public class GenerateFile {
                 log.info("[mysql解析]associationServiceStr成功:{}", associationServiceStr.toString());
 
                 StringBuffer associationServiceImplStr = FreemarkUtil.generateXmlByTemplate(map, templateDirFile, "ServiceImplAssociation.ftl");
-                associationJavaTable.setClassAssociationServiceImplStr(associationServiceStr.toString());
+                associationJavaTable.setClassAssociationServiceImplStr(associationServiceImplStr.toString());
                 log.info("[mysql解析]associationServiceImplStr成功:{}", associationServiceImplStr.toString());
             }
         }
@@ -171,49 +173,6 @@ public class GenerateFile {
         log.info("[mysql解析]associationServiceImplStr成功:{}", associationMapperStr.toString());
 
         return associationJavaTables;
-
-
-//        //
-//        //处理关联表
-//        MysqlTable tableAssociationMysql = dbInfo.obtainTableInfo(dataBase, tableBase);
-//        List<MysqlField> fieldsAssociation = dbInfo.obtainFieldsInfo(dataBase, tableBase);
-//        tableAssociationMysql.setMysqlFields(fieldsAssociation);
-//        tableAssociationMysql = MysqlTable.transByMysqlTable(tableAssociationMysql);
-//        log.info("[mysql解析]获取baseTableMysql:{}", tableAssociationMysql);
-//        //处理关联表的java对象
-//        AssociationJavaTable tableAssociationJava = (AssociationJavaTable)
-//                AssociationJavaTable.transByMysqlTable(tableAssociationMysql, basePackage);
-//        log.info("[mysql解析]获取tableBaseJava:{}", tableBaseJava);
-//        //
-//        //转入freemark
-//        Map<String, Object> map = new HashMap<>();
-//        map.put("tableBaseJava", tableBaseJava);
-//        map.put("tableAssociationJava", tableAssociationJava);
-//        File templateDirFile = ResourceUtils.getFile("classpath:freemarkAssociation");
-//        StringBuffer voStr = FreemarkUtil.generateXmlByTemplate(map, templateDirFile, "Vo.ftl");
-//        tableBaseJava.setClassVoStr(voStr.toString());
-//        log.info("[mysql解析]Vo成功:{}", voStr.toString());
-//
-//        StringBuffer associationVoStr = FreemarkUtil.generateXmlByTemplate(map, templateDirFile, "VoAssociation.ftl");
-//        tableBaseJava.setClassAssociationVoStr(associationVoStr.toString());
-//        log.info("[mysql解析]AssociationVo成功:{}", associationVoStr.toString());
-//
-//        StringBuffer daoStr = FreemarkUtil.generateXmlByTemplate(map, templateDirFile, "DAO.ftl");
-//        tableBaseJava.setClassDaoStr(daoStr.toString());
-//        log.info("[mysql解析]DAO成功{}", daoStr.toString());
-//
-//        StringBuffer serviceStr = FreemarkUtil.generateXmlByTemplate(map, templateDirFile, "Service.ftl");
-//        tableBaseJava.setClassServiceStr(serviceStr.toString());
-//        log.info("[mysql解析]Service成功{}", serviceStr.toString());
-//
-//        StringBuffer serviceImplStr = FreemarkUtil.generateXmlByTemplate(map, templateDirFile, "ServiceImpl.ftl");
-//        tableBaseJava.setClassServiceImplStr(serviceImplStr.toString());
-//        log.info("[mysql解析]ServiceImpl成功{}}", serviceImplStr.toString());
-//
-//        StringBuffer mapperStr = FreemarkUtil.generateXmlByTemplate(map, templateDirFile, "MapperAssociation.ftl");
-//        tableBaseJava.setMapperStr(mapperStr.toString());
-//        log.info("[mysql解析]Mapper成功{}", mapperStr.toString());
-//        return tableBaseJava;
 
     }
 
