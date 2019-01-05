@@ -27,8 +27,9 @@
           </#list><#if javaTableTmp_has_next>,</#if>
       </#list>
         FROM
+        `${javaTable.mysqlTable.tableName}`
         <#list javaTable.associations as association>
-            `${association.leftTable}` JOIN `${association.rightTable}` ON `${association.leftTable}`.`${association.leftField}` = `${association.rightTable}`.`${association.rightField}`
+            JOIN `${association.rightTable}` ON `${association.leftTable}`.`${association.leftField}` = `${association.rightTable}`.`${association.rightField}`
         </#list>
         <where>
             1 = 1

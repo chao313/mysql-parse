@@ -20,19 +20,19 @@ import ${javaTable.classVoPackage};
 public class ${javaTable.classAssociationVoName} extends ${javaTable.classVoName} {
 
 <#list javaTable.associationHashMap?keys as key>
-private List<${javaTable.associationHashMap[key].classVoName}> ${javaTable.associationHashMap[key].classVoName?uncap_first}s; <#if javaTable.associationHashMap[key].tableComment?? && javaTable.associationHashMap[key].tableComment !=""> // ${javaTable.associationHashMap[key].tableComment} </#if>
+private List<<#if javaTable.associationHashMap[key].classAssociationVoStr??>${javaTable.associationHashMap[key].classAssociationVoName}<#else>${javaTable.associationHashMap[key].classVoName}</#if>> <#if javaTable.associationHashMap[key].classAssociationVoStr??>${javaTable.associationHashMap[key].classAssociationVoName?uncap_first}<#else>${javaTable.associationHashMap[key].classVoName?uncap_first}</#if>s; <#if javaTable.associationHashMap[key].tableComment?? && javaTable.associationHashMap[key].tableComment !=""> // ${javaTable.javaTable.associationHashMap[key].tableComment} </#if>
 </#list>
 
 <#list javaTable.associationHashMap?keys as key>
-    public List<${javaTable.associationHashMap[key].classVoName}> get${javaTable.associationHashMap[key].classVoName?cap_first}s() {
+    public List<<#if javaTable.associationHashMap[key].classAssociationVoStr??>${javaTable.associationHashMap[key].classAssociationVoName}<#else>${javaTable.associationHashMap[key].classVoName}</#if>> get${javaTable.associationHashMap[key].classVoName?cap_first}s() {
 
-        return ${javaTable.associationHashMap[key].classVoName?uncap_first}s;
+        return <#if javaTable.associationHashMap[key].classAssociationVoStr??>${javaTable.associationHashMap[key].classAssociationVoName?uncap_first}<#else>${javaTable.associationHashMap[key].classVoName?uncap_first}</#if>s;
 
     }
 
-    public void set${javaTable.associationHashMap[key].classVoName?cap_first}s(List<${javaTable.associationHashMap[key].classVoName}> ${javaTable.associationHashMap[key].classVoName?uncap_first}s) {
+    public void set${javaTable.associationHashMap[key].classVoName?cap_first}s(List<<#if javaTable.associationHashMap[key].classAssociationVoStr??>${javaTable.associationHashMap[key].classAssociationVoName}<#else>${javaTable.associationHashMap[key].classVoName}</#if>> <#if javaTable.associationHashMap[key].classAssociationVoStr??>${javaTable.associationHashMap[key].classAssociationVoName?uncap_first}<#else>${javaTable.associationHashMap[key].classVoName?uncap_first}</#if>s) {
 
-        this.${javaTable.associationHashMap[key].classVoName?uncap_first}s = ${javaTable.associationHashMap[key].classVoName?uncap_first}s;
+        this.<#if javaTable.associationHashMap[key].classAssociationVoStr??>${javaTable.associationHashMap[key].classAssociationVoName?uncap_first}<#else>${javaTable.associationHashMap[key].classVoName?uncap_first}</#if>s = <#if javaTable.associationHashMap[key].classAssociationVoStr??>${javaTable.associationHashMap[key].classAssociationVoName?uncap_first}<#else>${javaTable.associationHashMap[key].classVoName?uncap_first}</#if>s;
 
     }
 
