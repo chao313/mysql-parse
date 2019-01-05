@@ -4,6 +4,7 @@ package ${javaTable.basePackage};
 import java.util.List;
 
 import ${javaTable.classAssociationVoPackage};
+import ${javaTable.classVoPackage};
 
 
 /**
@@ -21,5 +22,5 @@ public interface ${javaTable.classAssociationServiceName} {
       /**
      * 查询base
      */
-    List<${javaTable.classAssociationVoName}> queryBase(<#list javaTable.associationHashMap?keys as key>${javaTable.associationHashMap[key].classVoName} ${javaTable.associationHashMap[key].classVoName?uncap_first} <#if key_has_next>, </#if></#list>);
+    List<${javaTable.classAssociationVoName}> queryBase(${javaTable.classVoName?cap_first} ${javaTable.classVoName?uncap_first},<#list javaTable.associationHashMap?keys as key>${javaTable.associationHashMap[key].classVoName} ${javaTable.associationHashMap[key].classVoName?uncap_first} <#if key_has_next>, </#if></#list>);
 }

@@ -218,9 +218,9 @@ public class ZipUtils {
         File serviceImplFileAssociation = null;
         File mapperFileAssociation = null;
 
+        //创建文件夹
+        new File(tmpPath + associationJavaTables.get(0).getBasePackagePath()).mkdirs();
         for (AssociationJavaTable javaTable : associationJavaTables) {
-            //创建文件夹
-            new File(tmpPath + javaTable.getBasePackagePath()).mkdirs();
 
             if (StringUtils.isNotBlank(javaTable.getClassVoStr())) {
                 voFile = new File(tmpPath + javaTable.getClassVoPath());
@@ -289,7 +289,7 @@ public class ZipUtils {
                 serviceOutputStreamAssociation.flush();
                 serviceOutputStreamAssociation.close();
             }
-            if (StringUtils.isNotBlank(javaTable.getClassAssociationServiceImplPath())) {
+            if (StringUtils.isNotBlank(javaTable.getClassAssociationServiceImplStr())) {
                 serviceImplFileAssociation = new File(tmpPath + javaTable.getClassAssociationServiceImplPath());
                 serviceImplFileAssociation.createNewFile();
                 serviceImplOutputStreamAssociation = new BufferedOutputStream(new FileOutputStream(serviceImplFileAssociation));

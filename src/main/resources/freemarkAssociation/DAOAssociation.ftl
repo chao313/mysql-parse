@@ -3,7 +3,7 @@ package ${javaTable.basePackage};
 
 import java.util.List;
 
-import ${javaTable.classAssociationVoPackage};
+<#if javaTable.classAssociationVoStr??>import ${javaTable.classAssociationVoPackage};<#else>import ${javaTable.classVoPackage};</#if>
 
 import org.apache.ibatis.annotations.Param;
 
@@ -25,7 +25,7 @@ public interface ${javaTable.classAssociationDAOName} {
     /**
      * 查询base
      */
-    List<${javaTable.classAssociationVoName}> queryBase(<#list javaTable.associationHashMap?keys as key>${javaTable.associationHashMap[key].classVoName} ${javaTable.associationHashMap[key].classVoName?uncap_first} <#if key_has_next>, </#if></#list>);
+    List<<#if javaTable.classAssociationVoStr??>${javaTable.classAssociationVoName}<#else>${javaTable.classVoName}</#if>> queryBase(${javaTable.classVoName?cap_first} ${javaTable.classVoName?uncap_first} ,<#list javaTable.associationHashMap?keys as key>${javaTable.associationHashMap[key].classVoName} ${javaTable.associationHashMap[key].classVoName?uncap_first} <#if key_has_next>, </#if></#list>);
 
 
 }
