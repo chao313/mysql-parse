@@ -104,6 +104,15 @@ public class GenerateFile {
                 tables.add(associationRequest.getRightTable());
             }
         });
+
+        List<String> leftTables = new ArrayList<>();
+        associations.forEach(associationRequest -> {
+            if (!leftTables.contains(associationRequest.getLeftTable())) {
+                leftTables.add(associationRequest.getLeftTable());
+            }
+        });
+
+
         DBInfo dbInfo = new DBInfo();
         List<AssociationJavaTable> associationJavaTables = new ArrayList<>();
         for (String table : tables) {
@@ -116,7 +125,7 @@ public class GenerateFile {
                     AssociationJavaTable.transByMysqlTable(tableBaseMysql, basePackage);//把表信息(包括字段转换为java类型)
             AssociationJavaTable associationJavaTable = new AssociationJavaTable();
             BeanUtils.copyProperties(javaTable, associationJavaTable);
-            associationJavaTable = AssociationJavaTable.parse(associationJavaTable);//数据转换
+            associationJavaTable = AssociationJavaTable.parse(associationJavaTable, leftTables);//数据转换
             log.info("[mysql解析]解析的表信息(包括字段):tableBaseJava:{}", associationJavaTable);
             associationJavaTables.add(associationJavaTable);
             associationJavaTable.setAssociations(associations);
@@ -131,8 +140,9 @@ public class GenerateFile {
                     for (AssociationJavaTable javaTable : associationJavaTables) {
                         if (javaTable.getMysqlTable().getTableName().equals(association.getRightTable())) {
                             //匹配到了对应的table
-                            JavaTable javaTableTmp = new JavaTable();
+                            AssociationJavaTable javaTableTmp = new AssociationJavaTable();
                             BeanUtils.copyProperties(javaTable, javaTableTmp);
+                            javaTableTmp.setAssociationHashMap(null);
                             associationJavaTable.getAssociationHashMap().put(association.getRightField(), javaTableTmp);
                         }
                     }

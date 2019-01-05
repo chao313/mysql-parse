@@ -14,7 +14,7 @@
              </#if>
          </#list>
          <#list javaTableTmp.associationHashMap?keys as key>
-             <collection property="${javaTableTmp.associationHashMap[key].classVoName?uncap_first}s" resultMap="${javaTableTmp.associationHashMap[key].classVoName?cap_first}"></collection>
+             <collection property="${javaTableTmp.associationHashMap[key].classVoName?uncap_first}s" resultMap="<#if javaTableTmp.classAssociationVoStr??>${javaTableTmp.classAssociationVoName}<#else>${javaTableTmp.classVoName}</#if>"></collection>
          </#list>
        </resultMap>
     </#list>

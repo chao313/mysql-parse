@@ -59,29 +59,33 @@ public class AssociationJavaTable extends JavaTable {
 
     private HashMap<String, JavaTable> associationHashMap = new HashMap<>();//记录外键对应的JavaTable
 
-    public static AssociationJavaTable parse(AssociationJavaTable associationJavaTable) {
+    public static AssociationJavaTable parse(AssociationJavaTable associationJavaTable, List<String> leftTables) {
         AssociationJavaTable resultAssociationJavaTable = new AssociationJavaTable();
         BeanUtils.copyProperties(associationJavaTable, resultAssociationJavaTable);
 
-        //处理类名
-        resultAssociationJavaTable.setClassAssociationVoName(resultAssociationJavaTable.getTableName() + "AssociationVo");
-        resultAssociationJavaTable.setClassAssociationDAOName(resultAssociationJavaTable.getTableName() + "AssociationDao");
-        resultAssociationJavaTable.setClassAssociationServiceName(resultAssociationJavaTable.getTableName() + "AssociationService");
-        resultAssociationJavaTable.setClassAssociationServiceImplName(resultAssociationJavaTable.getTableName() + "AssociationServiceImpl");
-        resultAssociationJavaTable.setAssociationMapperName(resultAssociationJavaTable.getTableName() + "AssociationMapper");
+        if (leftTables.contains(resultAssociationJavaTable.getMysqlTable().getTableName())) {
+            //处理类名
+            resultAssociationJavaTable.setClassAssociationVoName(resultAssociationJavaTable.getTableName() + "AssociationVo");
+            resultAssociationJavaTable.setClassAssociationDAOName(resultAssociationJavaTable.getTableName() + "AssociationDao");
+            resultAssociationJavaTable.setClassAssociationServiceName(resultAssociationJavaTable.getTableName() + "AssociationService");
+            resultAssociationJavaTable.setClassAssociationServiceImplName(resultAssociationJavaTable.getTableName() + "AssociationServiceImpl");
+            resultAssociationJavaTable.setAssociationMapperName(resultAssociationJavaTable.getTableName() + "AssociationMapper");
 
-        //处理类的package路径
-        resultAssociationJavaTable.setClassAssociationVoPackage(resultAssociationJavaTable.getBasePackage() + "." + resultAssociationJavaTable.getClassAssociationVoName());
-        resultAssociationJavaTable.setClassAssociationDAOPackage(resultAssociationJavaTable.getBasePackage() + "." + resultAssociationJavaTable.getClassAssociationDAOName());
-        resultAssociationJavaTable.setClassAssociationServicePackage(resultAssociationJavaTable.getBasePackage() + "." + resultAssociationJavaTable.getClassAssociationServiceName());
-        resultAssociationJavaTable.setClassAssociationServiceImplPackage(resultAssociationJavaTable.getBasePackage() + "." + resultAssociationJavaTable.getClassAssociationServiceImplName());
+            //处理类的package路径
+            resultAssociationJavaTable.setClassAssociationVoPackage(resultAssociationJavaTable.getBasePackage() + "." + resultAssociationJavaTable.getClassAssociationVoName());
+            resultAssociationJavaTable.setClassAssociationDAOPackage(resultAssociationJavaTable.getBasePackage() + "." + resultAssociationJavaTable.getClassAssociationDAOName());
+            resultAssociationJavaTable.setClassAssociationServicePackage(resultAssociationJavaTable.getBasePackage() + "." + resultAssociationJavaTable.getClassAssociationServiceName());
+            resultAssociationJavaTable.setClassAssociationServiceImplPackage(resultAssociationJavaTable.getBasePackage() + "." + resultAssociationJavaTable.getClassAssociationServiceImplName());
 
-        //处理文件的path
-        resultAssociationJavaTable.setClassAssociationVoPath(resultAssociationJavaTable.getClassAssociationVoPackage().replace(".", "/") + ".java");
-        resultAssociationJavaTable.setClassAssociationDAOPath(resultAssociationJavaTable.getClassAssociationDAOPackage().replace(".", "/") + ".java");
-        resultAssociationJavaTable.setClassAssociationServicePath(resultAssociationJavaTable.getClassAssociationServicePackage().replace(".", "/") + ".java");
-        resultAssociationJavaTable.setClassAssociationServiceImplPath(resultAssociationJavaTable.getClassAssociationServiceImplPackage().replace(".", "/") + ".java");
-        resultAssociationJavaTable.setAssociationMapperPath(resultAssociationJavaTable.getBasePackage().replace(".", "/") + "/" + resultAssociationJavaTable.getAssociationMapperName() + ".xml");
+            //处理文件的path
+            resultAssociationJavaTable.setClassAssociationVoPath(resultAssociationJavaTable.getClassAssociationVoPackage().replace(".", "/") + ".java");
+            resultAssociationJavaTable.setClassAssociationDAOPath(resultAssociationJavaTable.getClassAssociationDAOPackage().replace(".", "/") + ".java");
+            resultAssociationJavaTable.setClassAssociationServicePath(resultAssociationJavaTable.getClassAssociationServicePackage().replace(".", "/") + ".java");
+            resultAssociationJavaTable.setClassAssociationServiceImplPath(resultAssociationJavaTable.getClassAssociationServiceImplPackage().replace(".", "/") + ".java");
+            resultAssociationJavaTable.setAssociationMapperPath(resultAssociationJavaTable.getBasePackage().replace(".", "/") + "/" + resultAssociationJavaTable.getAssociationMapperName() + ".xml");
+
+        }
+
 
         List<MysqlAndJavaField> mysqlAndJavaFields = new ArrayList<>();
         for (int i = 0; i < associationJavaTable.getMysqlTable().getMysqlFields().size(); i++) {
