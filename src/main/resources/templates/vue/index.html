@@ -66,7 +66,8 @@
             <div class="form-group" v-if="chooseAssociation.length>0" v-for="(itemTmp,index) in chooseAssociation">
                 <label class="col-sm-2 control-label">{{chooseAssociationTxt}}</label>
                 <div class="col-sm-2">
-                    <select class="form-control" @change="chooseAssociationLeftTableFunction">
+                    <select class="form-control" @change="chooseAssociationLeftTableFunction"
+                            v-bind:data-index="index+1">
                         <option disabled selected hidden>{{chooseAssociationLeftTablePlaceholder}}
                         </option>
                         <option v-for="item in chooseAssociationLeftTable[index+1]" v-bind:value="item.tableName">
@@ -75,7 +76,8 @@
                     </select>
                 </div>
                 <div class="col-sm-2">
-                    <select class="form-control" @change="selectAssociationLeftFieldFunction">
+                    <select class="form-control" @change="selectAssociationLeftFieldFunction"
+                            v-bind:data-index="index+1">
                         <option disabled selected hidden>{{chooseAssociationLeftFieldPlaceholder}}
                         </option>
                         <option v-for="item in chooseAssociationLeftField[index+1]" v-bind:value="item.columnName">
@@ -84,7 +86,8 @@
                     </select>
                 </div>
                 <div class="col-sm-2">
-                    <select class="form-control" @change="selectAssociationRightTableFunction">
+                    <select class="form-control" @change="selectAssociationRightTableFunction"
+                            v-bind:data-index="index+1">
                         <option disabled selected hidden>{{chooseAssociationRightTablePlaceholder}}
                         </option>
                         <option v-for="item in chooseAssociationRightTable[index+1]" v-bind:value="item.tableName">
@@ -93,7 +96,8 @@
                     </select>
                 </div>
                 <div class="col-sm-2">
-                    <select class="form-control" @change="selectAssociationRightFieldFunction">
+                    <select class="form-control" @change="selectAssociationRightFieldFunction"
+                            v-bind:data-index="index+1">
                         <option disabled selected hidden>{{chooseAssociationRightFieldPlaceholder}}
                         </option>
                         <option v-for="item in chooseAssociationRightField[index+1]" v-bind:value="item.columnName">
@@ -298,6 +302,7 @@
                 //调用获取tables的函数
                 this.getAllColumns();
 
+
             }, getAllColumns: function () {
                 //选择数据库选项后初始化tables
                 this.$http.get(host + '/mybatis/getAllColumns?dataBase='
@@ -316,6 +321,8 @@
                             }
                         }
                     );
+                this.initAssociationInfo();
+
             }, selectAssociationTable: function (ele) {
                 //当选择关联数据库时
                 // console.log(ele);
@@ -469,25 +476,85 @@
                 this.chooseColumnAssociationValue = ele.target.value;
 
             }, addAssociation: function () {//添加关联关系
+                var i = this.chooseAssociationI;
                 this.chooseAssociation.push(1);
-                this.chooseAssociationLeftTable.push(this.tables);
-                this.chooseAssociationLeftField.push(this.columns);
-                this.chooseAssociationRightTable.push(this.tables);
-                this.chooseAssociationRightField.push(this.columns);
+                this.updateAssociationInfo();
+                this.chooseAssociationI = this.chooseAssociationI + 1;
                 console.info(this.tables);
             }, delAssociation: function () {
                 this.chooseAssociation.pop();
             }, chooseAssociationLeftTableFunction: function (ele) {
-                this.hasChooseAssociationLeftTable.push(ele.target.value);
+                var index = ele.target.dataset.index;
+                this.hasChooseAssociationLeftTable.splice(index - 1, 1, ele.target.value);
+                // console.info(this.hasChooseAssociationLeftTable);
+                // console.info("chooseAssociationLeftTableFunction", ele.target.dataset.index);
+                // console.info("hasChooseAssociationLeftTable", this.hasChooseAssociationLeftTable);
+
+                this.$http.get(host + '/mybatis/getAllColumns?dataBase='
+                    + this.chooseDataBaseValue + '&tableName=' + this.hasChooseAssociationLeftTable[index - 1])
+                    .then(
+                        function success(res) {
+                            var data = res.body;
+                            if (data.code == 0) {
+                                if (data.content != null) {
+                                    // console.info("this.chooseAssociationLeftField", this.chooseAssociationLeftField);
+                                    this.chooseAssociationLeftField.splice(index, 1, data.content);
+                                    // console.info("this.chooseAssociationLeftField[index]", this.chooseAssociationLeftField[index]);
+                                    // console.info("this.chooseAssociationLeftField", this.chooseAssociationLeftField);
+                                } else {
+                                    alert(data.msg);
+                                }
+                            } else {
+                                alert(this.alertErrorValue)
+                            }
+                        }
+                    );
 
             }, selectAssociationLeftFieldFunction: function (ele) {
-                this.hasChooseAssociationLeftField.push(ele.target.value);
+                var index = ele.target.dataset.index;
+                this.hasChooseAssociationLeftField.splice(index - 1, 1, ele.target.value);
 
             }, selectAssociationRightTableFunction: function (ele) {
-                this.hasChooseAssociationRightTable.push(ele.target.value);
+                var index = ele.target.dataset.index;
+                this.hasChooseAssociationRightTable.splice(index - 1, 1, ele.target.value);
+                this.$http.get(host + '/mybatis/getAllColumns?dataBase='
+                    + this.chooseDataBaseValue + '&tableName=' + this.hasChooseAssociationRightTable[index - 1])
+                    .then(
+                        function success(res) {
+                            var data = res.body;
+                            if (data.code == 0) {
+                                if (data.content != null) {
+                                    this.chooseAssociationRightField.splice(index, 1, data.content);
+                                } else {
+                                    alert(data.msg);
+                                }
+                            } else {
+                                alert(this.alertErrorValue)
+                            }
+                        }
+                    );
 
             }, selectAssociationRightFieldFunction: function (ele) {
-                this.hasChooseAssociationRightField.push(ele.target.value);
+                var index = ele.target.dataset.index;
+                this.hasChooseAssociationRightField.splice(index - 1, 1, ele.target.value);
+            }, initAssociationInfo: function () {
+                //更新可选的表和字段
+                this.chooseAssociationLeftTable = [[]];
+                this.chooseAssociationLeftField = [[]];
+                this.chooseAssociationRightTable = [[]];
+                this.chooseAssociationRightField = [[]];
+
+                this.chooseAssociationLeftTable.push(this.tables);
+                // this.chooseAssociationLeftField.push(this.columns);
+                this.chooseAssociationRightTable.push(this.tables);
+                // this.chooseAssociationRightField.push(this.columns);
+                console.info("更新可选的表和字段", this.chooseAssociationLeftTable);
+            }, updateAssociationInfo: function () {
+                this.chooseAssociationLeftTable.push(this.tables);
+                // this.chooseAssociationLeftField.push(this.columns);
+                this.chooseAssociationRightTable.push(this.tables);
+                // this.chooseAssociationRightField.push(this.columns);
+                // console.info("更新可选的表和字段", this.chooseAssociationLeftTable);
             }
         }
     });
