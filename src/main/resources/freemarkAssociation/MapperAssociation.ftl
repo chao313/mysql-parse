@@ -5,7 +5,7 @@
 
 <#--处理Vo 和关联关系-->
     <#list javaTables as javaTableTmp>
-       <resultMap id="<#if javaTableTmp.classAssociationVoStr??>${javaTableTmp.classAssociationVoName}<#else>${javaTableTmp.classVoName}</#if>" type="<#if javaTableTmp.classAssociationVoStr??>${javaTableTmp.classAssociationVoPackage}<#else>${javaTable.classVoPackage}</#if>">
+       <resultMap id="<#if javaTableTmp.classAssociationVoName??>${javaTableTmp.classAssociationVoName}<#else>${javaTableTmp.classVoName}</#if>" type="<#if javaTableTmp.classAssociationVoName??>${javaTableTmp.classAssociationVoPackage}<#else>${javaTable.classVoPackage}</#if>">
          <#list javaTableTmp.mysqlAndJavaFields as mysqlAndJavaField>
              <#if mysqlAndJavaField.mysqlField.isPRI == "true" >
                 <id column="${mysqlAndJavaField.mysqlField.name}" property="${mysqlAndJavaField.javaField.name}"/>
@@ -14,7 +14,7 @@
              </#if>
          </#list>
          <#list javaTableTmp.associationHashMap?keys as key>
-             <collection property="${javaTableTmp.associationHashMap[key].classVoName?uncap_first}s" resultMap="<#if javaTableTmp.classAssociationVoStr??>${javaTableTmp.classAssociationVoName}<#else>${javaTableTmp.classVoName}</#if>"></collection>
+             <collection property="<#if javaTableTmp.associationHashMap[key].classAssociationVoName??>${javaTableTmp.associationHashMap[key].classAssociationVoName?uncap_first}<#else>${javaTableTmp.associationHashMap[key].classVoName?uncap_first}</#if>s" resultMap="<#if javaTableTmp.associationHashMap[key].classAssociationVoName??>${javaTableTmp.associationHashMap[key].classAssociationVoName}<#else>${javaTableTmp.associationHashMap[key].classVoName}</#if>"></collection>
          </#list>
        </resultMap>
     </#list>
