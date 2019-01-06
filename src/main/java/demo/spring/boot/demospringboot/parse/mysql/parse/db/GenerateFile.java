@@ -154,6 +154,7 @@ public class GenerateFile {
         for (AssociationJavaTable associationJavaTable : associationJavaTables) {
             Map<String, Object> map = new HashMap<>();
             map.put("javaTable", associationJavaTable);
+            map.put("associationJavaTables", associationJavaTables);//用于处理所有的table
             StringBuffer voStr = FreemarkUtil.generateXmlByTemplate(map, templateDirFile, "Vo.ftl");
             associationJavaTable.setClassVoStr(voStr.toString());
             log.info("[mysql解析]Vo成功:{}", voStr.toString());
@@ -161,23 +162,30 @@ public class GenerateFile {
                 StringBuffer associationVoStr = FreemarkUtil.generateXmlByTemplate(map, templateDirFile, "VoAssociation.ftl");
                 associationJavaTable.setClassAssociationVoStr(associationVoStr.toString());
                 log.info("[mysql解析]associationVoStr成功:{}", associationVoStr.toString());
-                StringBuffer associationDAOStr = FreemarkUtil.generateXmlByTemplate(map, templateDirFile, "DAOAssociation.ftl");
-                associationJavaTable.setClassAssociationDAOStr(associationDAOStr.toString());
-                log.info("[mysql解析]associationDAOStr成功:{}", associationDAOStr.toString());
 
-                StringBuffer associationServiceStr = FreemarkUtil.generateXmlByTemplate(map, templateDirFile, "ServiceAssociation.ftl");
-                associationJavaTable.setClassAssociationServiceStr(associationServiceStr.toString());
-                log.info("[mysql解析]associationServiceStr成功:{}", associationServiceStr.toString());
-
-                StringBuffer associationServiceImplStr = FreemarkUtil.generateXmlByTemplate(map, templateDirFile, "ServiceImplAssociation.ftl");
-                associationJavaTable.setClassAssociationServiceImplStr(associationServiceImplStr.toString());
-                log.info("[mysql解析]associationServiceImplStr成功:{}", associationServiceImplStr.toString());
             }
         }
 
         Map<String, Object> map = new HashMap<>();
         map.put("javaTables", associationJavaTables);
         map.put("javaTable", associationJavaTables.get(0));
+        map.put("associationJavaTables", associationJavaTables);//用于处理所有的table
+
+        StringBuffer associationDAOStr = FreemarkUtil.generateXmlByTemplate(map, templateDirFile, "DAOAssociation.ftl");
+        associationJavaTables.get(0).setClassAssociationDAOStr(associationDAOStr.toString());
+        log.info("[mysql解析]associationDAOStr成功:{}", associationDAOStr.toString());
+
+        StringBuffer associationServiceStr = FreemarkUtil.generateXmlByTemplate(map, templateDirFile, "ServiceAssociation.ftl");
+        associationJavaTables.get(0).setClassAssociationServiceStr(associationServiceStr.toString());
+        log.info("[mysql解析]associationServiceStr成功:{}", associationServiceStr.toString());
+
+        StringBuffer associationServiceImplStr = FreemarkUtil.generateXmlByTemplate(map, templateDirFile, "ServiceImplAssociation.ftl");
+        associationJavaTables.get(0).setClassAssociationServiceImplStr(associationServiceImplStr.toString());
+        log.info("[mysql解析]associationServiceImplStr成功:{}", associationServiceImplStr.toString());
+
+
+
+
         StringBuffer associationMapperStr = FreemarkUtil.generateXmlByTemplate(map, templateDirFile, "MapperAssociation.ftl");
         associationJavaTables.get(0).setMapperStr(associationMapperStr.toString());
         log.info("[mysql解析]associationServiceImplStr成功:{}", associationMapperStr.toString());

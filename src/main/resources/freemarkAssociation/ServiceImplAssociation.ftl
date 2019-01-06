@@ -33,9 +33,9 @@ public class ${javaTable.classAssociationServiceImplName} implements ${javaTable
       /**
      * 查询base
      */
-    public List<${javaTable.classAssociationVoName}> queryBase(${javaTable.classVoName?cap_first} ${javaTable.classVoName?uncap_first}, <#list javaTable.associationHashMap?keys as key>${javaTable.associationHashMap[key].classVoName} ${javaTable.associationHashMap[key].classVoName?uncap_first} <#if key_has_next>, </#if></#list>){
+    public List<${javaTable.classAssociationVoName}> queryBase(<#list associationJavaTables as associationJavaTable>${associationJavaTable.classVoName?cap_first} ${associationJavaTable.classVoName?uncap_first}<#if associationJavaTable_has_next>, </#if></#list>){
 
-        return dao.queryBase(${javaTable.classVoName?uncap_first},<#list javaTable.associationHashMap?keys as key>${javaTable.associationHashMap[key].classVoName?uncap_first} <#if key_has_next>, </#if></#list>);
+        return dao.queryBase(<#list associationJavaTables as associationJavaTable>${associationJavaTable.classVoName?uncap_first}<#if associationJavaTable_has_next>, </#if></#list>);
 
     };
 

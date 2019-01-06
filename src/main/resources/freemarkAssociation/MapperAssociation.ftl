@@ -33,12 +33,14 @@
         </#list>
         <where>
             1 = 1
-        <#--<#list mysqlAndJavaFields as mysqlAndJavaField>-->
-        <#--<if test="${mysqlAndJavaField.javaField.name} != null">-->
-        <#--AND `${mysqlAndJavaField.mysqlField.name}` = <#noparse>-->
-        <#--#{</#noparse>${mysqlAndJavaField.javaField.name}<#noparse>}</#noparse>-->
-        <#--</if>-->
-        <#--</#list>-->
+            <#list associationJavaTables as associationJavaTable>
+                <#list associationJavaTable.mysqlAndJavaFields as mysqlAndJavaField>
+                <if test="${associationJavaTable.classVoName?uncap_first} != null and ${associationJavaTable.classVoName?uncap_first}.${mysqlAndJavaField.javaField.name} != null">
+                    AND `${associationJavaTable.mysqlTable.tableName}`.`${mysqlAndJavaField.mysqlField.name}` = <#noparse>#{</#noparse>${associationJavaTable.classVoName?uncap_first}.${mysqlAndJavaField.javaField.name}<#noparse>}</#noparse>
+                </if>
+                </#list>
+            </#list>
+
         </where>
     </select>
 
