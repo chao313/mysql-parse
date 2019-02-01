@@ -62,7 +62,7 @@
         <#list mysqlAndJavaFields as mysqlAndJavaField>
             <#if mysqlAndJavaField.mysqlField.isPRI=false>
             <if test="source.${mysqlAndJavaField.javaField.name} != null">
-                ${mysqlAndJavaField.mysqlField.name}` = <#noparse>#{source.</#noparse>${mysqlAndJavaField.javaField.name}<#noparse>}</#noparse><#if mysqlAndJavaField_has_next>,</#if>
+                `${mysqlAndJavaField.mysqlField.name}` = <#noparse>#{source.</#noparse>${mysqlAndJavaField.javaField.name}<#noparse>}</#noparse><#if mysqlAndJavaField_has_next>,</#if>
             </if>
             </#if>
         </#list>

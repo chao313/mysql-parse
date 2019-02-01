@@ -35,13 +35,18 @@ spring:
        cache: false
        suffix: .html
 
+#  ##数据sql
+#     datasource:
+#       driver-class-name: com.mysql.jdbc.Driver
+#       url: jdbc:mysql://127.0.0.1:3306/information_schema
+#       username: root
+#       password: 123456
   ##数据sql
      datasource:
        driver-class-name: com.mysql.jdbc.Driver
-       url: jdbc:mysql://127.0.0.1:3306/information_schema
+       url: jdbc:mysql://139.198.176.43:3333/information_schema
        username: root
-       password: 123456
-
+       password: 3er4#ER$
 #
 #  可以在application 上面加注解
 #  效果相同

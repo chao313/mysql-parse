@@ -22,11 +22,14 @@ import java.util.function.Function;
 public class MysqlBD {
 
     //数据库连接URL，当前连接的是当前项目的dbdir:下的mydb.mv.db
-    private static final String JDBC_URL = "jdbc:mysql://127.0.0.1:3306/test";
+//    private static final String JDBC_URL = "jdbc:mysql://127.0.0.1:3306/test";
+
+    //数据库连接URL，当前连接的是当前项目的dbdir:下的mydb.mv.db
+    private static final String JDBC_URL = "jdbc:mysql://139.198.176.43:3333/inspect";
     //自定义账号
     private static final String USER = "root";
     //自定义密码
-    private static final String PASSWORD = "123456";
+    private static final String PASSWORD = "3er4#ER$";
     //连接H2数据库时使用的驱动类
     private static final String DRIVER_CLASS = "com.mysql.jdbc.Driver";
 
